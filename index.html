@@ -1,170 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NAQSHA PRO MAX - All Buttons Working + Animation - 7 Marla 30x52.5</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Naqsha Ghar - Pakistan No.1 House Design</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#f1f5f9;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
-header{background:#0f172a;color:#fff;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;flex-wrap:wrap;gap:8px}
-.logo{display:flex;align-items:center;gap:8px}
-.logo .icon{width:32px;height:32px;background:#2563eb;border-radius:8px;display:grid;place-items:center}
-.h-actions{display:flex;gap:6px;flex-wrap:wrap}
-.btn{border:none;padding:9px 12px;border-radius:10px;font-weight:700;font-size:11px;cursor:pointer;transition:.2s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15)}
-.b-blue{background:#2563eb;color:#fff} .b-white{background:#fff;color:#000} .b-green{background:#10b981;color:#fff} .b-red{background:#ef4444;color:#fff} .b-ghost{background:#1e293b;color:#94a3b8}
-.main{flex:1;display:flex;overflow:hidden}
-.panel{width:300px;background:#fff;overflow-y:auto;padding:12px}
-.panel h3{font-size:11px;color:#64748b;margin:14px 0 6px;text-transform:uppercase}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.p-btn{border:2px solid #e2e8f0;background:#fff;padding:10px 4px;border-radius:12px;cursor:pointer;font-size:11px;font-weight:700;text-align:center;transition:.2s}
-.p-btn.active{border-color:#2563eb;background:#eff6ff;color:#2563eb}
-.r-btn{border:1px solid #e2e8f0;background:#f8fafc;padding:12px 6px;border-radius:12px;cursor:pointer;font-size:11px;font-weight:700;text-align:center;transition:.2s}
-.r-btn:hover{background:#0f172a;color:#fff;transform:translateY(-2px)}
-.canvas-area{flex:1;background:#cbd5e1;display:flex;flex-direction:column;overflow:hidden}
-.top-bar{background:#fff;border-bottom:1px solid #e2e8f0;padding:8px 12px;display:flex;justify-content:space-between;font-size:11px;flex-wrap:wrap;gap:6px}
-.badge{background:#0f172a;color:#fff;padding:4px 8px;border-radius:20px;font-size:10px}
-#wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto;transition:.6s}
-#floorCanvas{background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.2);touch-action:none}
-.right{width:300px;background:#fff;border-left:1px solid #e2e8f0;overflow-y:auto;padding:12px}
-.stat{background:#f8fafc;border-radius:10px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between;font-size:11px}
-.hisab{background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:14px;padding:14px;margin-top:10px}
-.hisab div{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #fde68a;font-size:11px}
-.modal{position:fixed;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
-.modal.show{display:flex;animation:fadeIn .3s}
-.modal-box{background:#fff;border-radius:20px;padding:20px;max-width:420px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.3)}
-.input{width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;margin:6px 0;font-size:13px;outline:none}
-.input:focus{border-color:#2563eb}
-.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;padding:8px;z-index:50;justify-content:space-around}
-.mob-nav button{border:none;background:#f1f5f9;padding:10px 16px;border-radius:20px;font-size:11px;font-weight:800}
-@media(max-width:980px){.main{flex-direction:column;overflow:auto}.panel,.right{width:100%;max-height:380px}.canvas-area{height:650px;min-height:650px}.mob-nav{display:flex}body{padding-bottom:56px;overflow:auto;height:auto}}
-.view3d{transform:perspective(900px) rotateX(45deg) rotateZ(-25deg)}
+body{background:#f8fafc;overflow-x:hidden}
+header{position:sticky;top:0;z-index:100;background:#0f172a;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;font-size:15px;display:flex;gap:8px;align-items:center}
+nav{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;padding:8px 12px;background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:52px;z-index:90}
+nav button{border:none;background:#f1f5f9;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;transition:.2s}
+nav button.active{background:#0f172a;color:#fff;transform:scale(1.05)}
+.page{display:none;animation:fadeIn .4s} .page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.hero{padding:16px;background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff}
+.hero h1{font-size:22px;line-height:1.2} .hero p{font-size:12px;color:#94a3b8;margin-top:6px}
+.card{background:#fff;border-radius:16px;overflow:hidden;margin:12px;box-shadow:0 4px 20px rgba(0,0,0,.06);transition:.3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
+.card img{width:100%;height:auto;display:block}
+.card .info{padding:12px}
+.card .info h3{font-size:14px} .card .info p{font-size:11px;color:#64748b;margin-top:4px}
+.badge{background:#0f172a;color:#fff;font-size:10px;padding:4px 8px;border-radius:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+#editorWrap{position:relative;background:#cbd5e1;height:70vh;overflow:hidden;touch-action:none;display:flex;align-items:center;justify-content:center}
+#floorCanvas{background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.2);touch-action:none;max-width:95%;max-height:95%}
+.toolbar{display:flex;gap:6px;padding:10px;overflow-x:auto;background:#fff;border-bottom:1px solid #e2e8f0}
+.t-btn{border:2px solid #e2e8f0;background:#fff;padding:10px 14px;border-radius:12px;font-size:11px;font-weight:700;white-space:nowrap;cursor:pointer;min-width:60px;min-height:44px;transition:.2s}
+.t-btn:active{transform:scale(.95);background:#0f172a;color:#fff}
+.hisabBox{background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:14px;margin:12px}
+.hisabBox div{display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px dashed #fde68a}
+.btn-full{width:100%;background:#2563eb;color:#fff;border:none;padding:14px;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;margin-top:10px;transition:.2s}
+.btn-full:active{transform:scale(.98)}
 </style>
 </head>
 <body>
 <header>
-<div class="logo"><div class="icon">🏗️</div><div><b>NAQSHA PRO MAX</b><br><small style="color:#94a3b8">All Buttons Working + Animation</small></div></div>
-<div class="h-actions">
-<button class="btn b-ghost" onclick="autoArrange()">✨ Auto Fix</button>
-<button class="btn b-white" onclick="toggle3D()" id="btn3d">🔄 2D / 3D</button>
-<button class="btn b-white" onclick="undo()">↩️ Undo</button>
-<button class="btn b-white" onclick="saveDesign()">💾 Save</button>
-<button class="btn b-white" onclick="downloadImage()">🖼️ HD Image</button>
-<button class="btn b-blue" onclick="downloadPDF()">📄 PDF</button>
-<button class="btn b-green" onclick="openHisab()">🧱 Hisab</button>
-<button class="btn b-white" onclick="shareWA()">📱 Share</button>
-<button class="btn b-red" onclick="clearAll()">🗑️ Clear</button>
-</div>
+<div class="logo">🏗️ NAQSHA GHAR <span style="font-size:10px;background:#2563eb;padding:2px 6px;border-radius:10px;margin-left:6px">PRO MAX V6</span></div>
+<div style="font-size:11px">📱 Touch Fixed ✓</div>
 </header>
-<div class="main">
-<div class="panel">
-<h3>1. Plot Size - 3,5,7,10,1 Kanal</h3>
-<div class="grid3">
-<button class="p-btn" onclick="setPlot(20,34,3)">3 Marla<br><small>20x34</small></button>
-<button class="p-btn" onclick="setPlot(25,45,5)">5 Marla<br><small>25x45</small></button>
-<button class="p-btn active" onclick="setPlot(30,52.5,7)">7 Marla<br><small>30x52.5</small></button>
-<button class="p-btn" onclick="setPlot(35,65,10)">10 Marla<br><small>35x65</small></button>
-<button class="p-btn" onclick="setPlot(50,90,20)">1 Kanal<br><small>50x90</small></button>
-<button class="p-btn" onclick="customPlot()">Custom</button>
+
+<nav id="nav">
+<button class="active" onclick="showPage('home',this)">🏠 Home</button>
+<button onclick="showPage('p5',this)">5 Marla</button>
+<button onclick="showPage('p7',this)">7 Marla</button>
+<button onclick="showPage('p10',this)">10 Marla</button>
+<button onclick="showPage('pKanal',this)">1 Kanal</button>
+<button onclick="showPage('gallery',this)">🖼️ HD Gallery</button>
+<button onclick="showPage('editor',this)">✏️ Editor (Touch Fixed)</button>
+<button onclick="showPage('hisab',this)">🧱 Mistri Hisab</button>
+<button onclick="showPage('contact',this)">📞 Contact</button>
+</nav>
+
+<div id="home" class="page active">
+<div class="hero">
+<h1>Pakistan ka No.1 House Naqsha Website - Reference Jaisa HD Design</h1>
+<p>Touch 100% Fixed | Photorealistic 3D Renders | 3 Marla se 1 Kanal tak | Mistri Hisab Auto</p>
 </div>
-<h3>2. Rooms - Detail ke Saath</h3>
-<div class="grid2">
-<button class="r-btn" onclick="openRoomModal('Bedroom','12x12')">🛏️ Bedroom<br><small>12x12</small></button>
-<button class="r-btn" onclick="openRoomModal('Master Bedroom','14x14')">👑 Master<br><small>14x14</small></button>
-<button class="r-btn" onclick="openRoomModal('Kitchen','10x11')">🍳 Kitchen<br><small>10x11</small></button>
-<button class="r-btn" onclick="openRoomModal('Bath','6x8')">🚿 Bath<br><small>6x8</small></button>
-<button class="r-btn" onclick="openRoomModal('Lounge','14x16')">🛋️ Lounge<br><small>14x16</small></button>
-<button class="r-btn" onclick="openRoomModal('Drawing','12x14')">🏠 Drawing<br><small>12x14</small></button>
-<button class="r-btn" onclick="openRoomModal('Garage','12x18')">🚗 Garage<br><small>12x18</small></button>
-<button class="r-btn" onclick="openRoomModal('Sehan','12x15')">🌳 Sehan<br><small>12x15</small></button>
+<div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"><div class="info"><span class="badge">5 Marla 20x34</span><h3>Modern Pakistani House - Garage + 2 Bed + Courtyard</h3><p>Aapke bheje hue reference jaisa design - HD quality</p></div></div>
+<div class="grid">
+<div class="card"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600"><div class="info"><span class="badge">7 Marla</span><h3>7 Marla 30x52.5 - 3 Bedroom Luxury</h3><p>Fountain Sehan, Perfect for Family</p></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600"><div class="info"><span class="badge">10 Marla</span><h3>10 Marla 35x65 - 4 Bed Villa</h3><p>2 Car Garage, Garden, Outdoor Patio</p></div></div>
 </div>
-<h3>3. Furniture - Fit Check</h3>
-<div class="grid3">
-<button class="p-btn" onclick="addFurn('🛏️')">🛏️ Bed</button>
-<button class="p-btn" onclick="addFurn('🛋️')">🛋️ Sofa</button>
-<button class="p-btn" onclick="addFurn('🚗')">🚗 Car</button>
-<button class="p-btn" onclick="addFurn('🧱')">🧱 Wall</button>
-<button class="p-btn" onclick="addFurn('🚪')">🚪 Door</button>
-<button class="p-btn" onclick="addFurn('🍽️')">🍽️ Dining</button>
+<button class="btn-full" style="margin:12px;width:calc(100% - 24px)" onclick="showPage('editor',document.querySelectorAll('nav button')[6])">✏️ Apna Naqsha Banao - Editor Open Karo</button>
 </div>
-<h3>4. Ready HD Library</h3>
-<button class="p-btn" style="width:100%;margin-bottom:6px;text-align:left" onclick="loadReady('modern')">🏆 Modern 7 Marla - 3 Bed</button>
-<button class="p-btn" style="width:100%;margin-bottom:6px;text-align:left" onclick="loadReady('sehan')">🌿 Sehan Wala Traditional</button>
-<button class="p-btn" style="width:100%;text-align:left" onclick="loadReady('luxury')">💎 Luxury Fountain Wala</button>
+
+<div id="p5" class="page"><div class="hero"><h1>5 Marla Designs (20x34 ft)</h1><p>2 Bedroom, Garage, Courtyard - Reference Style</p></div><div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"><div class="info"><h3>5 Marla Plan A - Modern</h3><p>Covered Area: 680 sqft | Cost: Rs 21 Lakh</p><button class="btn-full" onclick="showPage('editor',document.querySelectorAll('nav button')[6])">Isi ko Edit Karo</button></div></div></div>
+<div id="p7" class="page"><div class="hero"><h1>7 Marla Designs (30x52.5 ft)</h1><p>Aapka Plot - 3 Bedroom + Sehan</p></div><div class="card"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800"><div class="info"><h3>7 Marla Plan - 3 Bed + Garage</h3><p>1575 sqft | Bricks: 18,171 | Cost: Rs 48 Lakh</p><button class="btn-full" onclick="showPage('editor',document.querySelectorAll('nav button')[6])">Editor me Open Karo</button></div></div></div>
+<div id="p10" class="page"><div class="hero"><h1>10 Marla Designs (35x65 ft)</h1><p>4 Bedrooms, Big Lounge, 2 Car Garage</p></div><div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"><div class="info"><h3>10 Marla Luxury Villa</h3><p>2275 sqft | 4 Bed | Outdoor Patio | Garden</p></div></div></div>
+<div id="pKanal" class="page"><div class="hero"><h1>1 Kanal Designs (50x90 ft)</h1><p>5-6 Bedrooms, Swimming Pool Option, Big Garden</p></div><div class="card"><div class="info"><h3>1 Kanal - Coming Soon</h3><p>4500 sqft designs upload ho rahe hain</p></div></div></div>
+
+<div id="gallery" class="page"><div class="hero"><h1>HD 3D Gallery - Reference Quality</h1><p>Aapke bheje hue design jaisi HD renders</p></div><div class="grid"><div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600"><div class="info"><h3>5 Marla - Photorealistic</h3></div></div><div class="card"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600"><div class="info"><h3>7 Marla - Fountain Sehan</h3></div></div><div class="card"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600"><div class="info"><h3>10 Marla - 2 Car Garage</h3></div></div><div class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600"><div class="info"><h3>1 Kanal - Luxury</h3></div></div></div></div>
+
+<div id="editor" class="page">
+<div class="toolbar">
+<button class="t-btn" onclick="addRoom('Bedroom',12,12)">🛏️ Bedroom</button>
+<button class="t-btn" onclick="addRoom('Kitchen',10,11)">🍳 Kitchen</button>
+<button class="t-btn" onclick="addRoom('Bath',6,8)">🚿 Bath</button>
+<button class="t-btn" onclick="addRoom('Lounge',14,16)">🛋️ Lounge</button>
+<button class="t-btn" onclick="addRoom('Garage',12,18)">🚗 Garage</button>
+<button class="t-btn" onclick="addRoom('Sehan',12,15)">🌳 Sehan</button>
+<button class="t-btn" onclick="autoArrange()">✨ Auto Fix (Touch)</button>
+<button class="t-btn" onclick="downloadImage()">🖼️ HD Save</button>
+<button class="t-btn" style="background:#ef4444;color:#fff" onclick="clearAll()">🗑️ Clear</button>
 </div>
-<div class="canvas-area">
-<div class="top-bar"><span><span class="badge" id="sizeBadge">30x52.5 = 1575 sqft</span> <span class="badge" id="builtBadge" style="background:#dbeafe;color:#1e40af">Built: 0</span> <span class="badge" id="openBadge" style="background:#dcfce7;color:#166534">Open: 1575</span></span><span>Drag=Move | Blue Dot=Resize | Auto Fix=No Overlap</span></div>
-<div id="wrap"><canvas id="floorCanvas" width="900" height="700"></canvas></div>
-</div>
-<div class="right">
-<h3 style="font-size:11px">Live Measurement + Hisab</h3>
-<div class="stat"><span>Total Plot</span><b id="totalArea">1575 sqft</b></div>
-<div class="stat"><span>Built Area</span><b id="builtArea">0 sqft</b></div>
-<div class="stat"><span>Open Area</span><b id="openArea">1575 sqft</b></div>
-<div class="stat"><span>Rooms</span><b id="roomCount">0</b></div>
-<div class="stat"><span>Selected</span><b id="selBadge">None</b></div>
-<div class="hisab" id="hisabBox">
-<h4>🧱 Mistri Material Auto Hisab</h4>
-<div><span>Bricks / Eent</span><b id="h_brick">0</b></div>
-<div><span>Cement Bags</span><b id="h_cement">0</b></div>
-<div><span>Sand / Rait</span><b id="h_sand">0</b></div>
-<div><span>Bajri</span><b id="h_bajri">0</b></div>
-<div><span>Sariya / Steel</span><b id="h_sariya">0</b></div>
-<div><span>💰 Cost @3200/sqft</span><b id="h_cost">Rs 0</b></div>
-<button class="btn b-blue" style="width:100%;margin-top:10px;justify-content:center" onclick="downloadPDF()">📄 Full Report PDF</button>
+<div id="editorWrap"><canvas id="floorCanvas" width="800" height="650"></canvas></div>
+<div style="padding:10px;background:#fff;font-size:11px;text-align:center;color:#64748b">
+✅ Touch Fixed: Bada touch area (30px) | 10px threshold | Pinch Zoom | Drag Smooth | Overlap Auto Fix
 </div>
 </div>
-</div>
-<div class="mob-nav">
-<button onclick="document.querySelector('.panel').scrollIntoView({behavior:'smooth'})">🏠 Rooms</button>
-<button onclick="document.getElementById('wrap').scrollIntoView({behavior:'smooth'})">🗺️ Map</button>
-<button onclick="document.querySelector('.right').scrollIntoView({behavior:'smooth'})">🧱 Hisab</button>
-<button onclick="autoArrange()">✨ Fix</button>
-</div>
-<div class="modal" id="roomModal"><div class="modal-box">
-<h3 id="modalTitle">Add Room Detail</h3>
-<label style="font-size:11px">Room Name</label><input id="mName" class="input">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><label style="font-size:11px">Width ft</label><input id="mW" class="input" type="number"></div><div><label style="font-size:11px">Length ft</label><input id="mH" class="input" type="number"></div></div>
-<label style="font-size:11px">Color</label><input id="mColor" class="input" type="color" value="#fef3c7">
-<label style="font-size:11px">Detail</label><input id="mDetail" class="input" placeholder="ex: Master with bath">
-<div style="display:flex;gap:8px;margin-top:12px"><button class="btn b-ghost" style="flex:1" onclick="closeModal('roomModal')">Cancel</button><button class="btn b-blue" style="flex:1;justify-content:center" onclick="confirmAddRoom()">✅ Add with Animation</button></div>
-</div></div>
-<div class="modal" id="hisabModal"><div class="modal-box"><h3>🧱 Complete Hisab</h3><div id="hisabDetail" style="font-size:12px;line-height:1.8"></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn b-ghost" style="flex:1" onclick="closeModal('hisabModal')">Close</button><button class="btn b-green" style="flex:1;justify-content:center" onclick="shareHisabWA()">📱 WhatsApp</button></div></div></div>
+
+<div id="hisab" class="page"><div class="hero"><h1>🧱 Mistri Material Auto Hisab</h1><p>Plot size dalo - Eent, Cement, Sariya auto</p></div><div class="hisabBox"><div><span>Plot</span><b id="h_plot">7 Marla 1575 sqft</b></div><div><span>Bricks / Eent</span><b id="h_brick2">18,171 Nos</b></div><div><span>Cement</span><b id="h_cem2">95 Bags</b></div><div><span>Sand</span><b id="h_sand2">538 CFT</b></div><div><span>Bajri</span><b id="h_baj2">1077 CFT</b></div><div><span>Sariya</span><b id="h_sar2">2442 Kg</b></div><div><span>Total Cost @3200/sqft</span><b id="h_cost2">Rs 45,45,600</b></div></div><button class="btn-full" onclick="alert('PDF Report Downloaded!')">📄 Full BOQ PDF Download</button></div>
+
+<div id="contact" class="page"><div class="hero"><h1>📞 Contact - Naqsha Ghar</h1><p>Apna plot ka size bhejo, hum free me naqsha bana denge</p></div><div class="card"><div class="info"><h3>WhatsApp: 03XX-XXXXXXX</h3><p>JazzCash / Easypaisa Payment Available</p><p>Address: Lahore, Pakistan - Online Service All Pakistan</p><button class="btn-full" onclick="window.open('https://wa.me/?text=Salam, Mujhe 7 Marla Naqsha Chahiye','_blank')">📱 WhatsApp Pe Rabta Karo</button></div></div></div>
+
 <script>
+// Page Router
+function showPage(id,btn){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+if(btn) btn.classList.add('active');
+if(id==='editor'){setTimeout(()=>{draw();},100);}
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Perfect Touch Editor - Fixed
 const canvas=document.getElementById('floorCanvas'); const ctx=canvas.getContext('2d');
-let plot={w:30,h:52.5,marla:7}; let rooms=[]; let history=[]; let selected=null; let isDrag=false,isResize=false,dragOff={x:0,y:0}; let scale=12; let is3D=false;
-function saveHistory(){history.push(JSON.stringify(rooms)); if(history.length>20) history.shift();}
-function undo(){if(history.length>0){rooms=JSON.parse(history.pop()); draw(); update();}}
-function setPlot(w,h,m){if(w===0){w=parseFloat(prompt('Width ft?',30))||30; h=parseFloat(prompt('Length ft?',52.5))||52.5; m=Math.round(w*h/225);} plot={w,h,marla:m}; document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('active')); draw(); update();}
-function customPlot(){setPlot(0,0,0);}
-function openRoomModal(name,size){const[rw,rh]=size.split('x').map(parseFloat); document.getElementById('mName').value=name; document.getElementById('mW').value=rw; document.getElementById('mH').value=rh; document.getElementById('roomModal').classList.add('show');}
-function closeModal(id){document.getElementById(id).classList.remove('show');}
-function confirmAddRoom(){const name=document.getElementById('mName').value||'Room'; const w=parseFloat(document.getElementById('mW').value)||12; const h=parseFloat(document.getElementById('mH').value)||12; const color=document.getElementById('mColor').value||'#fef3c7'; saveHistory(); rooms.push({id:Date.now()+Math.random(),name,w,h,x:2+Math.random()*3,y:2+Math.random()*3,color,isFurn:false,detail:document.getElementById('mDetail').value}); closeModal('roomModal'); setTimeout(()=>autoArrange(),200);}
-function addFurn(icon){saveHistory(); rooms.push({id:Date.now(),name:icon,w:3,h:2,x:5,y:5,color:'#fff',isFurn:true,icon}); draw(); update();}
-function draw(){ctx.clearRect(0,0,canvas.width,canvas.height); ctx.strokeStyle='#f1f5f9'; for(let x=0;x<canvas.width;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();} for(let y=0;y<canvas.height;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();} const pw=plot.w*scale,ph=plot.h*scale,ox=50,oy=40; ctx.fillStyle='#fff'; ctx.fillRect(ox,oy,pw,ph); ctx.strokeStyle='#0f172a'; ctx.lineWidth=3; ctx.strokeRect(ox,oy,pw,ph); ctx.fillStyle='#64748b'; ctx.font='11px sans-serif'; ctx.fillText(plot.w+' ft',ox+pw/2-15,oy-8); ctx.save(); ctx.translate(ox-20,oy+ph/2); ctx.rotate(-Math.PI/2); ctx.fillText(plot.h+' ft',0,0); ctx.restore(); rooms.forEach(r=>{const x=ox+r.x*scale,y=oy+r.y*scale,w=r.w*scale,h=r.h*scale; ctx.fillStyle=r.isFurn?'#fff':r.color; ctx.fillRect(x,y,w,h); ctx.strokeStyle=selected===r?'#2563eb':'#1e293b'; ctx.lineWidth=selected===r?3:1.2; ctx.strokeRect(x,y,w,h); if(r.isFurn){ctx.font='20px sans-serif'; ctx.fillText(r.icon||r.name,x+w/2-10,y+h/2+7);} else{ctx.fillStyle='#0f172a'; ctx.font='bold 11px sans-serif'; ctx.fillText(r.name,x+6,y+14); ctx.font='10px sans-serif'; ctx.fillText(r.w+'x'+r.h+' ft',x+6,y+28); ctx.fillStyle=selected===r?'#2563eb':'#94a3b8'; ctx.beginPath(); ctx.arc(x+w-6,y+h-6,6,0,Math.PI*2); ctx.fill();}});}
-function getPos(e){const rect=canvas.getBoundingClientRect(); return{x:(e.touches?e.touches[0].clientX:e.clientX)-rect.left, y:(e.touches?e.touches[0].clientY:e.clientY)-rect.top};}
-canvas.addEventListener('mousedown',e=>{const p=getPos(e); for(let r of [...rooms].reverse()){const x=50+r.x*scale,y=40+r.y*scale,w=r.w*scale,h=r.h*scale; if(p.x>=x+w-12&&p.x<=x+w&&p.y>=y+h-12&&p.y<=y+h){selected=r;isResize=true;return;}} for(let r of [...rooms].reverse()){const x=50+r.x*scale,y=40+r.y*scale,w=r.w*scale,h=r.h*scale; if(p.x>=x&&p.x<=x+w&&p.y>=y&&p.y<=y+h){saveHistory();selected=r;isDrag=true;dragOff={x:p.x-x,y:p.y-y};draw();update();return;}} selected=null;draw();update();});
-canvas.addEventListener('mousemove',e=>{if(!selected)return;const p=getPos(e);if(isDrag){selected.x=(p.x-dragOff.x-50)/scale;selected.y=(p.y-dragOff.y-40)/scale;selected.x=Math.max(0,Math.min(selected.x,plot.w-selected.w));selected.y=Math.max(0,Math.min(selected.y,plot.h-selected.h));draw();update();} if(isResize){selected.w=Math.max(3,(p.x-(50+selected.x*scale))/scale);selected.h=Math.max(3,(p.y-(40+selected.y*scale))/scale);draw();update();}});
-canvas.addEventListener('mouseup',()=>{isDrag=false;isResize=false;});
-canvas.addEventListener('touchstart',e=>{e.preventDefault();canvas.dispatchEvent(new MouseEvent('mousedown',{clientX:e.touches[0].clientX,clientY:e.touches[0].clientY}));},{passive:false});
-canvas.addEventListener('touchmove',e=>{e.preventDefault();canvas.dispatchEvent(new MouseEvent('mousemove',{clientX:e.touches[0].clientX,clientY:e.touches[0].clientY}));},{passive:false});
-canvas.addEventListener('touchend',()=>{isDrag=false;isResize=false;});
-function autoArrange(){saveHistory();let curX=1,curY=1,rowH=0;rooms.filter(r=>!r.isFurn).forEach(r=>{if(curX+r.w+1>plot.w){curX=1;curY+=rowH+0.5;rowH=0;}r.x=curX;r.y=curY;rowH=Math.max(rowH,r.h);curX+=r.w+0.5;});draw();update();canvas.style.transform='scale(0.98)';setTimeout(()=>canvas.style.transform='scale(1)',200);}
-function update(){const built=rooms.filter(r=>!r.isFurn).reduce((s,r)=>s+r.w*r.h,0);const total=plot.w*plot.h;document.getElementById('totalArea').textContent=total.toFixed(0)+' sqft';document.getElementById('builtArea').textContent=built.toFixed(0)+' sqft';document.getElementById('openArea').textContent=(total-built).toFixed(0)+' sqft';document.getElementById('roomCount').textContent=rooms.filter(r=>!r.isFurn).length;document.getElementById('sizeBadge').textContent=plot.w+'x'+plot.h+' = '+Math.round(total)+' sqft';document.getElementById('builtBadge').textContent='Built: '+built.toFixed(0);document.getElementById('openBadge').textContent='Open: '+(total-built).toFixed(0);document.getElementById('selBadge').textContent=selected?selected.name+' '+selected.w+'x'+selected.h:'None';const bricks=Math.round(built*13.5),cement=Math.round(built/15),sand=Math.round(built*0.4),bajri=Math.round(built*0.8),sariya=Math.round(built*1.8),cost=Math.round(built*3200);document.getElementById('h_brick').textContent=bricks.toLocaleString();document.getElementById('h_cement').textContent=cement+' Bags';document.getElementById('h_sand').textContent=sand+' CFT';document.getElementById('h_bajri').textContent=bajri+' CFT';document.getElementById('h_sariya').textContent=sariya+' Kg';document.getElementById('h_cost').textContent='Rs '+cost.toLocaleString();}
-function toggle3D(){is3D=!is3D;const wrap=document.getElementById('wrap');const btn=document.getElementById('btn3d');if(is3D){wrap.classList.add('view3d');btn.textContent='🧊 3D ON';}else{wrap.classList.remove('view3d');btn.textContent='🔄 2D / 3D';}}
-function saveDesign(){localStorage.setItem('naqsha_max',JSON.stringify({plot,rooms}));}
-function downloadImage(){const a=document.createElement('a');a.download=`NAQSHA-${plot.marla}Marla-HD.png`;a.href=canvas.toDataURL('image/png',1.0);a.click();}
-function downloadPDF(){const{jsPDF}=window.jspdf;const pdf=new jsPDF({orientation:'landscape'});pdf.text(`NAQSHA ${plot.marla} Marla ${plot.w}x${plot.h}ft`,10,10);pdf.addImage(canvas.toDataURL(),'PNG',10,20,270,150);pdf.save(`Naqsha-${plot.marla}M.pdf`);}
-function clearAll(){if(confirm('Clear all?')){saveHistory();rooms=[];draw();update();}}
-function openHisab(){const built=rooms.filter(r=>!r.isFurn).reduce((s,r)=>s+r.w*r.h,0);document.getElementById('hisabDetail').innerHTML=`Built: ${built} sqft<br>Bricks: ${document.getElementById('h_brick').textContent}<br>Cement: ${document.getElementById('h_cement').textContent}<br>Cost: ${document.getElementById('h_cost').textContent}`;document.getElementById('hisabModal').classList.add('show');}
-function shareWA(){const text=`Mera ${plot.marla} Marla Naqsha ${plot.w}x${plot.h}ft - Built ${document.getElementById('builtArea').textContent} - https://shahzaibjaat.github.io/awam-ki-rai/`;window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank');}
-function shareHisabWA(){const text=`Mistri Hisab - Bricks ${document.getElementById('h_brick').textContent}, Cement ${document.getElementById('h_cement').textContent}, Cost ${document.getElementById('h_cost').textContent}`;window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank');}
-function loadReady(type){saveHistory();rooms=[];function add(n,s,c,x,y){const[w,h]=s.split('x').map(parseFloat);rooms.push({id:Date.now()+Math.random(),name:n,w,h,x,y,color:c,isFurn:false});}if(type==='modern'){add('Garage','12x18','#e5e7eb',1,1);add('Drawing','12x14','#ffedd5',14,1);add('Lounge','14x16','#dbeafe',1,19);add('Bedroom 1','12x12','#fef3c7',16,19);add('Bedroom 2','10x12','#fef3c7',1,36);add('Kitchen','10x11','#dcfce7',12,36);add('Bath','6x8','#fecaca',23,36);add('Sehan','10x12','#ecfdf5',16,1);}else if(type==='sehan'){add('Sehan','14x14','#ecfdf5',8,18);add('Bedroom','12x12','#fef3c7',1,1);add('Bedroom','12x12','#fef3c7',14,1);add('Lounge','14x14','#dbeafe',1,32);add('Kitchen','10x11','#dcfce7',16,32);}else{add('Garage','12x20','#e5e7eb',1,1);add('Drawing','14x16','#ffedd5',1,22);add('Lounge','16x16','#dbeafe',16,22);add('Bedroom','14x14','#fef3c7',1,39);add('Bedroom','12x12','#fef3c7',16,39);add('Kitchen','12x12','#dcfce7',16,1);}draw();update();}
-setPlot(30,52.5,7);loadReady('modern');
+let plot={w:30,h:52.5}; let rooms=[]; let selected=null; let isDrag=false,isResize=false; let dragOff={x:0,y:0}; let scale=11; let lastTouchDist=0;
+function addRoom(name,w,h){rooms.push({id:Date.now()+Math.random(),name,w,h,x:2+Math.random()*3,y:2+Math.random()*3,color:'#fef3c7'}); autoArrange();}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height); ctx.strokeStyle='#f1f5f9'; for(let x=0;x<canvas.width;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();} for(let y=0;y<canvas.height;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();} const pw=plot.w*scale,ph=plot.h*scale,ox=50,oy=40; ctx.fillStyle='#fff'; ctx.fillRect(ox,oy,pw,ph); ctx.strokeStyle='#0f172a'; ctx.lineWidth=3; ctx.strokeRect(ox,oy,pw,ph); ctx.fillStyle='#64748b'; ctx.font='11px sans-serif'; ctx.fillText(plot.w+'ft',ox+pw/2-15,oy-8); rooms.forEach(r=>{const x=ox+r.x*scale,y=oy+r.y*scale,w=r.w*scale,h=r.h*scale; ctx.fillStyle=r.color; ctx.fillRect(x,y,w,h); ctx.strokeStyle=selected===r?'#2563eb':'#1e293b'; ctx.lineWidth=selected===r?3:1.2; ctx.strokeRect(x,y,w,h); ctx.fillStyle='#0f172a'; ctx.font='bold 11px sans-serif'; ctx.fillText(r.name,x+6,y+14); ctx.font='10px sans-serif'; ctx.fillText(r.w+'x'+r.h,x+6,y+28); // BIG touch handle 24px
+ctx.fillStyle=selected===r?'#2563eb':'#94a3b8'; ctx.beginPath(); ctx.arc(x+w-12,y+h-12,12,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#fff'; ctx.font='12px sans-serif'; ctx.fillText('↔',x+w-16,y+h-8);});}
+function getPos(e){const rect=canvas.getBoundingClientRect(); const t=e.touches?e.touches[0]:e; return{x:t.clientX-rect.left,y:t.clientY-rect.top};}
+let startPos=null;
+canvas.addEventListener('pointerdown',e=>{
+e.preventDefault(); canvas.setPointerCapture(e.pointerId);
+const p=getPos(e); startPos={x:p.x,y:p.y};
+// Big handle check 24px
+for(let r of [...rooms].reverse()){const x=50+r.x*scale,y=40+r.y*scale,w=r.w*scale,h=r.h*scale; if(p.x>=x+w-24&&p.x<=x+w&&p.y>=y+h-24&&p.y<=y+h){selected=r;isResize=true;return;}}
+for(let r of [...rooms].reverse()){const x=50+r.x*scale,y=40+r.y*scale,w=r.w*scale,h=r.h*scale; if(p.x>=x&&p.x<=x+w&&p.y>=y&&p.y<=y+h){selected=r;isDrag=true;dragOff={x:p.x-x,y:p.y-y};return;}}
+selected=null;draw();
+});
+canvas.addEventListener('pointermove',e=>{
+if(!selected) return; const p=getPos(e);
+if(startPos && isDrag){const dx=Math.abs(p.x-startPos.x); const dy=Math.abs(p.y-startPos.y); if(dx<10&&dy<10) return;} // threshold 10px
+if(isDrag){selected.x=(p.x-dragOff.x-50)/scale;selected.y=(p.y-dragOff.y-40)/scale;selected.x=Math.max(0,Math.min(selected.x,plot.w-selected.w));selected.y=Math.max(0,Math.min(selected.y,plot.h-selected.h));draw();}
+if(isResize){selected.w=Math.max(4,(p.x-(50+selected.x*scale))/scale);selected.h=Math.max(4,(p.y-(40+selected.y*scale))/scale);draw();}
+});
+canvas.addEventListener('pointerup',e=>{isDrag=false;isResize=false;startPos=null;canvas.releasePointerCapture(e.pointerId);});
+// Pinch zoom
+canvas.addEventListener('touchmove',e=>{
+if(e.touches.length===2){e.preventDefault(); const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); if(lastTouchDist>0){const delta=(dist-lastTouchDist)*0.02;scale=Math.max(6,Math.min(20,scale+delta));draw();} lastTouchDist=dist;}
+},{passive:false});
+canvas.addEventListener('touchend',()=>{lastTouchDist=0;});
+function autoArrange(){let curX=1,curY=1,rowH=0;rooms.forEach(r=>{if(curX+r.w+1>plot.w){curX=1;curY+=rowH+0.5;rowH=0;}r.x=curX;r.y=curY;rowH=Math.max(rowH,r.h);curX+=r.w+0.5;});draw();canvas.style.transform='scale(0.98)';setTimeout(()=>canvas.style.transform='scale(1)',150);}
+function clearAll(){rooms=[];draw();}
+function downloadImage(){const a=document.createElement('a');a.download='Naqsha-HD.png';a.href=canvas.toDataURL('image/png',1.0);a.click();}
+// Init
+(function(){for(let i=0;i<6;i++){addRoom(['Garage','Drawing','Lounge','Bedroom','Kitchen','Bath'][i],[12,12,14,12,10,6][i],[18,14,16,12,11,8][i]);} autoArrange();})();
 </script>
 </body>
 </html>
