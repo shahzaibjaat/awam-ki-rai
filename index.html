@@ -1,160 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Naqsha Maker PRO - Drag & Drop + 3D + Hisab</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Naqsha PRO V4 - Final Fixed</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui}
-body{background:#eef2f7;overflow:hidden}
-header{background:#0f172a;color:#fff;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
-header h1{font-size:16px} .header-btns{display:flex;gap:8px}
-.h-btn{border:none;padding:7px 12px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer}
-.h-btn.blue{background:#2563eb;color:#fff} .h-btn.white{background:#fff;color:#000} .h-btn.green{background:#10b981;color:#fff}
-.layout{display:flex;height:calc(100vh - 56px)}
-.left{width:280px;background:#fff;border-right:1px solid #e2e8f0;overflow:auto;padding:12px}
-.left h3{font-size:13px;margin:14px 0 8px;text-transform:uppercase;color:#64748b;letter-spacing:.5px}
-.plot-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.plot-btn{border:2px solid #e2e8f0;background:#fff;padding:10px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:600}
-.plot-btn.active{border-color:#2563eb;background:#eff6ff;color:#2563eb}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#f1f5f9;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+header{background:#0f172a;color:#fff;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+header h1{font-size:14px}
+.btns{display:flex;gap:6px;flex-wrap:wrap}
+.btn{border:none;padding:8px 12px;border-radius:8px;font-weight:700;font-size:11px;cursor:pointer}
+.btn-b{background:#2563eb;color:#fff} .btn-w{background:#fff;color:#000} .btn-g{background:#10b981;color:#fff} .btn-r{background:#ef4444;color:#fff}
+.main{flex:1;display:flex;overflow:hidden;position:relative}
+.left{width:300px;background:#fff;border-right:1px solid #e2e8f0;overflow-y:auto;padding:10px}
+.left h3{font-size:11px;color:#64748b;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.plot-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.p-btn{border:2px solid #e2e8f0;background:#fff;padding:8px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:600;text-align:center}
+.p-btn.active{border-color:#2563eb;background:#eff6ff;color:#2563eb}
 .room-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.room-btn{border:1px solid #e2e8f0;background:#f8fafc;padding:10px;border-radius:10px;cursor:pointer;text-align:center;font-size:12px;transition:.15s}
-.room-btn:hover{background:#0f172a;color:#fff;transform:translateY(-1px)}
-.furn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.furn-btn{border:1px solid #e2e8f0;background:#fff;padding:8px;border-radius:8px;cursor:pointer;font-size:16px;text-align:center}
-.center{flex:1;position:relative;background:#cbd5e1;display:flex;flex-direction:column}
-.toolbar{height:44px;background:#fff;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;padding:0 12px;gap:10px;font-size:12px}
-#canvasWrap{flex:1;position:relative;overflow:auto;display:flex;align-items:center;justify-content:center;padding:20px}
-#floorCanvas{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.15);cursor:crosshair}
-.right{width:300px;background:#fff;border-left:1px solid #e2e8f0;overflow:auto;padding:14px}
-.stat{background:#f8fafc;border-radius:10px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;font-size:12px}
-.stat b{color:#0f172a}
-.hisab{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px;margin-top:10px}
-.hisab h4{font-size:13px;margin-bottom:8px}
-.hisab div{font-size:12px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #fde68a}
-.view-3d{transform:rotateX(45deg) rotateZ(-35deg);transform-style:preserve-3d;transition:.6s}
-.measure-label{position:absolute;background:#0f172a;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;pointer-events:none}
-@media(max-width:900px){.layout{flex-direction:column;overflow:auto} .left,.right{width:100%} #canvasWrap{height:500px} body{overflow:auto}}
+.r-btn{border:1px solid #e2e8f0;background:#f8fafc;padding:10px 6px;border-radius:10px;cursor:pointer;font-size:11px;text-align:center;font-weight:600}
+.r-btn:active{transform:scale(.95);background:#0f172a;color:#fff}
+.canvas-area{flex:1;background:#cbd5e1;position:relative;overflow:auto;display:flex;flex-direction:column}
+.top-bar{background:#fff;border-bottom:1px solid #e2e8f0;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:11px;flex-wrap:wrap;gap:6px}
+#wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+#floorCanvas{background:#fff;box-shadow:0 8px 30px rgba(0,0,0,.15);touch-action:none;max-width:100%;max-height:100%}
+.right{width:280px;background:#fff;border-left:1px solid #e2e8f0;overflow-y:auto;padding:12px}
+.stat{background:#f8fafc;border-radius:8px;padding:8px 10px;margin-bottom:6px;display:flex;justify-content:space-between;font-size:11px}
+.hisab{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px;margin-top:8px;font-size:11px}
+.hisab div{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #fde68a}
+.mob-tabs{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;padding:8px;z-index:50;justify-content:space-around}
+.mob-tabs button{border:none;background:#f1f5f9;padding:8px 14px;border-radius:20px;font-size:11px;font-weight:700}
+@media(max-width:900px){
+.main{flex-direction:column;overflow:auto}
+.left,.right{width:100%;max-height:300px}
+.canvas-area{height:600px;min-height:600px}
+#wrap{height:550px}
+.mob-tabs{display:flex}
+body{padding-bottom:50px}
+}
 </style>
 </head>
 <body>
 <header>
-<h1>🏗️ NAQSHA PRO - 7 Marla (30x52.5)</h1>
-<div class="header-btns">
-<button class="h-btn white" onclick="toggle3D()">🔄 2D / 3D</button>
-<button class="h-btn white" onclick="saveDesign()">💾 Save</button>
-<button class="h-btn white" onclick="downloadImage()">🖼️ Image</button>
-<button class="h-btn blue" onclick="downloadPDF()">📄 PDF</button>
-<button class="h-btn green" onclick="showHisab()">🧱 Mistri Hisab</button>
+<h1>🏗️ NAQSHA PRO V4 - Fixed (7 Marla)</h1>
+<div class="btns">
+<button class="btn btn-w" onclick="autoArrange()">✨ Auto Arrange</button>
+<button class="btn btn-w" onclick="toggle3D()">🔄 2D/3D</button>
+<button class="btn btn-w" onclick="saveDesign()">💾 Save</button>
+<button class="btn btn-w" onclick="downloadImage()">🖼️ HD Image</button>
+<button class="btn btn-b" onclick="downloadPDF()">📄 PDF</button>
+<button class="btn btn-g" onclick="document.getElementById('hisabBox').scrollIntoView()">🧱 Hisab</button>
+<button class="btn btn-r" onclick="clearAll()">🗑️</button>
 </div>
 </header>
 
-<div class="layout">
+<div class="main">
 <div class="left">
-<h3>1. Plot Size Select</h3>
+<h3>Plot Size - Ek Click</h3>
 <div class="plot-grid">
-<button class="plot-btn" onclick="setPlot(20,30,3)">3 Marla<br><small>20x34</small></button>
-<button class="plot-btn" onclick="setPlot(25,45,5)">5 Marla<br><small>25x45</small></button>
-<button class="plot-btn active" onclick="setPlot(30,52.5,7)">7 Marla<br><small>30x52.5</small></button>
-<button class="plot-btn" onclick="setPlot(35,65,10)">10 Marla<br><small>35x65</small></button>
-<button class="plot-btn" onclick="setPlot(50,90,20)">1 Kanal<br><small>50x90</small></button>
-<button class="plot-btn" onclick="setPlot(0,0,0)">Custom</button>
+<button class="p-btn" onclick="setPlot(20,34,3)">3 Marla<br>20x34</button>
+<button class="p-btn" onclick="setPlot(25,45,5)">5 Marla<br>25x45</button>
+<button class="p-btn active" id="p7" onclick="setPlot(30,52.5,7)">7 Marla<br>30x52.5</button>
+<button class="p-btn" onclick="setPlot(35,65,10)">10 Marla<br>35x65</button>
+<button class="p-btn" onclick="setPlot(50,90,20)">1 Kanal<br>50x90</button>
+<button class="p-btn" onclick="customPlot()">Custom</button>
 </div>
 
-<h3>2. Rooms Add Karo (Drag)</h3>
+<h3>Rooms - Click to Add</h3>
 <div class="room-grid">
-<button class="room-btn" onclick="addRoom('Bedroom','12x12','#fef3c7')">🛏️<br>Bedroom</button>
-<button class="room-btn" onclick="addRoom('Kitchen','10x11','#dcfce7')">🍳<br>Kitchen</button>
-<button class="room-btn" onclick="addRoom('Bath','6x8','#fecaca')">🚿<br>Bathroom</button>
-<button class="room-btn" onclick="addRoom('Lounge','14x16','#dbeafe')">🛋️<br>Lounge</button>
-<button class="room-btn" onclick="addRoom('Drawing','12x14','#ffedd5')">🏠<br>Drawing</button>
-<button class="room-btn" onclick="addRoom('Garage','10x18','#e5e7eb')">🚗<br>Garage</button>
-<button class="room-btn" onclick="addRoom('Sehan','12x15','#ecfdf5')">🌳<br>Sehan</button>
-<button class="room-btn" onclick="addRoom('Shop','10x12','#fef9c3')">🏪<br>Shop</button>
+<button class="r-btn" onclick="addRoom('Bedroom','12x12','#fef3c7')">🛏️ Bedroom 12x12</button>
+<button class="r-btn" onclick="addRoom('Bedroom','10x12','#fef3c7')">🛏️ Bedroom 10x12</button>
+<button class="r-btn" onclick="addRoom('Kitchen','10x11','#dcfce7')">🍳 Kitchen 10x11</button>
+<button class="r-btn" onclick="addRoom('Bath','6x8','#fecaca')">🚿 Bath 6x8</button>
+<button class="r-btn" onclick="addRoom('Lounge','14x16','#dbeafe')">🛋️ Lounge 14x16</button>
+<button class="r-btn" onclick="addRoom('Drawing','12x14','#ffedd5')">🏠 Drawing 12x14</button>
+<button class="r-btn" onclick="addRoom('Garage','12x18','#e5e7eb')">🚗 Garage 12x18</button>
+<button class="r-btn" onclick="addRoom('Sehan','12x15','#ecfdf5')">🌳 Sehan 12x15</button>
 </div>
 
-<h3>3. Furniture (Fit Check)</h3>
-<div class="furn-grid">
-<button class="furn-btn" onclick="addFurniture('🛏️')">🛏️</button>
-<button class="furn-btn" onclick="addFurniture('🛋️')">🛋️</button>
-<button class="furn-btn" onclick="addFurniture('🚗')">🚗</button>
-<button class="furn-btn" onclick="addFurniture('🍽️')">🍽️</button>
-<button class="furn-btn" onclick="addFurniture('🚿')">🚿</button>
-<button class="furn-btn" onclick="addFurniture('🌳')">🌳</button>
-<button class="furn-btn" onclick="addFurniture('🧱')">🧱 Wall</button>
-<button class="furn-btn" onclick="clearAll()">🗑️ Clear</button>
+<h3>Furniture + Walls</h3>
+<div class="plot-grid">
+<button class="p-btn" onclick="addFurn('🛏️')">🛏️ Bed</button>
+<button class="p-btn" onclick="addFurn('🚗')">🚗 Car</button>
+<button class="p-btn" onclick="addFurn('🧱')">🧱 Wall</button>
+<button class="p-btn" onclick="addFurn('🚪')">🚪 Door</button>
 </div>
 
-<h3>Ready-Made Library (Admin)</h3>
-<button class="plot-btn" style="width:100%;margin-bottom:6px" onclick="loadReady('modern')">Modern 7 Marla Ready</button>
-<button class="plot-btn" style="width:100%;margin-bottom:6px" onclick="loadReady('traditional')">Traditional Sehan Wala</button>
-<button class="plot-btn" style="width:100%" onclick="loadReady('luxury')">Luxury 3D Villa</button>
+<h3>Ready Library (Admin)</h3>
+<button class="p-btn" style="width:100%;margin-top:4px" onclick="loadReady('modern')">✅ Modern 7 Marla Auto</button>
+<button class="p-btn" style="width:100%;margin-top:4px" onclick="loadReady('traditional')">✅ Sehan Wala</button>
 </div>
 
-<div class="center">
-<div class="toolbar">
-<span id="sizeLabel">Plot: 30ft x 52.5ft = 1575 sqft (7 Marla)</span>
-<span style="margin-left:auto">💡 Tip: Room ko drag karo, corner se resize karo | Click to select</span>
+<div class="canvas-area">
+<div class="top-bar">
+<span id="sizeLabel">Plot: 30ft x 52.5ft = 1575 sqft (7 Marla) | Built: 0 sqft</span>
+<span>💡 Room drag karo | Corner se resize | Auto Arrange se theek karo</span>
 </div>
-<div id="canvasWrap">
-<canvas id="floorCanvas" width="900" height="700"></canvas>
-</div>
+<div id="wrap"><canvas id="floorCanvas" width="800" height="650"></canvas></div>
 </div>
 
 <div class="right">
-<h3 style="font-size:13px;margin-bottom:10px">Auto Measurement</h3>
-<div class="stat"><span>Total Area</span><b id="totalArea">1575 sqft</b></div>
+<h3 style="font-size:12px">Measurement + Hisab</h3>
+<div class="stat"><span>Total Plot</span><b id="totalArea">1575 sqft</b></div>
 <div class="stat"><span>Built Area</span><b id="builtArea">0 sqft</b></div>
 <div class="stat"><span>Open Area</span><b id="openArea">1575 sqft</b></div>
 <div class="stat"><span>Selected</span><b id="selInfo">None</b></div>
 
 <div id="hisabBox" class="hisab">
-<h4>🧱 Mistri ke liye Hisab (Auto)</h4>
-<div><span>Eent (Bricks)</span><b id="h_brick">~0</b></div>
-<div><span>Cement Bags</span><b id="h_cement">0 bags</b></div>
-<div><span>Rait (Sand) </span><b id="h_sand">0 ft</b></div>
-<div><span>Bajri</span><b id="h_bajri">0 ft</b></div>
-<div><span>Sariya (Steel)</span><b id="h_sariya">0 kg</b></div>
-<div><span>Estimated Cost</span><b id="h_cost">Rs 0</b></div>
-<p style="font-size:10px;color:#92400e;margin-top:8px">Note: Ye andazan hisab hai 1 manzil ke liye</p>
+<h4>🧱 Mistri Material (Auto)</h4>
+<div><span>Bricks / Eent</span><b id="h_brick">0</b></div>
+<div><span>Cement</span><b id="h_cement">0 Bags</b></div>
+<div><span>Sand / Rait</span><b id="h_sand">0 CFT</b></div>
+<div><span>Bajri</span><b id="h_bajri">0 CFT</b></div>
+<div><span>Sariya</span><b id="h_sariya">0 Kg</b></div>
+<div><span>Cost Estimate</span><b id="h_cost">Rs 0</b></div>
 </div>
 
-<h3 style="font-size:13px;margin:14px 0 8px">Payment Gateway (Admin)</h3>
-<div style="background:#f8fafc;padding:10px;border-radius:10px;font-size:11px">
-<p>✅ JazzCash: 03XX-XXXXXXX</p>
-<p>✅ Easypaisa: 03XX-XXXXXXX</p>
-<p>✅ Bank: HBL XXXX</p>
-<button class="h-btn blue" style="width:100%;margin-top:8px" onclick="alert('Payment integration ke liye mujhse code le lo')">Enable Payment</button>
+<div style="margin-top:12px;background:#eff6ff;padding:10px;border-radius:10px;font-size:11px">
+<b>Admin Panel:</b><br>
+• User Designs: <span id="userCount">0</span> saved<br>
+• Library: 2 ready plans<br>
+<button class="btn btn-b" style="width:100%;margin-top:6px" onclick="alert('Payment: JazzCash API add karna hai? Mujhe bolo me code de deta hu')">💳 Payment Setup</button>
 </div>
 </div>
+</div>
+
+<div class="mob-tabs">
+<button onclick="document.querySelector('.left').scrollIntoView()">🏠 Rooms</button>
+<button onclick="document.getElementById('wrap').scrollIntoView()">🗺️ Map</button>
+<button onclick="document.querySelector('.right').scrollIntoView()">🧱 Hisab</button>
+<button onclick="autoArrange()">✨ Auto Fix</button>
 </div>
 
 <script>
-const canvas = document.getElementById('floorCanvas');
-const ctx = canvas.getContext('2d');
-let plot = {w:30,h:52.5,marla:7};
-let rooms = [];
-let selected = null;
-let isDragging=false, isResizing=false, dragOff={x:0,y:0};
-let scale=12; // 1ft = 12px
-let is3D=false;
+const canvas=document.getElementById('floorCanvas'); const ctx=canvas.getContext('2d');
+let plot={w:30,h:52.5,marla:7}; let rooms=[]; let selected=null;
+let isDrag=false,isResize=false,dragOff={x:0,y:0}; let scale=11; let is3D=false;
 
 function setPlot(w,h,m){
- if(w===0){w=parseInt(prompt('Width ft?',30))||30; h=parseInt(prompt('Length ft?',52.5))||52.5; m=Math.round(w*h/225);}
- plot={w,h,marla:m}; document.querySelectorAll('.plot-btn').forEach(b=>b.classList.remove('active'));
+ if(!w){ w=parseFloat(prompt('Width ft?',30))||30; h=parseFloat(prompt('Length ft?',52.5))||52.5; m=Math.round(w*h/225); }
+ plot={w,h,marla:m};
+ document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('active'));
  document.getElementById('sizeLabel').textContent=`Plot: ${w}ft x ${h}ft = ${Math.round(w*h)} sqft (${m} Marla)`;
- draw();
- updateStats();
+ draw(); update();
 }
+function customPlot(){ setPlot(0,0,0); }
 
 function addRoom(name,size,color){
- const [rw,rh]=size.split('x').map(n=>parseFloat(n));
- rooms.push({id:Date.now()+Math.random(),name,w:rw,h:rh,x:50+Math.random()*100,y:50+Math.random()*100,color});
- draw(); updateStats();
+ const [rw,rh]=size.split('x').map(parseFloat);
+ const id=Date.now()+Math.random();
+ rooms.push({id,name,w:rw,h:rh,x:10+Math.random()*20,y:10+Math.random()*20,color,isFurn:false});
+ draw(); update();
+ // Auto arrange after adding to avoid overlap
+ setTimeout(autoArrange,100);
 }
-function addFurniture(icon){
- rooms.push({id:Date.now(),name:icon,w:3,h:3,x:100,y:100,color:'#fff',isFurniture:true,icon});
- draw();
+function addFurn(icon){
+ rooms.push({id:Date.now(),name:icon,w:3,h:3,x:20,y:20,color:'#fff',isFurn:true,icon});
+ draw(); update();
 }
 
 function draw(){
@@ -163,106 +166,106 @@ function draw(){
  ctx.strokeStyle='#f1f5f9'; ctx.lineWidth=1;
  for(let x=0;x<canvas.width;x+=scale*5){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
  for(let y=0;y<canvas.height;y+=scale*5){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
- // Plot boundary
- const pw=plot.w*scale, ph=plot.h*scale;
- const ox=50, oy=50;
+ const pw=plot.w*scale, ph=plot.h*scale, ox=40, oy=30;
+ // Plot
+ ctx.fillStyle='#ffffff'; ctx.fillRect(ox,oy,pw,ph);
  ctx.strokeStyle='#0f172a'; ctx.lineWidth=3; ctx.strokeRect(ox,oy,pw,ph);
- ctx.fillStyle='#64748b'; ctx.font='12px sans-serif'; ctx.fillText(`${plot.w}ft`,ox+pw/2-15,oy-8); ctx.save(); ctx.translate(ox-20,oy+ph/2); ctx.rotate(-Math.PI/2); ctx.fillText(`${plot.h}ft`,0,0); ctx.restore();
+ ctx.fillStyle='#64748b'; ctx.font='11px sans-serif'; ctx.fillText(plot.w+'ft',ox+pw/2-15,oy-6);
+ ctx.save(); ctx.translate(ox-18,oy+ph/2); ctx.rotate(-Math.PI/2); ctx.fillText(plot.h+'ft',0,0); ctx.restore();
  // Rooms
  rooms.forEach(r=>{
-   const x=ox+r.x, y=oy+r.y, w=r.w*scale, h=r.h*scale;
-   ctx.fillStyle=r.isFurniture?'#fff':r.color; ctx.fillRect(x,y,w,h);
-   ctx.strokeStyle=selected===r?'#2563eb':'#0f172a'; ctx.lineWidth=selected===r?3:2; ctx.strokeRect(x,y,w,h);
-   if(r.isFurniture){ctx.font='20px sans-serif'; ctx.fillText(r.icon||r.name,x+w/2-10,y+h/2+6);}
-   else{
-     ctx.fillStyle='#0f172a'; ctx.font='bold 11px sans-serif'; ctx.fillText(r.name,x+6,y+14);
-     ctx.font='10px sans-serif'; ctx.fillText(`${r.w}x${r.h}`,x+6,y+28);
-     // Resize handle
-     ctx.fillStyle='#2563eb'; ctx.fillRect(x+w-8,y+h-8,8,8);
-   }
+  const x=ox+r.x*scale, y=oy+r.y*scale, w=r.w*scale, h=r.h*scale;
+  ctx.fillStyle=r.isFurn?'#fff':r.color; ctx.fillRect(x,y,w,h);
+  ctx.strokeStyle=selected===r?'#2563eb':'#1e293b'; ctx.lineWidth=selected===r?3:1.5; ctx.strokeRect(x,y,w,h);
+  if(r.isFurn){ctx.font='18px sans-serif'; ctx.fillText(r.icon||r.name,x+w/2-9,y+h/2+6);}
+  else{
+   ctx.fillStyle='#0f172a'; ctx.font='bold 10px sans-serif'; ctx.fillText(r.name,x+4,y+12);
+   ctx.font='9px sans-serif'; ctx.fillText(r.w+'x'+r.h,x+4,y+24);
+   ctx.fillStyle='#2563eb'; ctx.fillRect(x+w-8,y+h-8,8,8); // handle
+  }
  });
 }
 
-function getMouse(e){
+function getPos(e){
  const rect=canvas.getBoundingClientRect();
- const x=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
- const y=(e.touches?e.touches[0].clientY:e.clientY)-rect.top;
- return {x,y};
+ const cx=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
+ const cy=(e.touches?e.touches[0].clientY:e.clientY)-rect.top;
+ return {x:cx, y:cy};
 }
 
 canvas.addEventListener('mousedown',e=>{
- const m=getMouse(e);
- // Check resize handle
+ const p=getPos(e);
+ // resize check
  for(let r of [...rooms].reverse()){
-   const ox=50, oy=50, x=ox+r.x, y=oy+r.y, w=r.w*scale, h=r.h*scale;
-   if(m.x>=x+w-8 && m.x<=x+w && m.y>=y+h-8 && m.y<=y+h){selected=r; isResizing=true; return;}
+  const x=40+r.x*scale, y=30+r.y*scale, w=r.w*scale, h=r.h*scale;
+  if(p.x>=x+w-8 && p.x<=x+w && p.y>=y+h-8 && p.y<=y+h){selected=r; isResize=true; return;}
  }
- // Check drag
  for(let r of [...rooms].reverse()){
-   const x=50+r.x, y=50+r.y, w=r.w*scale, h=r.h*scale;
-   if(m.x>=x && m.x<=x+w && m.y>=y && m.y<=y+h){selected=r; isDragging=true; dragOff={x:m.x-x,y:m.y-y}; draw(); return;}
+  const x=40+r.x*scale, y=30+r.y*scale, w=r.w*scale, h=r.h*scale;
+  if(p.x>=x && p.x<=x+w && p.y>=y && p.y<=y+h){selected=r; isDrag=true; dragOff={x:p.x-x,y:p.y-y}; draw(); return;}
  }
- selected=null; draw();
+ selected=null; draw(); update();
 });
 canvas.addEventListener('mousemove',e=>{
  if(!selected) return;
- const m=getMouse(e);
- if(isDragging){selected.x=m.x-dragOff.x-50; selected.y=m.y-dragOff.y-50; draw(); updateStats();}
- if(isResizing){selected.w=Math.max(3,(m.x-(50+selected.x))/scale); selected.h=Math.max(3,(m.y-(50+selected.y))/scale); draw(); updateStats();}
+ const p=getPos(e);
+ if(isDrag){ selected.x=(p.x-dragOff.x-40)/scale; selected.y=(p.y-dragOff.y-30)/scale;
+  // Keep inside plot
+  selected.x=Math.max(0,Math.min(selected.x,plot.w-selected.w));
+  selected.y=Math.max(0,Math.min(selected.y,plot.h-selected.h));
+  draw(); update();
+ }
+ if(isResize){ selected.w=Math.max(3,(p.x-(40+selected.x*scale))/scale); selected.h=Math.max(3,(p.y-(30+selected.y*scale))/scale); draw(); update(); }
 });
-canvas.addEventListener('mouseup',()=>{isDragging=false;isResizing=false;});
-canvas.addEventListener('touchstart',e=>{e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mousedown',{clientX:e.touches[0].clientX,clientY:e.touches[0].clientY}));});
-canvas.addEventListener('touchmove',e=>{e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mousemove',{clientX:e.touches[0].clientX,clientY:e.touches[0].clientY}));});
-canvas.addEventListener('touchend',()=>{isDragging=false;isResizing=false;});
+canvas.addEventListener('mouseup',()=>{isDrag=false;isResize=false;});
+canvas.addEventListener('touchstart',e=>{e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mousedown',{clientX:e.touches[0].clientX,clientY:e.touches[0].clientY}));},{passive:false});
+canvas.addEventListener('touchmove',e=>{e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mousemove',{clientX:e.touches[0].clientX,clientY:e.touches[0].clientY}));},{passive:false});
+canvas.addEventListener('touchend',()=>{isDrag=false;isResize=false;});
 
-function updateStats(){
- const built=rooms.filter(r=>!r.isFurniture).reduce((s,r)=>s+r.w*r.h,0);
+function autoArrange(){
+ // Simple auto layout - arrange rooms without overlap
+ let curX=2, curY=2, rowH=0;
+ rooms.filter(r=>!r.isFurn).forEach(r=>{
+  if(curX+r.w+2>plot.w){curX=2; curY+=rowH+1; rowH=0;}
+  r.x=curX; r.y=curY; rowH=Math.max(rowH,r.h); curX+=r.w+1;
+ });
+ draw(); update();
+}
+
+function update(){
+ const built=rooms.filter(r=>!r.isFurn).reduce((s,r)=>s+r.w*r.h,0);
  const total=plot.w*plot.h;
  document.getElementById('totalArea').textContent=total.toFixed(0)+' sqft';
  document.getElementById('builtArea').textContent=built.toFixed(0)+' sqft';
  document.getElementById('openArea').textContent=(total-built).toFixed(0)+' sqft';
+ document.getElementById('sizeLabel').textContent=`Plot: ${plot.w}ft x ${plot.h}ft = ${Math.round(total)} sqft (${plot.marla} Marla) | Built: ${built.toFixed(0)} sqft`;
  document.getElementById('selInfo').textContent=selected?`${selected.name} ${selected.w.toFixed(1)}x${selected.h.toFixed(1)}`:'None';
- // Hisab
- const bricks=Math.round(built*13.5); // 13.5 bricks per sqft approx
- const cement=Math.round(built/15); // bags
- const sand=Math.round(built*0.4); // cft
- const bajri=Math.round(built*0.8);
- const sariya=Math.round(built*1.8); // kg
- const cost=Math.round(built*3200); // Rs 3200 per sqft
- document.getElementById('h_brick').textContent=bricks.toLocaleString()+' Nos';
+ const bricks=Math.round(built*13.5), cement=Math.round(built/15), sand=Math.round(built*0.4), bajri=Math.round(built*0.8), sariya=Math.round(built*1.8), cost=Math.round(built*3200);
+ document.getElementById('h_brick').textContent=bricks.toLocaleString();
  document.getElementById('h_cement').textContent=cement+' Bags';
  document.getElementById('h_sand').textContent=sand+' CFT';
  document.getElementById('h_bajri').textContent=bajri+' CFT';
  document.getElementById('h_sariya').textContent=sariya+' Kg';
  document.getElementById('h_cost').textContent='Rs '+cost.toLocaleString();
+ document.getElementById('userCount').textContent=rooms.length;
 }
 
-function toggle3D(){
- is3D=!is3D;
- const wrap=document.getElementById('canvasWrap');
- if(is3D){wrap.classList.add('view-3d'); canvas.style.boxShadow='0 30px 60px rgba(0,0,0,.3)';}
- else {wrap.classList.remove('view-3d'); canvas.style.boxShadow='0 10px 40px rgba(0,0,0,.15)';}
-}
-
-function downloadImage(){
- const link=document.createElement('a'); link.download=`${plot.marla}-Marla-${plot.w}x${plot.h}-Naqsha-HD.png`; link.href=canvas.toDataURL('image/png',1.0); link.click();
-}
-function downloadPDF(){
- const {jsPDF}=window.jspdf; const pdf=new jsPDF({orientation:'landscape'});
- pdf.text(`Plot ${plot.w}x${plot.h}ft - ${plot.marla} Marla - Total ${plot.w*plot.h} sqft`,10,10);
- pdf.addImage(canvas.toDataURL('image/png'),'PNG',10,20,270,160);
- pdf.save(`Naqsha-${plot.marla}-Marla.pdf`);
-}
-function saveDesign(){localStorage.setItem('naqsha_pro',JSON.stringify({plot,rooms})); alert('Design Save Ho Gaya!');}
-function clearAll(){if(confirm('Sab clear karna hai?')){rooms=[]; draw(); updateStats();}}
-function showHisab(){document.getElementById('hisabBox').scrollIntoView({behavior:'smooth'});}
+function toggle3D(){ is3D=!is3D; document.getElementById('wrap').style.transform=is3D?'perspective(800px) rotateX(40deg) rotateZ(-20deg)':'none'; document.getElementById('wrap').style.transition='.6s'; }
+function downloadImage(){ const a=document.createElement('a'); a.download=`${plot.marla}Marla-${plot.w}x${plot.h}-HD.png`; a.href=canvas.toDataURL('image/png',1.0); a.click(); }
+function downloadPDF(){ const {jsPDF}=window.jspdf; const pdf=new jsPDF({orientation:'landscape'}); pdf.text(`Plot ${plot.w}x${plot.h}ft - ${plot.marla} Marla`,10,10); pdf.addImage(canvas.toDataURL(),'PNG',10,20,270,150); pdf.save(`Naqsha-${plot.marla}M.pdf`); }
+function saveDesign(){ localStorage.setItem('naqsha_v4',JSON.stringify({plot,rooms})); alert('✅ Save ho gaya!'); }
+function clearAll(){ if(confirm('Clear all?')){rooms=[]; draw(); update();} }
 function loadReady(type){
  rooms=[];
- if(type==='modern'){addRoom('Drawing','12x14','#ffedd5'); addRoom('Lounge','14x16','#dbeafe'); addRoom('Bedroom','12x12','#fef3c7'); addRoom('Bedroom','12x12','#fef3c7'); addRoom('Kitchen','10x11','#dcfce7'); addRoom('Bath','6x8','#fecaca'); addRoom('Sehan','10x12','#ecfdf5'); addRoom('Garage','10x18','#e5e7eb');}
- if(type==='traditional'){addRoom('Sehan','15x15','#ecfdf5'); addRoom('Bedroom','13x13','#fef3c7'); addRoom('Bedroom','13x13','#fef3c7'); addRoom('Lounge','16x14','#dbeafe'); addRoom('Kitchen','12x10','#dcfce7');}
- if(type==='luxury'){addRoom('Drawing','14x16','#ffedd5'); addRoom('Lounge','18x16','#dbeafe'); addRoom('Bedroom','14x14','#fef3c7'); addRoom('Bedroom','12x12','#fef3c7'); addRoom('Bedroom','12x12','#fef3c7'); addRoom('Kitchen','12x12','#dcfce7'); addRoom('Garage','12x20','#e5e7eb');}
- // Position them nicely
- rooms.forEach((r,i)=>{r.x=20+(i%3)*140; r.y=20+Math.floor(i/3)*110;}); draw(); updateStats();
+ if(type==='modern'){
+  addRoom('Garage','12x18','#e5e7eb'); addRoom('Drawing','12x14','#ffedd5'); addRoom('Lounge','14x16','#dbeafe');
+  addRoom('Bedroom','12x12','#fef3c7'); addRoom('Bedroom','10x12','#fef3c7'); addRoom('Kitchen','10x11','#dcfce7');
+  addRoom('Bath','6x8','#fecaca'); addRoom('Sehan','10x12','#ecfdf5');
+ } else {
+  addRoom('Sehan','14x14','#ecfdf5'); addRoom('Bedroom','12x12','#fef3c7'); addRoom('Bedroom','12x12','#fef3c7');
+  addRoom('Lounge','14x14','#dbeafe'); addRoom('Kitchen','10x11','#dcfce7');
+ }
+ setTimeout(autoArrange,100);
 }
 // Init
 setPlot(30,52.5,7); loadReady('modern');
