@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderlust AI - Next-Gen Smart Travel & Tour Planner</title>
+    <title>See Pakistan Tours - AI Trip Planner & Northern Pakistan Packages</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,13 +12,12 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#312e81',
+                        pakistan: {
+                            green: '#00401a',
+                            lightgreen: '#006629',
+                            gold: '#ffc107',
+                            darkgold: '#e0a800',
+                            accent: '#10b981'
                         }
                     },
                     fontFamily: {
@@ -39,7 +38,7 @@
     <style>
         body { font-family: 'Poppins', sans-serif; }
         .glass-card {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -51,317 +50,384 @@
         }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.4); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 102, 41, 0.6); border-radius: 4px; }
         #leafletMap { min-height: 380px; z-index: 10; }
-        .leaflet-tile { filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7); }
+        .leaflet-tile { filter: brightness(0.7) invert(1) contrast(3) hue-rotate(180deg) saturate(0.3) brightness(0.7); }
         .leaflet-container { background: #090d16 !important; }
+        
+        .sticky-bottom-bar {
+            background: #000;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-emerald-600 selection:text-white pb-14">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-pakistan-green text-emerald-100 text-xs py-2 px-4 text-center font-medium border-b border-emerald-800 flex justify-between items-center max-w-7xl mx-auto w-full">
+        <div class="flex items-center space-x-4">
+            <span><i class="fa-solid fa-phone mr-1.5 text-pakistan-gold"></i> Helpline: +92 310 5436581</span>
+            <span class="hidden md:inline"><i class="fa-solid fa-envelope mr-1.5 text-pakistan-gold"></i> sales@seepakistantours.com</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <span class="bg-pakistan-gold text-slate-950 font-bold px-2 py-0.5 rounded text-[10px] uppercase">4.9/5 ⭐ Rated (685+ Reviews)</span>
+        </div>
+    </div>
 
     <!-- Header / Navbar -->
-    <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
+    <header class="border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-xl sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <!-- Logo -->
             <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-compass"></i>
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-pakistan-green to-emerald-500 flex items-center justify-center text-pakistan-gold text-2xl font-black shadow-lg shadow-emerald-900/40 border border-emerald-400/30">
+                    <i class="fa-solid fa-mountain-sun"></i>
                 </div>
                 <div>
-                    <span class="text-xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Wanderlust AI</span>
-                    <span class="hidden sm:inline-block text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 ml-2 border border-indigo-500/30">Pro</span>
+                    <span class="text-xl font-black tracking-tight text-white block leading-tight">SEE PAKISTAN <span class="text-pakistan-gold">TOURS</span></span>
+                    <span class="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider block">Discover Northern Wonders</span>
                 </div>
             </div>
 
+            <!-- Navigation Links -->
             <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
-                <a href="#planner" class="hover:text-indigo-400 transition">AI Planner</a>
-                <a href="#categories" class="hover:text-indigo-400 transition">Trip Categories</a>
-                <a href="#utilitySection" class="hover:text-indigo-400 transition">Tools</a>
-                <a href="#savedTrips" onclick="toggleSavedDrawer()" class="hover:text-indigo-400 transition flex items-center">
-                    Saved <span id="savedCountBadge" class="ml-1.5 px-2 py-0.2 rounded-full bg-indigo-600 text-white text-xs">0</span>
-                </a>
+                <a href="#packages" class="hover:text-pakistan-gold transition">Hunza Packages 2026</a>
+                <a href="#routes" class="hover:text-pakistan-gold transition">Travel Routes & Distance</a>
+                <a href="#planner" class="hover:text-pakistan-gold transition">AI Trip Planner</a>
+                <a href="#reviews" class="hover:text-pakistan-gold transition">Reviews</a>
             </nav>
 
+            <!-- Action Buttons -->
             <div class="flex items-center space-x-3">
-                <button onclick="openAdminModal()" class="glass-pill px-3.5 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition text-xs font-semibold flex items-center space-x-1.5">
-                    <i class="fa-solid fa-lock text-yellow-400"></i>
+                <button onclick="openAdminModal()" class="glass-pill px-3 py-2 rounded-xl text-slate-300 hover:text-white transition text-xs font-semibold flex items-center space-x-1.5 border border-slate-700">
+                    <i class="fa-solid fa-lock text-pakistan-gold"></i>
                     <span class="hidden sm:inline">Admin Panel</span>
                 </button>
-                <button onclick="toggleSavedDrawer()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl font-medium text-xs transition shadow-lg shadow-indigo-600/20 flex items-center space-x-1.5">
-                    <i class="fa-solid fa-bookmark"></i>
-                    <span class="hidden sm:inline">Bookmarks</span>
-                </button>
+                <a href="https://wa.me/923105436581" target="_blank" class="bg-pakistan-gold hover:bg-pakistan-darkgold text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition shadow-lg shadow-amber-500/20 flex items-center space-x-1.5">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>ENQUIRE NOW</span>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="flex-grow">
-        <!-- Hero & Form Section -->
-        <section id="planner" class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <!-- Hero Section -->
+        <section class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <div class="text-center max-w-3xl mx-auto mb-10">
-                <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-4">
-                    <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i>
-                    <span>Smart Travel & Educational Tour Generator</span>
+                <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-star text-pakistan-gold"></i>
+                    <span>Official Pakistan Tourism Operator</span>
                 </div>
-                <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
-                    Plan Any Journey in <br>
-                    <span class="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Seconds with AI</span>
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight text-white">
+                    Hunza Valley Tour Packages <br>
+                    <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-pakistan-gold bg-clip-text text-transparent">2026 All-Inclusive By Air & Road</span>
                 </h1>
-                <p class="text-slate-400 text-base sm:text-lg mt-4 max-w-2xl mx-auto">
-                    Choose from specialized categories or custom generate day-by-day itineraries with photos, maps, and budgets.
+                <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto leading-relaxed">
+                    Designed for travelers looking for comfortable, affordable, and fully customized trips to Northern Pakistan. From the turquoise waters of <b>Attabad Lake</b> to historic <b>Baltit Fort</b> and <b>Khunjerab Pass</b>.
                 </p>
             </div>
 
-            <!-- Categories Section (School, College, University, Overseas, World Tour) -->
-            <section id="categories" class="mb-12">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center">
-                        <i class="fa-solid fa-layer-group text-indigo-400 mr-2.5"></i> Popular Trip Categories
-                    </h2>
-                    <span class="text-xs text-slate-400">Click any card for instant template</span>
+            <!-- Categories Tabs (School, College, University, Overseas, World Tour) -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 max-w-5xl mx-auto mb-12">
+                <button onclick="filterCategory('school')" class="glass-card p-3.5 rounded-2xl text-center hover:border-emerald-500 transition group border border-slate-800">
+                    <i class="fa-solid fa-school text-emerald-400 text-xl mb-1.5 block group-hover:scale-110 transition"></i>
+                    <span class="font-bold text-white text-xs block">School Trips</span>
+                    <span class="text-[10px] text-slate-400 block">Educational & Safe</span>
+                </button>
+                <button onclick="filterCategory('college')" class="glass-card p-3.5 rounded-2xl text-center hover:border-emerald-500 transition group border border-slate-800">
+                    <i class="fa-solid fa-graduation-cap text-purple-400 text-xl mb-1.5 block group-hover:scale-110 transition"></i>
+                    <span class="font-bold text-white text-xs block">College Tours</span>
+                    <span class="text-[10px] text-slate-400 block">Culture & Science</span>
+                </button>
+                <button onclick="filterCategory('university')" class="glass-card p-3.5 rounded-2xl text-center hover:border-emerald-500 transition group border border-slate-800">
+                    <i class="fa-solid fa-user-graduate text-pink-400 text-xl mb-1.5 block group-hover:scale-110 transition"></i>
+                    <span class="font-bold text-white text-xs block">University FYP</span>
+                    <span class="text-[10px] text-slate-400 block">Final Year Expeditions</span>
+                </button>
+                <button onclick="filterCategory('overseas')" class="glass-card p-3.5 rounded-2xl text-center hover:border-emerald-500 transition group border border-slate-800">
+                    <i class="fa-solid fa-plane-departure text-amber-400 text-xl mb-1.5 block group-hover:scale-110 transition"></i>
+                    <span class="font-bold text-white text-xs block">Overseas Packages</span>
+                    <span class="text-[10px] text-slate-400 block">International Guests</span>
+                </button>
+                <button onclick="filterCategory('worldtour')" class="glass-card p-3.5 rounded-2xl text-center hover:border-emerald-500 transition group border border-slate-800 col-span-2 sm:col-span-1">
+                    <i class="fa-solid fa-earth-americas text-cyan-400 text-xl mb-1.5 block group-hover:scale-110 transition"></i>
+                    <span class="font-bold text-white text-xs block">World Tours</span>
+                    <span class="text-[10px] text-slate-400 block">Multi-Country Luxury</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Featured Tour Packages Grid (From Image 3) -->
+        <section id="packages" class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs font-bold text-pakistan-gold uppercase tracking-wider">Top Rated Itineraries</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">List of Hunza Valley Tour Packages 2026</h2>
+                </div>
+                <p class="text-xs text-slate-400 mt-2 md:mt-0">Filtered by By-Air & By-Road Options</p>
+            </div>
+
+            <div id="packageGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamic cards populated via JS -->
+            </div>
+        </section>
+
+        <!-- Route & Travel Time Table (From Image 1) -->
+        <section id="routes" class="py-12 bg-slate-900/40 border-y border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Distance & Travel Time Guide</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Road Travel Routes to Hunza Valley</h2>
+                    <p class="text-xs text-slate-400 mt-2">Comprehensive travel distances, duration, and highway details from major cities of Pakistan.</p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <div onclick="selectCategory('School Educational Trip')" class="glass-card rounded-2xl p-4 text-center cursor-pointer hover:border-indigo-500 transition group">
-                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
-                            <i class="fa-solid fa-school"></i>
-                        </div>
-                        <h3 class="font-bold text-white text-sm">School Trip</h3>
-                        <p class="text-[11px] text-slate-400 mt-1">Safe & Educational</p>
-                    </div>
-
-                    <div onclick="selectCategory('College Study Tour')" class="glass-card rounded-2xl p-4 text-center cursor-pointer hover:border-indigo-500 transition group">
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                        </div>
-                        <h3 class="font-bold text-white text-sm">College Tour</h3>
-                        <p class="text-[11px] text-slate-400 mt-1">Science & Culture</p>
-                    </div>
-
-                    <div onclick="selectCategory('University Final Year Tour')" class="glass-card rounded-2xl p-4 text-center cursor-pointer hover:border-indigo-500 transition group">
-                        <div class="w-12 h-12 rounded-xl bg-pink-500/20 text-pink-400 mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
-                            <i class="fa-solid fa-user-graduate"></i>
-                        </div>
-                        <h3 class="font-bold text-white text-sm">University FYP</h3>
-                        <p class="text-[11px] text-slate-400 mt-1">Adventure & Leisure</p>
-                    </div>
-
-                    <div onclick="selectCategory('Overseas International Trip')" class="glass-card rounded-2xl p-4 text-center cursor-pointer hover:border-indigo-500 transition group">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
-                            <i class="fa-solid fa-plane-departure"></i>
-                        </div>
-                        <h3 class="font-bold text-white text-sm">Overseas</h3>
-                        <p class="text-[11px] text-slate-400 mt-1">Global Exploration</p>
-                    </div>
-
-                    <div onclick="selectCategory('Luxury World Tour')" class="glass-card rounded-2xl p-4 text-center cursor-pointer hover:border-indigo-500 transition group col-span-2 sm:col-span-1">
-                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
-                            <i class="fa-solid fa-earth-americas"></i>
-                        </div>
-                        <h3 class="font-bold text-white text-sm">World Tour</h3>
-                        <p class="text-[11px] text-slate-400 mt-1">Multi-Country Luxury</p>
+                <div class="glass-card rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-300">
+                            <thead class="bg-pakistan-green text-pakistan-gold text-xs uppercase font-bold border-b border-emerald-800">
+                                <tr>
+                                    <th class="p-4">Route (Starting City)</th>
+                                    <th class="p-4">Distance to Hunza</th>
+                                    <th class="p-4">Travel Time (Road)</th>
+                                    <th class="p-4">Primary Highway / Route</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-xs sm:text-sm">
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Islamabad</td><td class="p-4">600 km</td><td class="p-4 text-emerald-400 font-semibold">14 – 15 Hours</td><td class="p-4">Hazara Motorway / KKH</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Lahore</td><td class="p-4">780 km</td><td class="p-4 text-emerald-400 font-semibold">18 – 20 Hours</td><td class="p-4">M-2 Motorway / KKH</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Faisalabad</td><td class="p-4">765 km</td><td class="p-4 text-emerald-400 font-semibold">17 – 19 Hours</td><td class="p-4">M-4 Motorway / KKH</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Sialkot</td><td class="p-4">820 km</td><td class="p-4 text-emerald-400 font-semibold">19 – 21 Hours</td><td class="p-4">M-11 / Hazara Motorway</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Multan</td><td class="p-4">1,085 km</td><td class="p-4 text-emerald-400 font-semibold">22 – 24 Hours</td><td class="p-4">M-4 / M-2 / KKH</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Peshawar</td><td class="p-4">560 km</td><td class="p-4 text-emerald-400 font-semibold">12 – 14 Hours</td><td class="p-4">M-1 / Hazara Motorway</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Skardu</td><td class="p-4">290 km</td><td class="p-4 text-emerald-400 font-semibold">6 – 8 Hours</td><td class="p-4">Jaglot-Skardu Road / KKH</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Naran</td><td class="p-4">320 km</td><td class="p-4 text-emerald-400 font-semibold">7 – 9 Hours</td><td class="p-4">Babusar Pass / KKH</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Babusar Top</td><td class="p-4">255 km</td><td class="p-4 text-emerald-400 font-semibold">5 – 6 Hours</td><td class="p-4">N-15 to KKH Junction</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Chilas</td><td class="p-4">235 km</td><td class="p-4 text-emerald-400 font-semibold">4 – 5 Hours</td><td class="p-4">Karakoram Highway (KKH)</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Khunjerab Pass</td><td class="p-4">175 km</td><td class="p-4 text-emerald-400 font-semibold">4 – 5 Hours</td><td class="p-4">Karakoram Highway (KKH)</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="p-4 font-bold text-white">Gilgit to Hunza</td><td class="p-4">100 km</td><td class="p-4 text-emerald-400 font-semibold">2 – 3 Hours</td><td class="p-4">Karakoram Highway</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Main Input Form Card -->
-            <div class="glass-card rounded-3xl p-6 sm:p-10 max-w-4xl mx-auto shadow-2xl relative">
-                <form id="tripForm" onsubmit="generateItinerary(event)" class="space-y-6">
+        <!-- AI Trip Planner Form Card -->
+        <section id="planner" class="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+            <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl relative border border-slate-800">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Custom AI Trip Generator</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-1">Generate dynamic day-by-day itineraries, maps, and expense summaries.</p>
+                </div>
+
+                <form id="tripForm" onsubmit="generateCustomItinerary(event)" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">
-                                <i class="fa-solid fa-location-dot text-indigo-400 mr-2"></i>Destination / City
-                            </label>
-                            <input type="text" id="destination" required placeholder="e.g., Hunza Valley, Istanbul, Paris, Skardu" 
-                                class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-3.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">Destination / Region</label>
+                            <input type="text" id="destination" required placeholder="e.g. Hunza, Skardu, Fairy Meadows, Naran" 
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-sm">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">
-                                <i class="fa-solid fa-calendar-days text-indigo-400 mr-2"></i>Duration (Days)
-                            </label>
-                            <input type="number" id="duration" min="1" max="15" value="4" required
-                                class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-3.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">Duration (Days)</label>
+                            <input type="number" id="duration" min="1" max="15" value="5" required
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-emerald-500 text-sm">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">
-                                <i class="fa-solid fa-wallet text-indigo-400 mr-2"></i>Budget Level
-                            </label>
-                            <select id="budget" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-3.5 text-slate-100 focus:outline-none focus:border-indigo-500 transition">
-                                <option value="Budget-Friendly">Student / Budget Friendly</option>
-                                <option value="Moderate" selected>Standard / Moderate</option>
-                                <option value="Luxury">Luxury / VIP Experience</option>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">Budget Tier</label>
+                            <select id="budget" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-emerald-500 text-sm">
+                                <option value="Budget-Friendly">Student / Standard Budget</option>
+                                <option value="Moderate" selected>Deluxe Family Tier</option>
+                                <option value="Luxury">VIP / Executive By-Air</option>
                             </select>
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">
-                                <i class="fa-solid fa-compass text-indigo-400 mr-2"></i>Travel Style
-                            </label>
-                            <select id="style" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-3.5 text-slate-100 focus:outline-none focus:border-indigo-500 transition">
-                                <option value="Adventure & Outdoors">Adventure & Mountains</option>
-                                <option value="Culture & Sightseeing" selected>Culture & Sightseeing</option>
-                                <option value="Relaxation & Nature">Relaxation & Nature</option>
-                                <option value="Food & Shopping">Foodie & Shopping</option>
+                            <label class="block text-xs font-semibold text-slate-300 mb-2">Tour Vibe</label>
+                            <select id="style" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-emerald-500 text-sm">
+                                <option value="Sightseeing & Culture">Sightseeing & Heritage</option>
+                                <option value="Adventure & Trekking">Adventure & Offroad</option>
+                                <option value="Honeymoon Special">Honeymoon & Romantic</option>
                             </select>
                         </div>
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-90 text-white font-bold py-4 rounded-xl transition shadow-xl shadow-indigo-600/25 flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        <span>Generate Itinerary with Pictures & Map</span>
+                    <button type="submit" class="w-full bg-gradient-to-r from-pakistan-green to-emerald-600 hover:opacity-90 text-white font-bold py-4 rounded-xl transition shadow-xl shadow-emerald-900/30 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-pakistan-gold"></i>
+                        <span>Generate Custom Tour Plan & Map</span>
                     </button>
                 </form>
             </div>
 
-            <!-- Loader Indicator -->
-            <div id="loader" class="hidden my-14 text-center">
-                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
-                <h3 class="text-lg font-bold text-white mt-4">Generating Custom Itinerary...</h3>
-                <p class="text-slate-400 text-xs mt-1">Fetching high-res photos, calculating route coordinates & budgets...</p>
+            <!-- Loader -->
+            <div id="loader" class="hidden my-10 text-center">
+                <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-emerald-500 border-t-transparent"></div>
+                <p class="text-xs text-slate-400 mt-3 animate-pulse">Calculating optimal routes, hotel tariffs & sights...</p>
             </div>
 
-            <!-- Result Section -->
-            <div id="resultSection" class="hidden mt-14 max-w-5xl mx-auto space-y-8">
-                <!-- Destination Photo Header Banner -->
-                <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-800">
-                    <img id="resultBannerImg" src="" alt="Destination Photo" class="w-full h-64 sm:h-80 object-cover filter brightness-75">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex flex-col justify-end p-6 sm:p-8">
-                        <div class="flex items-center space-x-2 text-xs font-semibold text-indigo-300 uppercase tracking-wider mb-1">
-                            <span id="resultCategoryBadge">Adventure</span>
-                            <span>•</span>
-                            <span id="resultMetaStyle"></span>
+            <!-- Result Output Section -->
+            <div id="resultSection" class="hidden mt-12 space-y-6">
+                <div class="glass-card rounded-2xl p-6 border border-slate-800 flex justify-between items-center">
+                    <div>
+                        <h3 id="resTitle" class="text-2xl font-bold text-white"></h3>
+                        <p id="resSub" class="text-xs text-slate-400 mt-1"></p>
+                    </div>
+                    <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-4 py-2 rounded-xl transition border border-slate-700">
+                        <i class="fa-solid fa-print mr-1"></i> Print Plan
+                    </button>
+                </div>
+
+                <div id="itineraryContainer" class="space-y-4"></div>
+                <div class="glass-card p-4 rounded-2xl">
+                    <h4 class="font-bold text-sm text-white mb-3"><i class="fa-solid fa-map-pin text-emerald-400 mr-2"></i>Map View</h4>
+                    <div id="leafletMap" class="rounded-xl overflow-hidden border border-slate-800"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Traveler Reviews & Testimonials (From Image 2) -->
+        <section id="reviews" class="py-12 bg-slate-900/40 border-t border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-xs font-bold text-pakistan-gold uppercase tracking-wider">Trusted by 685+ Travelers</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Rated 4.9/5 Based on Google Reviews</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                        <div class="flex items-center space-x-1 text-yellow-400 text-xs mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <span class="text-slate-400 text-[10px] ml-1">(via Google Reviews)</span>
                         </div>
-                        <h2 id="resultTitle" class="text-3xl sm:text-4xl font-extrabold text-white"></h2>
-                        <p id="resultSubtitle" class="text-slate-300 text-sm mt-1"></p>
+                        <p class="text-xs text-slate-300 italic leading-relaxed mb-4">
+                            "An unforgettable winter trip to Skardu and Hunza with See Pakistan Tours! This was one of the best trips of my life. The entire logistics were handled flawlessly, and our driver, Haider, deserves special recognition — professional, calm, and highly experienced."
+                        </p>
+                        <h4 class="font-bold text-white text-sm">F K</h4>
                     </div>
-                </div>
 
-                <!-- Action Toolbar -->
-                <div class="flex flex-wrap gap-3 justify-end">
-                    <button onclick="saveCurrentTrip()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-4 py-2.5 rounded-xl transition font-medium flex items-center space-x-1.5 shadow-lg">
-                        <i class="fa-solid fa-bookmark"></i>
-                        <span>Save to Bookmarks</span>
-                    </button>
-                    <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-4 py-2.5 rounded-xl transition border border-slate-700 flex items-center space-x-1.5">
-                        <i class="fa-solid fa-print"></i>
-                        <span>Print / PDF</span>
-                    </button>
-                </div>
-
-                <!-- Tabs Navigation -->
-                <div class="flex border-b border-slate-800 overflow-x-auto space-x-4 text-sm font-semibold">
-                    <button onclick="switchTab('itinerary')" id="tabBtn-itinerary" class="tab-btn py-3 px-4 text-indigo-400 border-b-2 border-indigo-500 flex items-center space-x-2 whitespace-nowrap">
-                        <i class="fa-solid fa-route"></i><span>Day-by-Day Plan</span>
-                    </button>
-                    <button onclick="switchTab('map')" id="tabBtn-map" class="tab-btn py-3 px-4 text-slate-400 hover:text-slate-200 border-b-2 border-transparent flex items-center space-x-2 whitespace-nowrap">
-                        <i class="fa-solid fa-map-location-dot"></i><span>Interactive Map</span>
-                    </button>
-                    <button onclick="switchTab('budget')" id="tabBtn-budget" class="tab-btn py-3 px-4 text-slate-400 hover:text-slate-200 border-b-2 border-transparent flex items-center space-x-2 whitespace-nowrap">
-                        <i class="fa-solid fa-calculator"></i><span>Budget & Expenses</span>
-                    </button>
-                    <button onclick="switchTab('packing')" id="tabBtn-packing" class="tab-btn py-3 px-4 text-slate-400 hover:text-slate-200 border-b-2 border-transparent flex items-center space-x-2 whitespace-nowrap">
-                        <i class="fa-solid fa-suitcase"></i><span>Packing Checklist</span>
-                    </button>
-                </div>
-
-                <!-- Tab 1: Itinerary -->
-                <div id="tab-itinerary" class="tab-content space-y-6">
-                    <div id="itineraryContainer" class="space-y-6"></div>
-                </div>
-
-                <!-- Tab 2: Map -->
-                <div id="tab-map" class="tab-content hidden space-y-4">
-                    <div class="glass-card rounded-2xl p-4">
-                        <div id="leafletMap" class="rounded-xl overflow-hidden shadow-inner border border-slate-800"></div>
+                    <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                        <div class="flex items-center space-x-1 text-yellow-400 text-xs mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <span class="text-slate-400 text-[10px] ml-1">(via Google Reviews)</span>
+                        </div>
+                        <p class="text-xs text-slate-300 italic leading-relaxed mb-4">
+                            "We recently travelled to Pakistan northern side towards Hunza, Gilgit. They are very professional, they know their job very well... all arrangements, facilities like driver, car ... taking care of our comfort and safety. I am very impressed by their work."
+                        </p>
+                        <h4 class="font-bold text-white text-sm">Hina Aqeel</h4>
                     </div>
-                </div>
 
-                <!-- Tab 3: Budget -->
-                <div id="tab-budget" class="tab-content hidden space-y-6">
-                    <div class="glass-card rounded-2xl p-6 border border-slate-800">
-                        <h3 class="text-lg font-bold text-white mb-4"><i class="fa-solid fa-wallet text-yellow-400 mr-2"></i>Estimated Expenses</h3>
-                        <div id="budgetContent" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-                    </div>
-                </div>
-
-                <!-- Tab 4: Packing -->
-                <div id="tab-packing" class="tab-content hidden space-y-6">
-                    <div class="glass-card rounded-2xl p-6 border border-slate-800">
-                        <h3 class="text-lg font-bold text-white mb-4"><i class="fa-solid fa-clipboard-check text-indigo-400 mr-2"></i>Recommended Packing List</h3>
-                        <div id="packingContent" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+                    <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                        <div class="flex items-center space-x-1 text-yellow-400 text-xs mb-3">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <span class="text-slate-400 text-[10px] ml-1">(via Google Reviews)</span>
+                        </div>
+                        <p class="text-xs text-slate-300 italic leading-relaxed mb-4">
+                            "We had a wonderful 2 week trip to Northern Pakistan. Ejaz and Abrar, the drivers and our other tour guides went the extra mile to make the trip a memorable one for all. The scenery, food and hospitality exceeded my expectations."
+                        </p>
+                        <h4 class="font-bold text-white text-sm">Fatima</h4>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Utilities Section -->
-        <section id="utilitySection" class="py-10 bg-slate-900/40 border-t border-slate-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass-card p-6 rounded-2xl">
-                    <h3 class="font-bold text-base text-white mb-3"><i class="fa-solid fa-money-bill-transfer text-emerald-400 mr-2"></i>Currency Exchange Estimator</h3>
-                    <div class="grid grid-cols-2 gap-3 mb-2">
-                        <input type="number" id="currAmount" value="100" oninput="convertCurrency()" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white">
-                        <select id="currFrom" onchange="convertCurrency()" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white">
-                            <option value="USD">USD ($)</option><option value="PKR">PKR (Rs)</option><option value="EUR">EUR (€)</option>
-                        </select>
-                    </div>
-                    <div class="text-sm font-bold text-emerald-400 mt-2" id="currResult">27,850 PKR</div>
-                </div>
-
-                <div class="glass-card p-6 rounded-2xl">
-                    <h3 class="font-bold text-base text-white mb-3"><i class="fa-solid fa-receipt text-indigo-400 mr-2"></i>Group Expense Split Calculator</h3>
-                    <div class="grid grid-cols-3 gap-2 mb-2">
-                        <input type="number" id="tipBill" value="120" oninput="calculateSplit()" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Total">
-                        <input type="number" id="tipPercent" value="10" oninput="calculateSplit()" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Tax %">
-                        <input type="number" id="tipPeople" value="4" oninput="calculateSplit()" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Persons">
-                    </div>
-                    <div class="text-sm font-bold text-indigo-400 mt-2" id="tipResult">Per Person: $33.00</div>
-                </div>
+        <!-- Concierge & Contact Banner (From Image 2) -->
+        <section class="py-12 bg-gradient-to-r from-pakistan-green via-emerald-900 to-slate-950 border-t border-slate-800 text-center px-4">
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Want to learn more?</h3>
+            <p class="text-slate-300 text-xs sm:text-sm mt-2 max-w-xl mx-auto">We're here to help whether you need information or you already have a travel program.</p>
+            <div class="flex justify-center items-center space-x-4 mt-6">
+                <a href="https://wa.me/923105436581" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl text-xs transition shadow-lg flex items-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Whatsapp us</span>
+                </a>
+                <a href="mailto:sales@seepakistantours.com" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-6 py-3 rounded-xl text-xs transition border border-slate-700 flex items-center space-x-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Email us</span>
+                </a>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-slate-950 py-6 text-center text-slate-500 text-xs">
-        <p>&copy; 2026 Wanderlust AI Tour Planner. Designed for students, schools & world travelers.</p>
+    <!-- Dedicated Concierge Footer (From Image 2) -->
+    <footer class="bg-slate-950 text-slate-400 text-xs py-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            <div>
+                <h4 class="font-bold text-white text-sm mb-3">SPEAK TO OUR DEDICATED CONCIERGE TEAM</h4>
+                <p class="text-pakistan-gold font-bold text-sm mb-1">+92 310 5436581</p>
+                <p class="text-slate-400 mb-3">sales@seepakistantours.com</p>
+                <p class="text-slate-400 leading-relaxed">
+                    Office E2, 5th Floor, Khalifa Heights, Chaklala Road near Committee Chowk, Rawalpindi
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-white text-sm mb-3">QUICK EXPLORE</h4>
+                <div class="grid grid-cols-2 gap-2 text-slate-400">
+                    <a href="#packages" class="hover:text-pakistan-gold">HUNZA TOURS</a>
+                    <a href="#packages" class="hover:text-pakistan-gold">HONEYMOONS</a>
+                    <a href="#packages" class="hover:text-pakistan-gold">GROUP TOURS</a>
+                    <a href="#packages" class="hover:text-pakistan-gold">HOTELS IN PAKISTAN</a>
+                    <a href="#packages" class="hover:text-pakistan-gold">CAR RENTALS</a>
+                    <a href="#packages" class="hover:text-pakistan-gold">NARAN KAGHAN TOURS</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-white text-sm mb-3">FACEBOOK CUSTOMER REVIEWS</h4>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex items-center space-x-4">
+                    <div class="text-3xl font-black text-pakistan-gold">4.9<span class="text-xs text-slate-400 font-normal">/5</span></div>
+                    <div class="text-[11px] text-slate-300">
+                        Based on 80+ reviews over the past few months.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 border-t border-slate-900 pt-6 text-center text-slate-500 text-[11px]">
+            <p>See Pakistan Tours is offering services to tourism lovers since 2012. All Rights Reserved &copy; 2026.</p>
+        </div>
     </footer>
 
-    <!-- Saved Trips Drawer -->
-    <div id="savedDrawer" class="fixed inset-y-0 right-0 w-full sm:w-80 bg-slate-900 border-l border-slate-800 z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
-        <div class="p-4 border-b border-slate-800 flex justify-between items-center">
-            <h3 class="font-bold text-sm text-white"><i class="fa-solid fa-bookmark text-indigo-400 mr-2"></i>Saved Bookmarks</h3>
-            <button onclick="toggleSavedDrawer()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div id="savedTripsList" class="flex-grow overflow-y-auto p-4 space-y-3 custom-scrollbar"></div>
+    <!-- Fixed Bottom Action Bar (From Image 4 & 2) -->
+    <div class="fixed bottom-0 inset-x-0 z-50 sticky-bottom-bar flex items-center h-12 text-xs">
+        <a href="tel:+923105436581" class="w-1/2 bg-slate-950 text-pakistan-gold font-bold flex items-center justify-center space-x-2 h-full border-r border-slate-800">
+            <i class="fa-solid fa-phone"></i>
+            <span>+92 310 5436581</span>
+        </a>
+        <a href="https://wa.me/923105436581" target="_blank" class="w-1/2 bg-pakistan-gold text-slate-950 font-bold flex items-center justify-center space-x-2 h-full uppercase tracking-wider">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Enquire Now</span>
+        </a>
     </div>
 
-    <!-- Admin Panel Modal (Password Protected) -->
+    <!-- Floating WhatsApp Button (From Image 4 & 2) -->
+    <a href="https://wa.me/923105436581" target="_blank" class="fixed bottom-16 left-4 z-50 bg-emerald-500 text-white p-3 rounded-full shadow-2xl hover:scale-110 transition flex items-center justify-center w-12 h-12">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- Admin Panel Modal -->
     <div id="adminModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="glass-card rounded-2xl max-w-md w-full p-6 border border-slate-700 shadow-2xl">
             <div id="adminLoginView">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-white flex items-center"><i class="fa-solid fa-lock text-yellow-400 mr-2"></i>Admin Dashboard Login</h3>
+                    <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-lock text-pakistan-gold mr-2"></i>Admin Dashboard Login</h3>
                     <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-                <p class="text-xs text-slate-400 mb-4">Enter admin password (Default: <code class="text-indigo-400 font-bold">admin123</code>) to manage custom featured tour packages.</p>
-                <input type="password" id="adminPasswordInput" placeholder="Enter password..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white mb-4 focus:outline-none focus:border-indigo-500">
-                <button onclick="verifyAdminPassword()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm py-2.5 rounded-xl font-medium transition">Login to Admin Panel</button>
+                <p class="text-xs text-slate-400 mb-4">Enter password (Default: <code class="text-emerald-400 font-bold">admin123</code>) to manage custom packages.</p>
+                <input type="password" id="adminPasswordInput" placeholder="Password..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white mb-4 focus:outline-none focus:border-emerald-500">
+                <button onclick="verifyAdminPassword()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs py-2.5 rounded-xl font-medium transition">Login</button>
             </div>
 
             <div id="adminDashboardView" class="hidden">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-shield-halved text-emerald-400 mr-2"></i>Admin Control Panel</h3>
+                    <h3 class="text-base font-bold text-white"><i class="fa-solid fa-shield-halved text-emerald-400 mr-2"></i>Admin Control</h3>
                     <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="space-y-3 text-xs">
-                    <p class="text-slate-300 font-semibold">Add Custom Package / Destination Photo:</p>
-                    <input type="text" id="admDestName" placeholder="Destination Name (e.g. Swat Valley)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white">
-                    <input type="text" id="admImgUrl" placeholder="Image URL (Unsplash or direct image link)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white">
-                    <button onclick="addNewAdminPackage()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg transition">Save Custom Package</button>
-                    <hr class="border-slate-800 my-2">
-                    <button onclick="logoutAdmin()" class="w-full bg-red-600/20 hover:bg-red-600/40 text-red-400 py-2 rounded-lg transition">Logout Admin</button>
+                    <input type="text" id="admPkgTitle" placeholder="Package Title (e.g. Swat Valley Tour)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white">
+                    <input type="text" id="admPkgDuration" placeholder="Duration (e.g. 5 Days 4 Nights)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white">
+                    <input type="text" id="admPkgImg" placeholder="Image URL (Unsplash or direct link)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white">
+                    <button onclick="addAdminPackage()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg transition">Add Package</button>
                 </div>
             </div>
         </div>
@@ -371,32 +437,68 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        let currentTripData = null;
+        // Packages Data matching Image 3 exact titles
+        const defaultPackages = [
+            { id: 1, title: 'Cherry Blossom Hunza & Nagar Valley Tour (BY AIR)', duration: '5 Days 4 Nights', img: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=600&q=80', cat: 'overseas' },
+            { id: 2, title: 'Hunza, Nagar & Naltar Valley Cherry Blossom Tour', duration: '8 Days 7 Nights', img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80', cat: 'school' },
+            { id: 3, title: 'Hunza, Minapin & Nagar Valley Cherry Blossom Tour', duration: '7 Days 6 Nights', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80', cat: 'college' },
+            { id: 4, title: 'Hunza, Attabad Lake & Hopper Tours (BY AIR)', duration: '6 Days 5 Nights', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80', cat: 'university' },
+            { id: 5, title: 'Fairy Meadows & Hunza Valley Tour (BY AIR)', duration: '7 Days 6 Nights', img: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80', cat: 'worldtour' },
+            { id: 6, title: 'Fairy Meadows, Skardu Valley & Hunza Valley Tour', duration: '12 Days 11 Nights', img: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80', cat: 'overseas' },
+            { id: 7, title: 'Chitral Kalash, Shandur & Hunza Summer Tour', duration: '11 Days 10 Nights', img: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80', cat: 'university' },
+            { id: 8, title: 'Hunza, Khunjerab Pass & Naltar Tour (BY AIR)', duration: '4 Days 3 Nights', img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80', cat: 'school' },
+            { id: 9, title: 'Fairy Meadows, Hunza & Khunjerab Pass Tour', duration: '8 Days 7 Nights', img: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=600&q=80', cat: 'college' }
+        ];
+
+        let packages = [...defaultPackages];
         let mapInstance = null;
-        let savedTrips = [];
-        let customPackages = JSON.parse(localStorage.getItem('wanderlust_custom_pkgs') || '[]');
 
         window.addEventListener('DOMContentLoaded', () => {
-            const stored = localStorage.getItem('wanderlust_saved_trips');
-            if (stored) { try { savedTrips = JSON.parse(stored); updateSavedBadge(); } catch(e){} }
-            convertCurrency();
-            calculateSplit();
+            const saved = localStorage.getItem('spt_custom_packages');
+            if (saved) {
+                try { packages = [...defaultPackages, ...JSON.parse(saved)]; } catch(e){}
+            }
+            renderPackages(packages);
         });
 
-        function selectCategory(catName) {
-            document.getElementById('destination').value = catName.includes('School') ? 'Islamabad & Murree' : 
-                                                           catName.includes('College') ? 'Lahore Museum & Minar-e-Pakistan' : 
-                                                           catName.includes('University') ? 'Hunza & Naran Valley' : 
-                                                           catName.includes('Overseas') ? 'Dubai, UAE' : 'Swiss Alps, Switzerland';
-            document.getElementById('duration').value = catName.includes('World') ? 10 : 5;
-            document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
+        function renderPackages(data) {
+            const grid = document.getElementById('packageGrid');
+            grid.innerHTML = '';
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-emerald-500/50 transition group flex flex-col justify-between';
+                card.innerHTML = `
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 filter brightness-90">
+                        <span class="absolute top-3 left-3 bg-pakistan-green/90 text-pakistan-gold text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">
+                            ${item.duration}
+                        </span>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-white text-sm group-hover:text-emerald-400 transition leading-snug mb-2">${item.title}</h3>
+                            <p class="text-[11px] text-slate-400">Includes Hotels, Transport, Sightseeing & Tour Guide.</p>
+                        </div>
+                        <a href="https://wa.me/923105436581?text=Hi%20See%20Pakistan%20Tours,%20I%20am%20interested%20in%20${encodeURIComponent(item.title)}" target="_blank" 
+                           class="mt-4 w-full bg-slate-900 hover:bg-pakistan-green text-emerald-400 hover:text-white border border-slate-700 hover:border-emerald-500 font-bold py-2 rounded-xl text-xs transition text-center block">
+                            Inquire Package
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            const filtered = packages.filter(p => p.cat === cat || cat === 'all');
+            renderPackages(filtered.length ? filtered : packages);
+            document.getElementById('packages').scrollIntoView({ behavior: 'smooth' });
         }
 
         function openAdminModal() {
             document.getElementById('adminModal').classList.remove('hidden');
             document.getElementById('adminLoginView').classList.remove('hidden');
             document.getElementById('adminDashboardView').classList.add('hidden');
-            document.getElementById('adminPasswordInput').value = '';
         }
 
         function closeAdminModal() {
@@ -409,197 +511,65 @@
                 document.getElementById('adminLoginView').classList.add('hidden');
                 document.getElementById('adminDashboardView').classList.remove('hidden');
             } else {
-                alert('Incorrect password! Default password is: admin123');
+                alert('Incorrect password! Default is: admin123');
             }
         }
 
-        function logoutAdmin() {
+        function addAdminPackage() {
+            const title = document.getElementById('admPkgTitle').value.trim();
+            const duration = document.getElementById('admPkgDuration').value.trim();
+            const img = document.getElementById('admPkgImg').value.trim();
+
+            if (!title || !duration || !img) { alert('Fill all fields'); return; }
+
+            const newPkg = { id: Date.now(), title, duration, img, cat: 'school' };
+            packages.unshift(newPkg);
+            const customOnly = packages.filter(p => !defaultPackages.some(dp => dp.id === p.id));
+            localStorage.setItem('spt_custom_packages', JSON.stringify(customOnly));
+            
+            renderPackages(packages);
             closeAdminModal();
+            alert('Package added!');
         }
 
-        function addNewAdminPackage() {
-            const name = document.getElementById('admDestName').value.trim();
-            const img = document.getElementById('admImgUrl').value.trim();
-            if (!name || !img) { alert('Please fill in both fields.'); return; }
-            customPackages.push({ name, img });
-            localStorage.setItem('wanderlust_custom_pkgs', JSON.stringify(customPackages));
-            alert('Package added successfully!');
-            document.getElementById('admDestName').value = '';
-            document.getElementById('admImgUrl').value = '';
-            closeAdminModal();
-        }
-
-        function toggleSavedDrawer() {
-            const drawer = document.getElementById('savedDrawer');
-            drawer.classList.toggle('translate-x-full');
-            renderSavedList();
-        }
-
-        function updateSavedBadge() {
-            document.getElementById('savedCountBadge').innerText = savedTrips.length;
-        }
-
-        function generateItinerary(event) {
+        function generateCustomItinerary(event) {
             event.preventDefault();
             const dest = document.getElementById('destination').value.trim();
             const days = parseInt(document.getElementById('duration').value);
-            const budget = document.getElementById('budget').value;
-            const style = document.getElementById('style').value;
 
             document.getElementById('loader').classList.remove('hidden');
             document.getElementById('resultSection').classList.add('hidden');
 
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
-                currentTripData = buildTripObject(dest, days, budget, style);
-                renderTripOutput(currentTripData);
+                document.getElementById('resTitle').innerText = `${dest} Travel Itinerary`;
+                document.getElementById('resSub').innerText = `${days} Days Custom Exploration Plan`;
+
+                const container = document.getElementById('itineraryContainer');
+                container.innerHTML = '';
+
+                for (let i = 1; i <= days; i++) {
+                    const card = document.createElement('div');
+                    card.className = 'glass-card p-4 rounded-xl border border-slate-800 text-xs space-y-2';
+                    card.innerHTML = `
+                        <div class="font-bold text-emerald-400 text-sm">Day ${i}: ${dest} Sightseeing</div>
+                        <p class="text-slate-300">Morning trip to primary viewpoints followed by local lunch and cultural market visits.</p>
+                    `;
+                    container.appendChild(card);
+                }
+
                 document.getElementById('resultSection').classList.remove('hidden');
-                document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
-            }, 1000);
-        }
-
-        function buildTripObject(dest, days, budget, style) {
-            // Find custom image if admin added it
-            let imageUrl = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80';
-            const found = customPackages.find(p => p.name.toLowerCase() === dest.toLowerCase());
-            if (found) imageUrl = found.img;
-
-            const daysArr = [];
-            for (let i = 1; i <= days; i++) {
-                daysArr.push({
-                    dayNumber: i,
-                    title: `Day ${i}: Exploration & Key Highlights`,
-                    morning: { title: 'Morning Sightseeing', desc: `Explore famous historical and scenic spots in ${dest}.`, loc: `${dest} Main Square` },
-                    afternoon: { title: 'Local Cuisine & Group Activity', desc: `Enjoy authentic food suited for ${budget} travel tier.`, loc: `${dest} Downtown Food Street` },
-                    evening: { title: 'Sunset View & Relaxation', desc: `Relax at key viewpoints and evening cultural spots.`, loc: `${dest} Scenic Sunset Point` }
-                });
-            }
-
-            return {
-                id: Date.now(),
-                destination: dest,
-                duration: days,
-                budgetLevel: budget,
-                travelStyle: style,
-                imageUrl: imageUrl,
-                latitude: 33.6844,
-                longitude: 73.0479,
-                cost: days * 95,
-                days: daysArr,
-                packing: ['Valid ID / Student Card', 'Comfortable Footwear', 'Power Bank', 'Personal Medicines', 'Water Bottle']
-            };
-        }
-
-        function renderTripOutput(data) {
-            document.getElementById('resultBannerImg').src = data.imageUrl;
-            document.getElementById('resultTitle').innerText = data.destination;
-            document.getElementById('resultSubtitle').innerText = `${data.duration} Days Tour • Estimated Cost: $${data.cost} USD`;
-            document.getElementById('resultMetaStyle').innerText = `${data.budgetLevel} | ${data.travelStyle}`;
-
-            const container = document.getElementById('itineraryContainer');
-            container.innerHTML = '';
-            data.days.forEach(day => {
-                const card = document.createElement('div');
-                card.className = 'glass-card rounded-2xl p-5 border border-slate-800 space-y-3';
-                card.innerHTML = `
-                    <div class="flex items-center space-x-2 text-indigo-400 font-bold text-base border-b border-slate-800 pb-2">
-                        <span class="bg-indigo-600/20 px-2.5 py-0.5 rounded text-xs">Day ${day.dayNumber}</span>
-                        <span>${day.title}</span>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-300">
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                            <span class="text-amber-400 font-bold block mb-1">🌅 MORNING</span>
-                            <p class="font-semibold text-white mb-0.5">${day.morning.title}</p>
-                            <p class="text-slate-400 mb-1">${day.morning.desc}</p>
-                            <span class="text-indigo-400"><i class="fa-solid fa-location-dot mr-1"></i>${day.morning.loc}</span>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                            <span class="text-orange-400 font-bold block mb-1">☀️ AFTERNOON</span>
-                            <p class="font-semibold text-white mb-0.5">${day.afternoon.title}</p>
-                            <p class="text-slate-400 mb-1">${day.afternoon.desc}</p>
-                            <span class="text-indigo-400"><i class="fa-solid fa-location-dot mr-1"></i>${day.afternoon.loc}</span>
-                        </div>
-                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                            <span class="text-indigo-400 font-bold block mb-1">🌙 EVENING</span>
-                            <p class="font-semibold text-white mb-0.5">${day.evening.title}</p>
-                            <p class="text-slate-400 mb-1">${day.evening.desc}</p>
-                            <span class="text-indigo-400"><i class="fa-solid fa-location-dot mr-1"></i>${day.evening.loc}</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-
-            // Budget
-            document.getElementById('budgetContent').innerHTML = `
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between"><span class="text-slate-300">Stay & Accommodation</span><span class="font-bold text-white">$${Math.round(data.cost * 0.45)}</span></div>
-                    <div class="flex justify-between"><span class="text-slate-300">Food & Refreshments</span><span class="font-bold text-white">$${Math.round(data.cost * 0.25)}</span></div>
-                </div>
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between"><span class="text-slate-300">Transport & Tickets</span><span class="font-bold text-white">$${Math.round(data.cost * 0.30)}</span></div>
-                    <div class="flex justify-between font-bold text-indigo-400 pt-2 border-t border-slate-800"><span>Total Est.</span><span>$${data.cost}</span></div>
-                </div>
-            `;
-
-            // Packing
-            const packBox = document.getElementById('packingContent');
-            packBox.innerHTML = '';
-            data.packing.forEach(item => {
-                packBox.innerHTML += `<label class="flex items-center space-x-2.5 bg-slate-900 p-2.5 rounded-xl border border-slate-800 text-xs text-slate-300"><input type="checkbox" class="rounded text-indigo-600"><span>${item}</span></label>`;
-            });
-
-            initMap(data.latitude, data.longitude, data.destination);
+                initMap(36.3167, 74.6500, dest);
+            }, 800);
         }
 
         function initMap(lat, lng, name) {
             setTimeout(() => {
                 if (mapInstance) mapInstance.remove();
-                mapInstance = L.map('leafletMap').setView([lat, lng], 11);
+                mapInstance = L.map('leafletMap').setView([lat, lng], 10);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(mapInstance);
                 L.marker([lat, lng]).addTo(mapInstance).bindPopup(`<b>${name}</b>`).openPopup();
-            }, 250);
-        }
-
-        function switchTab(key) {
-            document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('text-indigo-400', 'border-indigo-500'));
-            document.getElementById(`tab-${key}`).classList.remove('hidden');
-            document.getElementById(`tabBtn-${key}`).classList.add('text-indigo-400', 'border-indigo-500');
-            if (key === 'map' && mapInstance) mapInstance.invalidateSize();
-        }
-
-        function saveCurrentTrip() {
-            if (!currentTripData) return;
-            if (!savedTrips.some(t => t.id === currentTripData.id)) {
-                savedTrips.push(currentTripData);
-                localStorage.setItem('wanderlust_saved_trips', JSON.stringify(savedTrips));
-                updateSavedBadge();
-                alert('Trip saved successfully!');
-            }
-        }
-
-        function renderSavedList() {
-            const list = document.getElementById('savedTripsList');
-            list.innerHTML = savedTrips.length === 0 ? '<p class="text-slate-500 text-xs text-center py-6">No saved bookmarks.</p>' : '';
-            savedTrips.forEach((t, i) => {
-                list.innerHTML += `<div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700 flex justify-between items-center text-xs"><div><h4 class="font-bold text-white">${t.destination}</h4><p class="text-slate-400">${t.duration} Days</p></div><button onclick="savedTrips.splice(${i},1);localStorage.setItem('wanderlust_saved_trips',JSON.stringify(savedTrips));updateSavedBadge();renderSavedList();" class="text-red-400 p-1"><i class="fa-solid fa-trash-can"></i></button></div>`;
-            });
-        }
-
-        function convertCurrency() {
-            const amt = parseFloat(document.getElementById('currAmount').value) || 0;
-            const from = document.getElementById('currFrom').value;
-            const rate = from === 'USD' ? 278.5 : (from === 'EUR' ? 302.0 : 1);
-            document.getElementById('currResult').innerText = `${(amt * rate).toLocaleString()} PKR`;
-        }
-
-        function calculateSplit() {
-            const bill = parseFloat(document.getElementById('tipBill').value) || 0;
-            const tax = parseFloat(document.getElementById('tipPercent').value) || 0;
-            const people = parseInt(document.getElementById('tipPeople').value) || 1;
-            const total = bill + (bill * (tax / 100));
-            document.getElementById('tipResult').innerText = `Per Person: $${(total / people).toFixed(2)}`;
+            }, 200);
         }
     </script>
 </body>
