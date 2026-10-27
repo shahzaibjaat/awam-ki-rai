@@ -83,14 +83,14 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
       <!-- FORM -->
       <div class="card card-custom p-4 mb-4 admin-card">
         <h5 class="fw-bold text-warning mb-1"><span id="formTitle"><i class="fa-solid fa-plus me-2"></i>Add New Package</span></h5>
-        <p class="small text-muted mb-3" id="formSubtitle">Add Pakistan or Global tour with custom picture</p>
+        <p class="small text-muted mb-3" id="formSubtitle">Add Pakistan or Global tour with custom picture URL</p>
         <form onsubmit="handleAdminAdd(event)" id="adminForm">
           <input type="hidden" id="editId">
           <div class="row g-3">
-            <div class="col-md-4"><label class="form-label small">Destination Name *</label><input id="admName" class="form-control bg-dark text-white border-secondary" required placeholder="e.g. Umrah Package"></div>
-            <div class="col-md-2"><label class="form-label small">Country / Region *</label><input id="admRegion" class="form-control bg-dark text-white border-secondary" required placeholder="Saudi Arabia"></div>
-            <div class="col-md-2"><label class="form-label small">Cost (USD/PKR) *</label><input id="admCost" type="number" class="form-control bg-dark text-white border-secondary" required placeholder="1250"></div>
-            <div class="col-md-2"><label class="form-label small">Type *</label><select id="admType" class="form-select bg-dark text-white border-secondary"><option value="global" selected>🌍 Global</option><option value="pak">🇵🇰 Pakistan</option></select></div>
+            <div class="col-md-4"><label class="form-label small">Destination Name *</label><input id="admName" class="form-control bg-dark text-white border-secondary" required placeholder="e.g. Skardu Luxury Trip"></div>
+            <div class="col-md-2"><label class="form-label small">Country / Region *</label><input id="admRegion" class="form-control bg-dark text-white border-secondary" required placeholder="Gilgit-Baltistan"></div>
+            <div class="col-md-2"><label class="form-label small">Cost (USD/PKR) *</label><input id="admCost" type="number" class="form-control bg-dark text-white border-secondary" required placeholder="15000"></div>
+            <div class="col-md-2"><label class="form-label small">Type *</label><select id="admType" class="form-select bg-dark text-white border-secondary"><option value="pak" selected>🇵🇰 Pakistan</option><option value="global">🌍 Global</option></select></div>
             <div class="col-md-2"><label class="form-label small">Image URL *</label><input id="admImg" class="form-control bg-dark text-white border-secondary" required placeholder="https://..." oninput="previewImage(this.value)"></div>
             <div class="col-md-9">
               <div class="d-flex gap-2">
@@ -111,7 +111,7 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
       <!-- LIST -->
       <div class="card card-custom p-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="fw-bold mb-0"><i class="fa-solid fa-list me-2 text-warning"></i>All Packages - Edit / Remove</h5>
+          <h5 class="fw-bold mb-0"><i class="fa-solid fa-list me-2 text-warning"></i>All Packages - Edit / Remove / Picture</h5>
           <input id="adminSearch" class="form-control form-control-sm bg-dark text-white border-secondary" style="max-width:200px" placeholder="Search to edit/delete..." onkeyup="renderAdminList()">
         </div>
         <div id="adminList" class="row g-3"></div>
@@ -199,19 +199,17 @@ function handleAdminAdd(e){
  let img=document.getElementById('admImg').value.trim();
  let type=document.getElementById('admType').value;
 
- if(idVal){ // UPDATE
+ if(idVal){ // UPDATE EXISTING
    let id=parseInt(idVal);
-   let arr = globalPackages.find(p=>p.id===id) ? globalPackages : localPackages;
-   // Remove from both first
    globalPackages = globalPackages.filter(p=>p.id!==id);
    localPackages = localPackages.filter(p=>p.id!==id);
    if(type==="global"){globalPackages.push({id,name,region,costUSD:cost,img});}
    else{localPackages.push({id,name,region,cost,img});}
-   alert('Package Updated!');
+   alert('Package Updated Successfully!');
  } else { // ADD NEW
    if(type==="global"){globalPackages.push({id:Date.now(),name,region,costUSD:cost,img});}
    else{localPackages.push({id:Date.now(),name,region,cost,img});}
-   alert('Package Added!');
+   alert('New Package Added Successfully!');
  }
  saveToStorage();
  renderGlobal(globalPackages);renderCatalogue(localPackages);renderHomeFeatured();renderAdminList();
@@ -234,7 +232,7 @@ function renderAdminList(){
          <div class="flex-grow-1" style="min-width:0">
            <div class="fw-bold text-white small text-truncate">${p.name}</div>
            <div class="small text-muted">${p.region} • <span class="badge bg-warning text-dark" style="font-size:10px">${p.typeLabel}</span></div>
-           <div class="small text-warning mt-1">$${p.costUSD || p.cost}</div>
+           <div class="small text-warning mt-1">Cost: $${p.costUSD || p.cost}</div>
            <div class="d-flex gap-1 mt-2">
              <button class="btn btn-warning btn-sm py-0 px-2" style="font-size:11px" onclick="editPackage(${p.id})"><i class="fa-solid fa-pen me-1"></i>Edit</button>
              <button class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size:11px" onclick="deletePackage(${p.id})"><i class="fa-solid fa-trash me-1"></i>Remove</button>
@@ -244,7 +242,7 @@ function renderAdminList(){
      </div>
    </div>`;
  });
- if(filtered.length===0){list.innerHTML=`<p class="text-muted text-center w-100 py-3">No packages found. Add new above.</p>`;}
+ if(filtered.length===0){list.innerHTML=`<p class="text-muted text-center w-100 py-3">No packages found matching your search.</p>`;}
 }
 
 function editPackage(id){
@@ -258,7 +256,7 @@ function editPackage(id){
  document.getElementById('admType').value = globalPackages.find(p=>p.id===id) ? 'global' : 'pak';
  previewImage(pkg.img);
  document.getElementById('formTitle').innerHTML=`<i class="fa-solid fa-pen-to-square me-2"></i>Editing: ${pkg.name}`;
- document.getElementById('formSubtitle').innerText=`Update details and click Update Package`;
+ document.getElementById('formSubtitle').innerText=`Update details, image URL or cost and click Update Package`;
  document.getElementById('submitBtn').innerHTML=`<i class="fa-solid fa-floppy-disk me-2"></i>Update Package`;
  document.getElementById('cancelEditBtn').classList.remove('d-none');
  window.scrollTo({top:0,behavior:'smooth'});
@@ -270,7 +268,7 @@ function cancelEdit(){
  document.getElementById('adminForm').reset();
  document.getElementById('imgPreview').classList.add('d-none');
  document.getElementById('formTitle').innerHTML=`<i class="fa-solid fa-plus me-2"></i>Add New Package`;
- document.getElementById('formSubtitle').innerText=`Add Pakistan or Global tour with custom picture`;
+ document.getElementById('formSubtitle').innerText=`Add Pakistan or Global tour with custom picture URL`;
  document.getElementById('submitBtn').innerHTML=`<i class="fa-solid fa-floppy-disk me-2"></i>Add Package`;
  document.getElementById('cancelEditBtn').classList.add('d-none');
 }
@@ -298,10 +296,10 @@ function handleGeneratePlan(e){
  bStay.innerText="PKR "+stay.toLocaleString();bFood.innerText="PKR "+food.toLocaleString();bTransport.innerText="PKR "+trans.toLocaleString();bTotal.innerText="PKR "+total.toLocaleString();bPerPerson.innerText="PKR "+Math.round(total/trav).toLocaleString()+" / person";
  outputSection.classList.remove('d-none');
 }
-function saveCurrentTrip(){if(!currentGeneratedPlan)return;savedTrips.push(currentGeneratedPlan);localStorage.setItem('aiTourPlannerTrips',JSON.stringify(savedTrips));savedCount.innerText=savedTrips.length;renderMyTrips();alert('Trip Saved!');}
-function renderMyTrips(){let con=myTripsContainer;con.innerHTML=savedTrips.length==0?"<p class='text-muted'>No trips</p>":"";savedTrips.forEach((t,i)=>{con.innerHTML+=`<div class="col-md-4"><div class="card card-custom p-3"><h6 class="text-warning">${t.destination}</h6><small>${t.daysCount} Days - PKR ${t.totalEstCost}</small><button class="btn btn-outline-danger btn-sm w-100 mt-2" onclick="savedTrips.splice(${i},1);localStorage.setItem('aiTourPlannerTrips',JSON.stringify(savedTrips));savedCount.innerText=savedTrips.length;renderMyTrips()">Delete</button></div></div>`;});}
-function loginAdmin(){if(adminPwd.value=="admin123"){adminLoginBox.classList.add('d-none');adminContentBox.classList.remove('d-none');}else alert('Wrong password');}
+function saveCurrentTrip(){if(!currentGeneratedPlan)return;savedTrips.push(currentGeneratedPlan);localStorage.setItem('aiTourPlannerTrips',JSON.stringify(savedTrips));savedCount.innerText=savedTrips.length;renderMyTrips();alert('Trip Saved Successfully!');}
+function renderMyTrips(){let con=myTripsContainer;con.innerHTML=savedTrips.length==0?"<p class='text-muted'>No saved trips yet.</p>":"";savedTrips.forEach((t,i)=>{con.innerHTML+=`<div class="col-md-4"><div class="card card-custom p-3"><h6 class="text-warning">${t.destination}</h6><small>${t.daysCount} Days - PKR ${t.totalEstCost}</small><button class="btn btn-outline-danger btn-sm w-100 mt-2" onclick="savedTrips.splice(${i},1);localStorage.setItem('aiTourPlannerTrips',JSON.stringify(savedTrips));savedCount.innerText=savedTrips.length;renderMyTrips()">Delete</button></div></div>`;});}
+function loginAdmin(){if(adminPwd.value=="admin123"){adminLoginBox.classList.add('d-none');adminContentBox.classList.remove('d-none');}else alert('Wrong password! Please use admin123');}
 function logoutAdmin(){adminLoginBox.classList.remove('d-none');adminContentBox.classList.add('d-none');cancelEdit();}
 </script>
 </body>
-  </html>
+</html>
