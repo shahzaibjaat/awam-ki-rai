@@ -46,24 +46,139 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
   </div>
 </nav>
 
+<!-- HOME PAGE -->
 <div id="page-home" class="page-section active-page">
-  <section class="hero-banner text-center"><div class="container"><h1 class="display-5 fw-bold">AI Tour Planner - Discover Pakistan & World</h1><p class="text-secondary mt-2">Generate day-wise itineraries & PKR budget instantly</p><button onclick="showPage('planner')" class="btn btn-pak-gold btn-lg mt-3 me-2"><i class="fa-solid fa-bolt me-1"></i> Generate AI Plan</button><button onclick="showPage('global')" class="btn btn-outline-light btn-lg mt-3">Global Tours</button></div></section>
-  <div class="container my-5"><h4 class="fw-bold mb-4"><i class="fa-solid fa-star text-warning me-2"></i>Popular Packages 2026</h4><div class="row g-4" id="homeFeaturedGrid"></div></div>
+  <section class="hero-banner text-center">
+    <div class="container">
+      <h1 class="display-5 fw-bold">AI Tour Planner - Discover Pakistan & World</h1>
+      <p class="text-secondary mt-2">Generate day-wise itineraries & PKR budget instantly</p>
+      <button onclick="showPage('planner')" class="btn btn-pak-gold btn-lg mt-3 me-2"><i class="fa-solid fa-bolt me-1"></i> Generate AI Plan</button>
+      <button onclick="showPage('global')" class="btn btn-outline-light btn-lg mt-3">Global Tours</button>
+    </div>
+  </section>
+  <div class="container my-5">
+    <h4 class="fw-bold mb-4"><i class="fa-solid fa-star text-warning me-2"></i>Popular Packages 2026</h4>
+    <div class="row g-4" id="homeFeaturedGrid"></div>
+  </div>
 </div>
 
-<div id="page-planner" class="page-section"><div class="container my-5"><div class="card card-custom p-4 mb-4"><h4 class="text-warning">AI Trip Preference Collector</h4><form onsubmit="handleGeneratePlan(event)"><div class="row g-3 mt-1"><div class="col-md-4"><input id="destInput" class="form-control bg-dark text-white border-secondary" required placeholder="Hunza, Skardu, Dubai"></div><div class="col-md-2"><input id="daysInput" type="number" value="5" class="form-control bg-dark text-white border-secondary" required></div><div class="col-md-2"><input id="travelersInput" type="number" value="2" class="form-control bg-dark text-white border-secondary" required></div><div class="col-md-4"><input id="budgetInput" type="number" value="95000" class="form-control bg-dark text-white border-secondary" required></div></div><button class="btn btn-pak-gold w-100 mt-3">Generate AI Tour Plan</button></form></div><div id="outputSection" class="d-none"><div class="d-flex justify-content-between mb-3"><h3 id="outTitle"></h3><button class="btn btn-success btn-sm" onclick="saveCurrentTrip()">Save Trip</button></div><div class="row g-4"><div class="col-lg-8" id="daysContainer"></div><div class="col-lg-4"><div class="card card-custom p-3"><h5 class="text-warning">Budget</h5><div class="d-flex justify-content-between"><span>Stay</span><b id="bStay"></b></div><div class="d-flex justify-content-between"><span>Food</span><b id="bFood"></b></div><div class="d-flex justify-content-between"><span>Transport</span><b id="bTransport"></b></div><hr><h4 class="text-success" id="bTotal"></h4><span class="badge bg-warning text-dark" id="bPerPerson"></span></div></div></div></div></div></div>
+<!-- AI PLANNER PAGE -->
+<div id="page-planner" class="page-section">
+  <div class="container my-5">
+    <div class="card card-custom p-4 mb-4">
+      <h4 class="text-warning">AI Trip Preference Collector</h4>
+      <form onsubmit="handleGeneratePlan(event)">
+        <div class="row g-3 mt-1">
+          <div class="col-md-4">
+            <label class="form-label small text-white-50">Destination</label>
+            <input id="destInput" class="form-control bg-dark text-white border-secondary" required placeholder="Hunza, Skardu, Dubai">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small text-white-50">Days</label>
+            <input id="daysInput" type="number" value="5" min="1" max="30" class="form-control bg-dark text-white border-secondary" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small text-white-50">Travelers</label>
+            <input id="travelersInput" type="number" value="2" min="1" max="20" class="form-control bg-dark text-white border-secondary" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small text-white-50">Budget (PKR)</label>
+            <input id="budgetInput" type="number" value="95000" class="form-control bg-dark text-white border-secondary" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-pak-gold w-100 mt-3"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Generate AI Tour Plan</button>
+      </form>
+    </div>
 
-<div id="page-catalogue" class="page-section"><div class="container my-5"><h3>Pakistan Tours - AI Tour Planner</h3><input id="searchCatalogue" class="form-control bg-dark text-white my-3 border-secondary" placeholder="Search..." onkeyup="filterCatalogue()"><div class="row g-4" id="catalogueGrid"></div></div></div>
+    <div id="outputSection" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h3 id="outTitle" class="text-white mb-0"></h3>
+        <button class="btn btn-success" onclick="saveCurrentTrip()"><i class="fa-solid fa-bookmark me-1"></i> Save Trip</button>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-8" id="daysContainer"></div>
+        <div class="col-lg-4">
+          <div class="card card-custom p-3 sticky-top" style="top:80px">
+            <h5 class="text-warning mb-3"><i class="fa-solid fa-calculator me-2"></i>Estimated Budget</h5>
+            <div class="d-flex justify-content-between my-2"><span>Stay & Hotel</span><b id="bStay"></b></div>
+            <div class="d-flex justify-content-between my-2"><span>Food & Dining</span><b id="bFood"></b></div>
+            <div class="d-flex justify-content-between my-2"><span>Transport & Fuel</span><b id="bTransport"></b></div>
+            <hr class="border-secondary">
+            <h4 class="text-success mb-1" id="bTotal"></h4>
+            <span class="badge bg-warning text-dark align-self-start" id="bPerPerson"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<div id="page-global" class="page-section"><div class="container my-5"><h3><i class="fa-solid fa-plane-departure text-warning me-2"></i>Global Tours - 10 Countries</h3><div class="row g-4 mt-3" id="globalGrid"></div></div></div>
+<!-- PAKISTAN CATALOGUE PAGE -->
+<div id="page-catalogue" class="page-section">
+  <div class="container my-5">
+    <h3><i class="fa-solid fa-mountain-sun text-success me-2"></i>Pakistan Tours - AI Tour Planner</h3>
+    <input id="searchCatalogue" class="form-control bg-dark text-white my-3 border-secondary" placeholder="Search tours e.g. Hunza, Skardu..." onkeyup="filterCatalogue()">
+    <div class="row g-4" id="catalogueGrid"></div>
+  </div>
+</div>
 
-<div id="page-exchange" class="page-section"><div class="container my-5"><div class="card card-custom p-4"><h4 class="text-warning">Currency Calculator</h4><div class="row g-3 mt-2"><div class="col-md-4"><input id="currAmount" type="number" value="1000" class="form-control bg-dark text-white border-secondary" oninput="convertCurrency()"></div><div class="col-md-4"><select id="currFrom" class="form-select bg-dark text-white border-secondary" onchange="convertCurrency()"><option value="USD">USD</option><option value="PKR">PKR</option><option value="SAR">SAR</option><option value="AED">AED</option></select></div><div class="col-md-4"><select id="currTo" class="form-select bg-dark text-white border-secondary" onchange="convertCurrency()"><option value="PKR">PKR</option><option value="USD">USD</option></select></div></div><h2 class="text-success text-center mt-4" id="currResult"></h2></div></div></div>
+<!-- GLOBAL TOURS PAGE -->
+<div id="page-global" class="page-section">
+  <div class="container my-5">
+    <h3><i class="fa-solid fa-plane-departure text-warning me-2"></i>Global Tours - International Packages</h3>
+    <div class="row g-4 mt-3" id="globalGrid"></div>
+  </div>
+</div>
 
-<div id="page-mytrips" class="page-section"><div class="container my-5"><h3>My Saved Trips</h3><div class="row g-4 mt-2" id="myTripsContainer"></div></div></div>
+<!-- CURRENCY CONVERTER PAGE -->
+<div id="page-exchange" class="page-section">
+  <div class="container my-5">
+    <div class="card card-custom p-4 max-w-600 mx-auto" style="max-width:600px">
+      <h4 class="text-warning mb-3"><i class="fa-solid fa-coins me-2"></i>Currency Calculator</h4>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label small">Amount</label>
+          <input id="currAmount" type="number" value="1000" class="form-control bg-dark text-white border-secondary" oninput="convertCurrency()">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label small">From</label>
+          <select id="currFrom" class="form-select bg-dark text-white border-secondary" onchange="convertCurrency()">
+            <option value="USD">USD ($)</option>
+            <option value="PKR" selected>PKR (Rs)</option>
+            <option value="SAR">SAR (ر.س)</option>
+            <option value="AED">AED (د.إ)</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label small">To</label>
+          <select id="currTo" class="form-select bg-dark text-white border-secondary" onchange="convertCurrency()">
+            <option value="USD" selected>USD ($)</option>
+            <option value="PKR">PKR (Rs)</option>
+            <option value="SAR">SAR (ر.س)</option>
+            <option value="AED">AED (د.إ)</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-center mt-4 p-3 bg-dark rounded border border-secondary">
+        <small class="text-muted d-block mb-1">Converted Result</small>
+        <h2 class="text-success fw-bold mb-0" id="currResult">---</h2>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- FULL ADMIN PANEL - GALLERY FILE PICKER ADDED -->
+<!-- MY TRIPS PAGE -->
+<div id="page-mytrips" class="page-section">
+  <div class="container my-5">
+    <h3><i class="fa-solid fa-suitcase-rolling text-warning me-2"></i>My Saved Trips</h3>
+    <div class="row g-4 mt-2" id="myTripsContainer"></div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL PAGE -->
 <div id="page-admin" class="page-section">
   <div class="container my-4">
+    <!-- ADMIN LOGIN BOX -->
     <div id="adminLoginBox" class="card card-custom p-4 text-center mx-auto" style="max-width:400px">
       <h5 class="fw-bold"><i class="fa-solid fa-lock text-warning me-2"></i>Admin Login</h5>
       <p class="small text-muted">Password: <code class="text-warning">admin123</code></p>
@@ -71,16 +186,17 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
       <button onclick="loginAdmin()" class="btn btn-pak-gold w-100">Login</button>
     </div>
 
+    <!-- ADMIN CONTENT BOX -->
     <div id="adminContentBox" class="d-none">
       <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <h3 class="fw-bold text-white mb-0"><i class="fa-solid fa-shield-halved text-success me-2"></i>Admin Control Panel - AI Tour Planner</h3>
-        <div class="d-flex gap-2">
+        <h3 class="fw-bold text-white mb-0"><i class="fa-solid fa-shield-halved text-success me-2"></i>Admin Control Panel</h3>
+        <div class="d-flex gap-2 align-items-center">
           <span class="badge bg-warning text-dark fs-6" id="totalPackagesCount">0 Packages</span>
           <button onclick="logoutAdmin()" class="btn btn-outline-danger btn-sm">Logout</button>
         </div>
       </div>
 
-      <!-- FORM -->
+      <!-- ADD / EDIT FORM -->
       <div class="card card-custom p-4 mb-4 admin-card">
         <h5 class="fw-bold text-warning mb-1"><span id="formTitle"><i class="fa-solid fa-plus me-2"></i>Add New Package</span></h5>
         <p class="small text-muted mb-3" id="formSubtitle">Select image directly from Gallery/Device or paste URL</p>
@@ -89,18 +205,33 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
           <input type="hidden" id="admImgData">
           
           <div class="row g-3">
-            <div class="col-md-4"><label class="form-label small">Destination Name *</label><input id="admName" class="form-control bg-dark text-white border-secondary" required placeholder="e.g. Skardu Tour"></div>
-            <div class="col-md-2"><label class="form-label small">Country / Region *</label><input id="admRegion" class="form-control bg-dark text-white border-secondary" required placeholder="Gilgit-Baltistan"></div>
-            <div class="col-md-2"><label class="form-label small">Cost (USD/PKR) *</label><input id="admCost" type="number" class="form-control bg-dark text-white border-secondary" required placeholder="18500"></div>
-            <div class="col-md-4"><label class="form-label small">Type *</label><select id="admType" class="form-select bg-dark text-white border-secondary"><option value="pak" selected>🇵🇰 Pakistan</option><option value="global">🌍 Global</option></select></div>
+            <div class="col-md-4">
+              <label class="form-label small">Destination Name *</label>
+              <input id="admName" class="form-control bg-dark text-white border-secondary" required placeholder="e.g. Skardu Tour">
+            </div>
+            <div class="col-md-2">
+              <label class="form-label small">Country / Region *</label>
+              <input id="admRegion" class="form-control bg-dark text-white border-secondary" required placeholder="Gilgit-Baltistan">
+            </div>
+            <div class="col-md-2">
+              <label class="form-label small">Cost (USD/PKR) *</label>
+              <input id="admCost" type="number" class="form-control bg-dark text-white border-secondary" required placeholder="18500">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small">Package Type *</label>
+              <select id="admType" class="form-select bg-dark text-white border-secondary">
+                <option value="pak" selected>🇵🇰 Pakistan</option>
+                <option value="global">🌍 Global</option>
+              </select>
+            </div>
 
             <!-- GALLERY FILE INPUT + URL OPTION -->
             <div class="col-md-6">
-              <label class="form-label small text-warning"><i class="fa-solid fa-image me-1"></i>Select Picture from Gallery *</label>
+              <label class="form-label small text-warning"><i class="fa-solid fa-image me-1"></i>Select Picture from Gallery</label>
               <input type="file" id="admFile" accept="image/*" class="form-control bg-dark text-white border-secondary" onchange="handleGallerySelect(event)">
             </div>
             <div class="col-md-6">
-              <label class="form-label small text-muted">OR Image Web URL (Optional)</label>
+              <label class="form-label small text-muted">OR Image Web URL</label>
               <input id="admImg" class="form-control bg-dark text-white border-secondary" placeholder="https://..." oninput="handleUrlSelect(this.value)">
             </div>
 
@@ -113,7 +244,7 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 
             <div class="col-md-4">
               <div id="imgPreview" class="d-none text-center border border-warning rounded p-2 bg-dark">
-                <img id="previewImgTag" src="" style="width:100%;height:70px;object-fit:cover;border-radius:6px">
+                <img id="previewImgTag" src="" style="width:100%;height:80px;object-fit:cover;border-radius:6px">
                 <small class="text-success d-block mt-1" style="font-size:11px"><i class="fa-solid fa-circle-check me-1"></i>Image Ready</small>
               </div>
             </div>
@@ -121,10 +252,10 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
         </form>
       </div>
 
-      <!-- LIST -->
+      <!-- MANAGE LIST -->
       <div class="card card-custom p-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="fw-bold mb-0"><i class="fa-solid fa-list me-2 text-warning"></i>All Packages - Manage & Change Pictures</h5>
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+          <h5 class="fw-bold mb-0"><i class="fa-solid fa-list me-2 text-warning"></i>All Packages - Manage & Edit</h5>
           <input id="adminSearch" class="form-control form-control-sm bg-dark text-white border-secondary" style="max-width:220px" placeholder="Search packages..." onkeyup="renderAdminList()">
         </div>
         <div id="adminList" class="row g-3"></div>
@@ -137,12 +268,14 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+// DATA STORAGE INITIALIZATION
 let localPackages = JSON.parse(localStorage.getItem('aiLocalPackages')) || [
  {id:1,name:"Hunza Valley Cherry Blossom",region:"Gilgit-Baltistan",cost:16000,img:"https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=600&q=80"},
  {id:2,name:"Skardu & Deosai Plains Tour",region:"Gilgit-Baltistan",cost:18500,img:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"},
  {id:3,name:"Fairy Meadows Expedition",region:"Gilgit-Baltistan",cost:14000,img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80"},
  {id:4,name:"Swat & Kalam Valley Tour",region:"KPK",cost:11000,img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"}
 ];
+
 let globalPackages = JSON.parse(localStorage.getItem('aiGlobalPackages')) || [
  {id:101,name:"Dubai 5 Days Luxury Shopping Tour",region:"UAE - Dubai",costUSD:850,img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80"},
  {id:102,name:"Istanbul & Cappadocia Heritage Tour",region:"Turkey",costUSD:1100,img:"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=600&q=80"},
@@ -156,45 +289,102 @@ let globalPackages = JSON.parse(localStorage.getItem('aiGlobalPackages')) || [
  {id:110,name:"Maldives Honeymoon Private Island",region:"Maldives",costUSD:1400,img:"https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=600&q=80"}
 ];
 
-let savedTrips=JSON.parse(localStorage.getItem('aiTourPlannerTrips')||'[]');
-let currentGeneratedPlan=null;
+let savedTrips = JSON.parse(localStorage.getItem('aiTourPlannerTrips') || '[]');
+let currentGeneratedPlan = null;
 
 function saveToStorage(){
   localStorage.setItem('aiLocalPackages', JSON.stringify(localPackages));
   localStorage.setItem('aiGlobalPackages', JSON.stringify(globalPackages));
 }
 
-window.addEventListener('DOMContentLoaded',()=>{
- document.getElementById('savedCount').innerText=savedTrips.length;
- renderCatalogue(localPackages);renderGlobal(globalPackages);renderHomeFeatured();convertCurrency();renderMyTrips();renderAdminList();
+window.addEventListener('DOMContentLoaded', ()=>{
+ document.getElementById('savedCount').innerText = savedTrips.length;
+ renderCatalogue(localPackages);
+ renderGlobal(globalPackages);
+ renderHomeFeatured();
+ convertCurrency();
+ renderMyTrips();
+ renderAdminList();
 });
 
+// NAVIGATION LOGIC
 function showPage(id){
- document.querySelectorAll('.page-section').forEach(e=>e.classList.remove('active-page'));
- document.querySelectorAll('.nav-page').forEach(e=>e.classList.remove('active'));
- document.getElementById('page-'+id).classList.add('active-page');
- document.getElementById('nav-'+id)?.classList.add('active');
- window.scrollTo({top:0,behavior:'smooth'});
+ document.querySelectorAll('.page-section').forEach(e => e.classList.remove('active-page'));
+ document.querySelectorAll('.nav-page').forEach(e => e.classList.remove('active'));
+ document.getElementById('page-' + id).classList.add('active-page');
+ document.getElementById('nav-' + id)?.classList.add('active');
+ window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
+// HOME FEATURED PACKAGES
 function renderHomeFeatured(){
- let grid=document.getElementById('homeFeaturedGrid');grid.innerHTML='';
- localPackages.slice(0,4).forEach(d=>{
-  grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden h-100"><img src="${d.img}" style="height:150px;object-fit:cover;width:100%"><div class="p-3"><span class="badge bg-success mb-1">${d.region}</span><h6 class="fw-bold">${d.name}</h6><small class="text-warning">PKR ${d.cost?.toLocaleString() || d.costUSD} / day</small><button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${d.name}')">Plan Trip</button></div></div></div>`;
+ let grid = document.getElementById('homeFeaturedGrid');
+ if(!grid) return;
+ grid.innerHTML = '';
+ localPackages.slice(0,4).forEach(d => {
+  grid.innerHTML += `
+    <div class="col-md-3">
+      <div class="card card-custom overflow-hidden h-100">
+        <img src="${d.img}" style="height:150px;object-fit:cover;width:100%" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+        <div class="p-3">
+          <span class="badge bg-success mb-1">${d.region}</span>
+          <h6 class="fw-bold">${d.name}</h6>
+          <small class="text-warning">PKR ${d.cost?.toLocaleString() || d.costUSD} / day</small>
+          <button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${d.name}')">Plan Trip</button>
+        </div>
+      </div>
+    </div>`;
  });
 }
-function quickPlan(name){document.getElementById('destInput').value=name;showPage('planner');}
+
+function quickPlan(name){
+ document.getElementById('destInput').value = name;
+ showPage('planner');
+}
+
+// CATALOGUE & GLOBAL RENDERING
 function renderCatalogue(items){
- let grid=document.getElementById('catalogueGrid');if(!grid) return;grid.innerHTML='';
- items.forEach(i=>{grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden h-100"><img src="${i.img}" style="height:160px;object-fit:cover;width:100%"><div class="p-3"><h6 class="fw-bold">${i.name}</h6><small class="text-success">PKR ${i.cost?.toLocaleString() || i.costUSD}</small><button class="btn btn-outline-light btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Generate Plan</button></div></div></div>`;});
+ let grid = document.getElementById('catalogueGrid');
+ if(!grid) return;
+ grid.innerHTML = '';
+ items.forEach(i => {
+   grid.innerHTML += `
+     <div class="col-md-3">
+       <div class="card card-custom overflow-hidden h-100">
+         <img src="${i.img}" style="height:160px;object-fit:cover;width:100%" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+         <div class="p-3">
+           <h6 class="fw-bold">${i.name}</h6>
+           <small class="text-success fw-bold">PKR ${i.cost?.toLocaleString() || i.costUSD}</small>
+           <button class="btn btn-outline-light btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Generate Plan</button>
+         </div>
+       </div>
+     </div>`;
+ });
 }
+
 function renderGlobal(items){
- let grid=document.getElementById('globalGrid');if(!grid) return;grid.innerHTML='';
- items.forEach(i=>{grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden h-100"><img src="${i.img}" style="height:160px;object-fit:cover;width:100%"><div class="p-3"><span class="badge bg-warning text-dark mb-1">${i.region}</span><h6 class="fw-bold">${i.name}</h6><small class="text-warning">$${i.costUSD || i.cost} USD</small><button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Select Package</button></div></div></div>`;});
+ let grid = document.getElementById('globalGrid');
+ if(!grid) return;
+ grid.innerHTML = '';
+ items.forEach(i => {
+   grid.innerHTML += `
+     <div class="col-md-3">
+       <div class="card card-custom overflow-hidden h-100">
+         <img src="${i.img}" style="height:160px;object-fit:cover;width:100%" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+         <div class="p-3">
+           <span class="badge bg-warning text-dark mb-1">${i.region}</span>
+           <h6 class="fw-bold">${i.name}</h6>
+           <small class="text-warning fw-bold">$${i.costUSD || i.cost} USD</small>
+           <button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Select Package</button>
+         </div>
+       </div>
+     </div>`;
+ });
 }
+
 function filterCatalogue(){
- let q=document.getElementById('searchCatalogue').value.toLowerCase();
- renderCatalogue(localPackages.filter(p=>p.name.toLowerCase().includes(q)));
+ let q = document.getElementById('searchCatalogue').value.toLowerCase();
+ renderCatalogue(localPackages.filter(p => p.name.toLowerCase().includes(q) || p.region.toLowerCase().includes(q)));
 }
 
 // GALLERY FILE PICKER & URL HANDLERS
@@ -225,14 +415,15 @@ function showPreview(src){
   box.classList.remove('d-none');
 }
 
+// ADMIN FORM ADD & UPDATE
 function handleAdminAdd(e){
  e.preventDefault();
- let idVal=document.getElementById('editId').value;
- let name=document.getElementById('admName').value.trim();
- let region=document.getElementById('admRegion').value.trim();
- let cost=parseInt(document.getElementById('admCost').value);
- let img=document.getElementById('admImgData').value.trim();
- let type=document.getElementById('admType').value;
+ let idVal = document.getElementById('editId').value;
+ let name = document.getElementById('admName').value.trim();
+ let region = document.getElementById('admRegion').value.trim();
+ let cost = parseInt(document.getElementById('admCost').value);
+ let img = document.getElementById('admImgData').value.trim();
+ let type = document.getElementById('admType').value;
 
  if(!img){
    alert("Please pick an image from Gallery or enter a Web URL!");
@@ -240,11 +431,271 @@ function handleAdminAdd(e){
  }
 
  if(idVal){
-   let id=parseInt(idVal);
-   globalPackages = globalPackages.filter(p=>p.id!==id);
-   localPackages = localPackages.filter(p=>p.id!==id);
-   if(type==="global"){globalPackages.push({id,name,region,costUSD:cost,img});}
-   else{localPackages.push({id,name,region,cost,img});}
+   let id = parseInt(idVal);
+   globalPackages = globalPackages.filter(p => p.id !== id);
+   localPackages = localPackages.filter(p => p.id !== id);
+   if(type === "global"){
+     globalPackages.push({id, name, region, costUSD: cost, img});
+   } else {
+     localPackages.push({id, name, region, cost, img});
+   }
    alert('Package Updated Successfully!');
  } else {
-   if(type==="global"){globalPackages.push({id:Date.now(),name,region,costUSD:cost,
+   let newId = Date.now();
+   if(type === "global"){
+     globalPackages.push({id: newId, name, region, costUSD: cost, img});
+   } else {
+     localPackages.push({id: newId, name, region, cost, img});
+   }
+   alert('New Package Added Successfully!');
+ }
+
+ saveToStorage();
+ resetAdminForm();
+ renderCatalogue(localPackages);
+ renderGlobal(globalPackages);
+ renderHomeFeatured();
+ renderAdminList();
+}
+
+function renderAdminList(){
+ let container = document.getElementById('adminList');
+ if(!container) return;
+ container.innerHTML = '';
+ 
+ let search = document.getElementById('adminSearch')?.value.toLowerCase() || '';
+ let all = [
+   ...localPackages.map(p => ({...p, isGlobal: false})),
+   ...globalPackages.map(p => ({...p, isGlobal: true, cost: p.costUSD}))
+ ].filter(p => p.name.toLowerCase().includes(search) || p.region.toLowerCase().includes(search));
+
+ document.getElementById('totalPackagesCount').innerText = `${all.length} Packages`;
+
+ if(all.length === 0){
+   container.innerHTML = '<div class="col-12 text-center text-muted py-4"><i class="fa-solid fa-box-open fa-2x mb-2"></i><p>No packages found.</p></div>';
+   return;
+ }
+
+ all.forEach(p => {
+   container.innerHTML += `
+     <div class="col-md-6 col-lg-4">
+       <div class="card card-custom h-100 overflow-hidden">
+         <div class="position-relative">
+           <img src="${p.img}" style="height:140px;object-fit:cover;width:100%" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+           <span class="position-absolute top-0 end-0 m-2 badge ${p.isGlobal ? 'bg-warning text-dark' : 'bg-success'}">
+             ${p.isGlobal ? '🌍 Global' : '🇵🇰 Pakistan'}
+           </span>
+         </div>
+         <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
+           <div>
+             <span class="text-warning small fw-bold">${p.region}</span>
+             <h6 class="fw-bold text-white mb-1">${p.name}</h6>
+             <small class="text-success fw-bold">${p.isGlobal ? '$' + p.cost + ' USD' : 'PKR ' + p.cost.toLocaleString()}</small>
+           </div>
+           <div class="d-flex gap-2 mt-3">
+             <button onclick="editPackage(${p.id}, ${p.isGlobal})" class="btn btn-outline-warning btn-sm flex-grow-1"><i class="fa-solid fa-pen-to-square me-1"></i>Edit</button>
+             <button onclick="deletePackage(${p.id}, ${p.isGlobal})" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+           </div>
+         </div>
+       </div>
+     </div>`;
+ });
+}
+
+function editPackage(id, isGlobal){
+ let item = isGlobal ? globalPackages.find(p => p.id === id) : localPackages.find(p => p.id === id);
+ if(!item) return;
+
+ document.getElementById('editId').value = item.id;
+ document.getElementById('admName').value = item.name;
+ document.getElementById('admRegion').value = item.region;
+ document.getElementById('admCost').value = isGlobal ? item.costUSD : item.cost;
+ document.getElementById('admType').value = isGlobal ? 'global' : 'pak';
+ document.getElementById('admImgData').value = item.img;
+ 
+ if(item.img.startsWith('http')){
+   document.getElementById('admImg').value = item.img;
+ } else {
+   document.getElementById('admImg').value = '';
+ }
+ showPreview(item.img);
+
+ document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-pen-to-square me-2"></i>Edit Package #${item.id}`;
+ document.getElementById('formSubtitle').innerText = "Update package details or select a new picture";
+ document.getElementById('submitBtn').innerHTML = `<i class="fa-solid fa-arrows-rotate me-2"></i>Update Package`;
+ document.getElementById('cancelEditBtn').classList.remove('d-none');
+ 
+ window.scrollTo({top: document.getElementById('adminForm').offsetTop - 80, behavior: 'smooth'});
+}
+
+function cancelEdit(){
+ resetAdminForm();
+}
+
+function resetAdminForm(){
+ document.getElementById('adminForm').reset();
+ document.getElementById('editId').value = '';
+ document.getElementById('admImgData').value = '';
+ document.getElementById('imgPreview').classList.add('d-none');
+ document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-plus me-2"></i>Add New Package`;
+ document.getElementById('formSubtitle').innerText = "Select image directly from Gallery/Device or paste URL";
+ document.getElementById('submitBtn').innerHTML = `<i class="fa-solid fa-floppy-disk me-2"></i>Save Package`;
+ document.getElementById('cancelEditBtn').classList.add('d-none');
+}
+
+function deletePackage(id, isGlobal){
+ if(!confirm('Are you sure you want to delete this tour package?')) return;
+ if(isGlobal){
+   globalPackages = globalPackages.filter(p => p.id !== id);
+ } else {
+   localPackages = localPackages.filter(p => p.id !== id);
+ }
+ saveToStorage();
+ renderCatalogue(localPackages);
+ renderGlobal(globalPackages);
+ renderHomeFeatured();
+ renderAdminList();
+}
+
+function loginAdmin(){
+ let pwd = document.getElementById('adminPwd').value;
+ if(pwd === 'admin123'){
+   document.getElementById('adminLoginBox').classList.add('d-none');
+   document.getElementById('adminContentBox').classList.remove('d-none');
+   renderAdminList();
+ } else {
+   alert('Incorrect Password! Try "admin123"');
+ }
+}
+
+function logoutAdmin(){
+ document.getElementById('adminPwd').value = '';
+ document.getElementById('adminLoginBox').classList.remove('d-none');
+ document.getElementById('adminContentBox').classList.add('d-none');
+}
+
+// AI PLANNER LOGIC
+function handleGeneratePlan(e){
+ e.preventDefault();
+ let dest = document.getElementById('destInput').value.trim();
+ let days = parseInt(document.getElementById('daysInput').value);
+ let travelers = parseInt(document.getElementById('travelersInput').value);
+ let budget = parseInt(document.getElementById('budgetInput').value);
+
+ let stayCost = Math.round(budget * 0.4);
+ let foodCost = Math.round(budget * 0.25);
+ let transportCost = Math.round(budget * 0.35);
+ let perPerson = Math.round(budget / travelers);
+
+ document.getElementById('outTitle').innerText = `${days} Days Trip to ${dest} (${travelers} Travelers)`;
+ document.getElementById('bStay').innerText = `PKR ${stayCost.toLocaleString()}`;
+ document.getElementById('bFood').innerText = `PKR ${foodCost.toLocaleString()}`;
+ document.getElementById('bTransport').innerText = `PKR ${transportCost.toLocaleString()}`;
+ document.getElementById('bTotal').innerText = `Total: PKR ${budget.toLocaleString()}`;
+ document.getElementById('bPerPerson').innerText = `PKR ${perPerson.toLocaleString()} / person`;
+
+ let container = document.getElementById('daysContainer');
+ container.innerHTML = '';
+
+ for(let i = 1; i <= days; i++){
+   let dayTitle = i === 1 ? 'Arrival & Hotel Check-in' : i === days ? 'Local Shopping & Departure' : `Explore Key Attractions Part ${i-1}`;
+   container.innerHTML += `
+     <div class="card card-custom p-3 mb-3">
+       <div class="d-flex justify-content-between align-items-center">
+         <h5 class="text-warning mb-0"><i class="fa-solid fa-calendar-day me-2"></i>Day ${i}: ${dayTitle}</h5>
+         <span class="badge bg-secondary">Day ${i} of ${days}</span>
+       </div>
+       <ul class="mt-2 text-white-50 small mb-0 ps-3">
+         <li>Morning: Breakfast at hotel & visit local sightseeing spots in ${dest}.</li>
+         <li>Afternoon: Traditional lunch & guided cultural tour.</li>
+         <li>Evening: Sunset viewpoint, evening market walk & dinner.</li>
+       </ul>
+     </div>`;
+ }
+
+ currentGeneratedPlan = {
+   id: Date.now(),
+   dest, days, travelers, budget, perPerson,
+   date: new Date().toLocaleDateString()
+ };
+
+ document.getElementById('outputSection').classList.remove('d-none');
+ window.scrollTo({top: document.getElementById('outputSection').offsetTop - 70, behavior: 'smooth'});
+}
+
+function saveCurrentTrip(){
+ if(!currentGeneratedPlan) return;
+ savedTrips.push(currentGeneratedPlan);
+ localStorage.setItem('aiTourPlannerTrips', JSON.stringify(savedTrips));
+ document.getElementById('savedCount').innerText = savedTrips.length;
+ renderMyTrips();
+ alert('Trip Saved Successfully to "My Trips"!');
+}
+
+function renderMyTrips(){
+ let container = document.getElementById('myTripsContainer');
+ if(!container) return;
+ container.innerHTML = '';
+
+ if(savedTrips.length === 0){
+   container.innerHTML = '<div class="col-12 text-center text-muted py-5"><i class="fa-solid fa-suitcase-rolling fa-3x mb-3"></i><h5>No Saved Trips Yet</h5><p>Use the AI Planner to create and save your custom itineraries.</p></div>';
+   return;
+ }
+
+ savedTrips.forEach((t, idx) => {
+   container.innerHTML += `
+     <div class="col-md-4">
+       <div class="card card-custom p-3 h-100 d-flex flex-column justify-content-between">
+         <div>
+           <div class="d-flex justify-content-between align-items-start">
+             <h5 class="fw-bold text-warning">${t.dest}</h5>
+             <button class="btn btn-outline-danger btn-sm py-0 px-2" onclick="removeTrip(${idx})"><i class="fa-solid fa-xmark"></i></button>
+           </div>
+           <p class="small text-muted mb-2">Saved on: ${t.date}</p>
+           <div class="badge bg-success mb-2">${t.days} Days / ${t.travelers} Persons</div>
+           <h6 class="text-white mb-0">Budget: <span class="text-warning">PKR ${t.budget.toLocaleString()}</span></h6>
+           <small class="text-secondary">PKR ${t.perPerson.toLocaleString()} per person</small>
+         </div>
+         <button class="btn btn-pak-gold btn-sm w-100 mt-3" onclick="loadSavedTrip('${t.dest}', ${t.days}, ${t.travelers}, ${t.budget})"><i class="fa-solid fa-eye me-1"></i>View Itinerary</button>
+       </div>
+     </div>`;
+ });
+}
+
+function loadSavedTrip(dest, days, travelers, budget){
+ document.getElementById('destInput').value = dest;
+ document.getElementById('daysInput').value = days;
+ document.getElementById('travelersInput').value = travelers;
+ document.getElementById('budgetInput').value = budget;
+ showPage('planner');
+ handleGeneratePlan(new Event('submit'));
+}
+
+function removeTrip(idx){
+ savedTrips.splice(idx, 1);
+ localStorage.setItem('aiTourPlannerTrips', JSON.stringify(savedTrips));
+ document.getElementById('savedCount').innerText = savedTrips.length;
+ renderMyTrips();
+}
+
+// CURRENCY CONVERTER LOGIC
+const exchangeRates = {
+ USD: { PKR: 278.5, SAR: 3.75, AED: 3.67, USD: 1 },
+ PKR: { USD: 0.0036, SAR: 0.0135, AED: 0.0132, PKR: 1 },
+ SAR: { USD: 0.27, PKR: 74.2, AED: 0.98, SAR: 1 },
+ AED: { USD: 0.27, PKR: 75.8, SAR: 1.02, AED: 1 }
+};
+
+function convertCurrency(){
+ let amount = parseFloat(document.getElementById('currAmount').value) || 0;
+ let from = document.getElementById('currFrom').value;
+ let to = document.getElementById('currTo').value;
+
+ let rate = exchangeRates[from]?.[to] || 1;
+ let result = amount * rate;
+
+ document.getElementById('currResult').innerText = `${amount.toLocaleString()} ${from} = ${result.toLocaleString(undefined, {maximumFractionDigits: 2})} ${to}`;
+}
+</script>
+</body>
+</html>
