@@ -9,14 +9,16 @@
 <style>
 :root{--pak-green:#00401a;--pak-gold:#ffc107}
 body{background:#0b131e;color:#f1f5f9;min-height:100vh;display:flex;flex-direction:column}
-.hero-banner{background:linear-gradient(135deg,#00220e 0%,#00401a 60%,#0b131e 100%);border-bottom:2px solid var(--pak-gold);padding:70px 0 60px}
-.card-custom{background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.1);border-radius:14px;transition:.2s}
-.card-custom:hover{border-color:var(--pak-gold);transform:translateY(-3px)}
+.hero-banner{background:linear-gradient(135deg,#00220e 0%,#00401a 60%,#0b131e 100%);border-bottom:2px solid var(--pak-gold);padding:60px 0 50px}
+.card-custom{background:rgba(15,23,42,0.95);border:1px solid rgba(255,255,255,0.12);border-radius:14px;transition:.2s}
+.card-custom:hover{border-color:var(--pak-gold);transform:translateY(-2px)}
 .page-section{display:none}.page-section.active-page{display:block}
 .bg-pak-green{background:var(--pak-green)!important}
 .btn-pak-gold{background:var(--pak-gold);color:#000;font-weight:700;border:none}
+.btn-pak-gold:hover{background:#e0a800}
 footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 .nav-link.active{color:var(--pak-gold)!important;border-bottom:2px solid var(--pak-gold);font-weight:700}
+.admin-card{border-left:4px solid var(--pak-gold)}
 </style>
 </head>
 <body>
@@ -45,35 +47,74 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 </nav>
 
 <div id="page-home" class="page-section active-page">
-  <section class="hero-banner text-center"><div class="container"><h1 class="display-5 fw-bold">AI Tour Planner - Discover Pakistan & World Wonders</h1><p class="text-secondary">Generate day-wise itineraries & PKR budget instantly</p><button onclick="showPage('planner')" class="btn btn-pak-gold btn-lg mt-3 me-2">Generate AI Trip Plan</button><button onclick="showPage('catalogue')" class="btn btn-outline-light btn-lg mt-3">Pakistan Packages</button></div></section>
+  <section class="hero-banner text-center"><div class="container"><h1 class="display-5 fw-bold">AI Tour Planner - Discover Pakistan & World</h1><p class="text-secondary mt-2">Generate day-wise itineraries & PKR budget instantly</p><button onclick="showPage('planner')" class="btn btn-pak-gold btn-lg mt-3 me-2"><i class="fa-solid fa-bolt me-1"></i> Generate AI Plan</button><button onclick="showPage('global')" class="btn btn-outline-light btn-lg mt-3">Global Tours</button></div></section>
   <div class="container my-5"><h4 class="fw-bold mb-4"><i class="fa-solid fa-star text-warning me-2"></i>Popular Packages 2026</h4><div class="row g-4" id="homeFeaturedGrid"></div></div>
 </div>
 
-<div id="page-planner" class="page-section"><div class="container my-5"><div class="card card-custom p-4 mb-4"><h4 class="text-warning">AI Trip Preference Collector</h4><form onsubmit="handleGeneratePlan(event)"><div class="row g-3"><div class="col-md-4"><input id="destInput" class="form-control bg-dark text-white border-secondary" required placeholder="Hunza, Skardu, Dubai"></div><div class="col-md-2"><input id="daysInput" type="number" value="5" class="form-control bg-dark text-white border-secondary" required></div><div class="col-md-2"><input id="travelersInput" type="number" value="2" class="form-control bg-dark text-white border-secondary" required></div><div class="col-md-4"><input id="budgetInput" type="number" value="95000" class="form-control bg-dark text-white border-secondary" required></div></div><button class="btn btn-pak-gold w-100 mt-3">Generate AI Tour Plan</button></form></div><div id="outputSection" class="d-none"><div class="d-flex justify-content-between mb-3"><h3 id="outTitle"></h3><button class="btn btn-success btn-sm" onclick="saveCurrentTrip()">Save Trip</button></div><div class="row g-4"><div class="col-lg-8" id="daysContainer"></div><div class="col-lg-4"><div class="card card-custom p-3"><h5 class="text-warning">Budget</h5><div class="d-flex justify-content-between"><span>Stay</span><b id="bStay"></b></div><div class="d-flex justify-content-between"><span>Food</span><b id="bFood"></b></div><div class="d-flex justify-content-between"><span>Transport</span><b id="bTransport"></b></div><hr><h4 class="text-success" id="bTotal"></h4><span class="badge bg-warning text-dark" id="bPerPerson"></span></div></div></div></div></div></div>
+<div id="page-planner" class="page-section"><div class="container my-5"><div class="card card-custom p-4 mb-4"><h4 class="text-warning">AI Trip Preference Collector</h4><form onsubmit="handleGeneratePlan(event)"><div class="row g-3 mt-1"><div class="col-md-4"><input id="destInput" class="form-control bg-dark text-white border-secondary" required placeholder="Hunza, Skardu, Dubai"></div><div class="col-md-2"><input id="daysInput" type="number" value="5" class="form-control bg-dark text-white border-secondary" required></div><div class="col-md-2"><input id="travelersInput" type="number" value="2" class="form-control bg-dark text-white border-secondary" required></div><div class="col-md-4"><input id="budgetInput" type="number" value="95000" class="form-control bg-dark text-white border-secondary" required></div></div><button class="btn btn-pak-gold w-100 mt-3">Generate AI Tour Plan</button></form></div><div id="outputSection" class="d-none"><div class="d-flex justify-content-between mb-3"><h3 id="outTitle"></h3><button class="btn btn-success btn-sm" onclick="saveCurrentTrip()">Save Trip</button></div><div class="row g-4"><div class="col-lg-8" id="daysContainer"></div><div class="col-lg-4"><div class="card card-custom p-3"><h5 class="text-warning">Budget</h5><div class="d-flex justify-content-between"><span>Stay</span><b id="bStay"></b></div><div class="d-flex justify-content-between"><span>Food</span><b id="bFood"></b></div><div class="d-flex justify-content-between"><span>Transport</span><b id="bTransport"></b></div><hr><h4 class="text-success" id="bTotal"></h4><span class="badge bg-warning text-dark" id="bPerPerson"></span></div></div></div></div></div></div>
 
-<div id="page-catalogue" class="page-section"><div class="container my-5"><h3>Pakistan Tours</h3><input id="searchCatalogue" class="form-control bg-dark text-white my-3 border-secondary" placeholder="Search..." onkeyup="filterCatalogue()"><div class="row g-4" id="catalogueGrid"></div></div></div>
+<div id="page-catalogue" class="page-section"><div class="container my-5"><h3>Pakistan Tours - AI Tour Planner</h3><input id="searchCatalogue" class="form-control bg-dark text-white my-3 border-secondary" placeholder="Search..." onkeyup="filterCatalogue()"><div class="row g-4" id="catalogueGrid"></div></div></div>
 
-<div id="page-global" class="page-section"><div class="container my-5"><h3><i class="fa-solid fa-plane-departure text-warning me-2"></i>Global Tours - 10 Countries</h3><div class="row g-4 mt-2" id="globalGrid"></div></div></div>
+<div id="page-global" class="page-section"><div class="container my-5"><h3><i class="fa-solid fa-plane-departure text-warning me-2"></i>Global Tours - 10 Countries</h3><div class="row g-4 mt-3" id="globalGrid"></div></div></div>
 
 <div id="page-exchange" class="page-section"><div class="container my-5"><div class="card card-custom p-4"><h4 class="text-warning">Currency Calculator</h4><div class="row g-3 mt-2"><div class="col-md-4"><input id="currAmount" type="number" value="1000" class="form-control bg-dark text-white border-secondary" oninput="convertCurrency()"></div><div class="col-md-4"><select id="currFrom" class="form-select bg-dark text-white border-secondary" onchange="convertCurrency()"><option value="USD">USD</option><option value="PKR">PKR</option><option value="SAR">SAR</option><option value="AED">AED</option></select></div><div class="col-md-4"><select id="currTo" class="form-select bg-dark text-white border-secondary" onchange="convertCurrency()"><option value="PKR">PKR</option><option value="USD">USD</option></select></div></div><h2 class="text-success text-center mt-4" id="currResult"></h2></div></div></div>
 
 <div id="page-mytrips" class="page-section"><div class="container my-5"><h3>My Saved Trips</h3><div class="row g-4 mt-2" id="myTripsContainer"></div></div></div>
 
+<!-- FULL ADMIN PANEL - ADD / EDIT / REMOVE / PICTURE -->
 <div id="page-admin" class="page-section">
-  <div class="container my-5">
-    <div id="adminLoginBox" class="card card-custom p-4 text-center mx-auto" style="max-width:400px"><h5>Admin Login - AI Tour Planner</h5><p class="small text-muted">Password: admin123</p><input id="adminPwd" type="password" class="form-control bg-dark text-white border-secondary mb-3"><button onclick="loginAdmin()" class="btn btn-pak-gold w-100">Login</button></div>
+  <div class="container my-4">
+    <div id="adminLoginBox" class="card card-custom p-4 text-center mx-auto" style="max-width:400px">
+      <h5 class="fw-bold"><i class="fa-solid fa-lock text-warning me-2"></i>Admin Login</h5>
+      <p class="small text-muted">Password: <code class="text-warning">admin123</code></p>
+      <input id="adminPwd" type="password" class="form-control bg-dark text-white border-secondary mb-3" placeholder="Enter password...">
+      <button onclick="loginAdmin()" class="btn btn-pak-gold w-100">Login</button>
+    </div>
+
     <div id="adminContentBox" class="d-none">
-      <div class="card card-custom p-4 mb-4">
-        <div class="d-flex justify-content-between mb-3"><h5>Admin - Add Package with Picture</h5><button onclick="logoutAdmin()" class="btn btn-outline-danger btn-sm">Logout</button></div>
-        <form onsubmit="handleAdminAdd(event)" class="row g-3">
-          <div class="col-md-3"><input id="admName" class="form-control bg-dark text-white border-secondary" required placeholder="Name"></div>
-          <div class="col-md-2"><input id="admRegion" class="form-control bg-dark text-white border-secondary" required placeholder="Country"></div>
-          <div class="col-md-2"><input id="admCost" type="number" class="form-control bg-dark text-white border-secondary" required placeholder="Cost"></div>
-          <div class="col-md-3"><input id="admImg" class="form-control bg-dark text-white border-secondary" placeholder="Image URL - Paste Link"></div>
-          <div class="col-md-2"><select id="admType" class="form-select bg-dark text-white border-secondary"><option value="pak">Pakistan</option><option value="global" selected>Global</option></select></div>
-          <div class="col-12"><button class="btn btn-success w-100">Add Package with Picture</button></div>
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h3 class="fw-bold text-white mb-0"><i class="fa-solid fa-shield-halved text-success me-2"></i>Admin Control Panel - AI Tour Planner</h3>
+        <div class="d-flex gap-2">
+          <span class="badge bg-warning text-dark fs-6" id="totalPackagesCount">0 Packages</span>
+          <button onclick="logoutAdmin()" class="btn btn-outline-danger btn-sm">Logout</button>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div class="card card-custom p-4 mb-4 admin-card">
+        <h5 class="fw-bold text-warning mb-1"><span id="formTitle"><i class="fa-solid fa-plus me-2"></i>Add New Package</span></h5>
+        <p class="small text-muted mb-3" id="formSubtitle">Add Pakistan or Global tour with custom picture</p>
+        <form onsubmit="handleAdminAdd(event)" id="adminForm">
+          <input type="hidden" id="editId">
+          <div class="row g-3">
+            <div class="col-md-4"><label class="form-label small">Destination Name *</label><input id="admName" class="form-control bg-dark text-white border-secondary" required placeholder="e.g. Umrah Package"></div>
+            <div class="col-md-2"><label class="form-label small">Country / Region *</label><input id="admRegion" class="form-control bg-dark text-white border-secondary" required placeholder="Saudi Arabia"></div>
+            <div class="col-md-2"><label class="form-label small">Cost (USD/PKR) *</label><input id="admCost" type="number" class="form-control bg-dark text-white border-secondary" required placeholder="1250"></div>
+            <div class="col-md-2"><label class="form-label small">Type *</label><select id="admType" class="form-select bg-dark text-white border-secondary"><option value="global" selected>🌍 Global</option><option value="pak">🇵🇰 Pakistan</option></select></div>
+            <div class="col-md-2"><label class="form-label small">Image URL *</label><input id="admImg" class="form-control bg-dark text-white border-secondary" required placeholder="https://..." oninput="previewImage(this.value)"></div>
+            <div class="col-md-9">
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success fw-bold flex-grow-1" id="submitBtn"><i class="fa-solid fa-floppy-disk me-2"></i>Add Package</button>
+                <button type="button" class="btn btn-outline-secondary d-none" id="cancelEditBtn" onclick="cancelEdit()">Cancel Edit</button>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div id="imgPreview" class="d-none text-center border border-warning rounded p-1 bg-dark">
+                <img id="previewImgTag" src="" style="width:100%;height:60px;object-fit:cover;border-radius:6px">
+                <small class="text-success d-block" style="font-size:10px">Preview ✓</small>
+              </div>
+            </div>
+          </div>
         </form>
-        <small class="text-muted mt-2 d-block">Image change karne ke liye: Google image -> Copy Image Address -> Yahan paste karo. Saudi ke liye sahi link: https://images.unsplash.com/photo-1591604466107-ec97de577aff</small>
+      </div>
+
+      <!-- LIST -->
+      <div class="card card-custom p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold mb-0"><i class="fa-solid fa-list me-2 text-warning"></i>All Packages - Edit / Remove</h5>
+          <input id="adminSearch" class="form-control form-control-sm bg-dark text-white border-secondary" style="max-width:200px" placeholder="Search to edit/delete..." onkeyup="renderAdminList()">
+        </div>
+        <div id="adminList" class="row g-3"></div>
       </div>
     </div>
   </div>
@@ -83,30 +124,38 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-let localPackages=[
+let localPackages = JSON.parse(localStorage.getItem('aiLocalPackages')) || [
  {id:1,name:"Hunza Valley Cherry Blossom",region:"Gilgit-Baltistan",cost:16000,img:"https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=600&q=80"},
  {id:2,name:"Skardu & Deosai Plains Tour",region:"Gilgit-Baltistan",cost:18500,img:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"},
  {id:3,name:"Fairy Meadows Expedition",region:"Gilgit-Baltistan",cost:14000,img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80"},
  {id:4,name:"Swat & Kalam Valley Tour",region:"KPK",cost:11000,img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"}
 ];
-let globalPackages=[
- {id:101,name:"Dubai 5 Days Luxury",region:"UAE - Dubai",costUSD:850,img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80"},
- {id:102,name:"Istanbul & Cappadocia",region:"Turkey",costUSD:1100,img:"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=600&q=80"},
- {id:103,name:"Baku Azerbaijan",region:"Azerbaijan",costUSD:550,img:"https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=600&q=80"},
- {id:104,name:"Kuala Lumpur & Langkawi",region:"Malaysia",costUSD:750,img:"https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=600&q=80"},
- {id:105,name:"Bangkok & Phuket Island",region:"Thailand",costUSD:680,img:"https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=600&q=80"},
+let globalPackages = JSON.parse(localStorage.getItem('aiGlobalPackages')) || [
+ {id:101,name:"Dubai 5 Days Luxury Shopping Tour",region:"UAE - Dubai",costUSD:850,img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80"},
+ {id:102,name:"Istanbul & Cappadocia Heritage Tour",region:"Turkey",costUSD:1100,img:"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=600&q=80"},
+ {id:103,name:"Baku Azerbaijan 4 Days Special",region:"Azerbaijan",costUSD:550,img:"https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=600&q=80"},
+ {id:104,name:"Kuala Lumpur & Langkawi Tour",region:"Malaysia",costUSD:750,img:"https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=600&q=80"},
+ {id:105,name:"Bangkok & Phuket Island Tour",region:"Thailand",costUSD:680,img:"https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=600&q=80"},
  {id:106,name:"Umrah Package - Makkah & Madina",region:"Saudi Arabia",costUSD:1250,img:"https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&w=600&q=80"},
- {id:107,name:"London & Manchester",region:"United Kingdom",costUSD:1800,img:"https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80"},
- {id:108,name:"New York & Washington DC",region:"USA",costUSD:2200,img:"https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=80"},
- {id:109,name:"Swiss Alps & Zurich",region:"Switzerland",costUSD:2500,img:"https://images.unsplash.com/photo-1527668752968-14dc70a27cbb?auto=format&fit=crop&w=600&q=80"},
- {id:110,name:"Maldives Honeymoon Island",region:"Maldives",costUSD:1400,img:"https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=600&q=80"}
+ {id:107,name:"London & Manchester Explorer",region:"United Kingdom",costUSD:1800,img:"https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80"},
+ {id:108,name:"New York & Washington DC Tour",region:"USA",costUSD:2200,img:"https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=80"},
+ {id:109,name:"Swiss Alps & Zurich Luxury Tour",region:"Switzerland",costUSD:2500,img:"https://images.unsplash.com/photo-1527668752968-14dc70a27cbb?auto=format&fit=crop&w=600&q=80"},
+ {id:110,name:"Maldives Honeymoon Private Island",region:"Maldives",costUSD:1400,img:"https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=600&q=80"}
 ];
+
 let savedTrips=JSON.parse(localStorage.getItem('aiTourPlannerTrips')||'[]');
 let currentGeneratedPlan=null;
+
+function saveToStorage(){
+  localStorage.setItem('aiLocalPackages', JSON.stringify(localPackages));
+  localStorage.setItem('aiGlobalPackages', JSON.stringify(globalPackages));
+}
+
 window.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('savedCount').innerText=savedTrips.length;
- renderCatalogue(localPackages);renderGlobal(globalPackages);renderHomeFeatured();convertCurrency();renderMyTrips();
+ renderCatalogue(localPackages);renderGlobal(globalPackages);renderHomeFeatured();convertCurrency();renderMyTrips();renderAdminList();
 });
+
 function showPage(id){
  document.querySelectorAll('.page-section').forEach(e=>e.classList.remove('active-page'));
  document.querySelectorAll('.nav-page').forEach(e=>e.classList.remove('active'));
@@ -114,35 +163,131 @@ function showPage(id){
  document.getElementById('nav-'+id)?.classList.add('active');
  window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function renderHomeFeatured(){
  let grid=document.getElementById('homeFeaturedGrid');grid.innerHTML='';
- localPackages.forEach(d=>{grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden h-100"><img src="${d.img}" style="height:150px;object-fit:cover;width:100%"><div class="p-3"><span class="badge bg-success mb-1">${d.region}</span><h6>${d.name}</h6><small class="text-warning">PKR ${d.cost}/day</small><button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${d.name}')">Plan Trip</button></div></div></div>`;});
+ localPackages.slice(0,4).forEach(d=>{
+  grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden h-100"><img src="${d.img}" style="height:150px;object-fit:cover;width:100%"><div class="p-3"><span class="badge bg-success mb-1">${d.region}</span><h6 class="fw-bold">${d.name}</h6><small class="text-warning">PKR ${d.cost?.toLocaleString() || d.costUSD} / day</small><button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${d.name}')">Plan Trip</button></div></div></div>`;
+ });
 }
 function quickPlan(name){document.getElementById('destInput').value=name;showPage('planner');}
 function renderCatalogue(items){
- let grid=document.getElementById('catalogueGrid');grid.innerHTML='';
- items.forEach(i=>{grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden"><img src="${i.img}" style="height:160px;object-fit:cover;width:100%"><div class="p-3"><h6>${i.name}</h6><small class="text-success">PKR ${i.cost}</small><button class="btn btn-outline-light btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Generate Plan</button></div></div></div>`;});
+ let grid=document.getElementById('catalogueGrid');if(!grid) return;grid.innerHTML='';
+ items.forEach(i=>{grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden h-100"><img src="${i.img}" style="height:160px;object-fit:cover;width:100%"><div class="p-3"><h6 class="fw-bold">${i.name}</h6><small class="text-success">PKR ${i.cost?.toLocaleString() || i.costUSD}</small><button class="btn btn-outline-light btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Generate Plan</button></div></div></div>`;});
 }
 function renderGlobal(items){
- let grid=document.getElementById('globalGrid');grid.innerHTML='';
- items.forEach(i=>{grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden"><img src="${i.img}" style="height:160px;object-fit:cover;width:100%"><div class="p-3"><span class="badge bg-warning text-dark">${i.region}</span><h6>${i.name}</h6><small class="text-warning">$${i.costUSD} (PKR ${Math.round(i.costUSD*278.5).toLocaleString()})</small><button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Select Package</button></div></div></div>`;});
+ let grid=document.getElementById('globalGrid');if(!grid) return;grid.innerHTML='';
+ items.forEach(i=>{grid.innerHTML+=`<div class="col-md-3"><div class="card card-custom overflow-hidden h-100"><img src="${i.img}" style="height:160px;object-fit:cover;width:100%"><div class="p-3"><span class="badge bg-warning text-dark mb-1">${i.region}</span><h6 class="fw-bold">${i.name}</h6><small class="text-warning">$${i.costUSD || i.cost} USD</small><button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Select Package</button></div></div></div>`;});
 }
 function filterCatalogue(){
  let q=document.getElementById('searchCatalogue').value.toLowerCase();
  renderCatalogue(localPackages.filter(p=>p.name.toLowerCase().includes(q)));
 }
+
+// ADMIN FUNCTIONS - FULL CRUD
+function previewImage(url){
+  let box=document.getElementById('imgPreview');let img=document.getElementById('previewImgTag');
+  if(url && url.startsWith('http')){img.src=url;box.classList.remove('d-none');} else {box.classList.add('d-none');}
+}
+
 function handleAdminAdd(e){
  e.preventDefault();
- let name=admName.value,region=admRegion.value,cost=parseInt(admCost.value),imgInput=admImg.value.trim(),type=admType.value;
- let finalImg=imgInput!==""?imgInput:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80";
- if(type==="global"){globalPackages.push({id:Date.now(),name,region,costUSD:cost,img:finalImg});renderGlobal(globalPackages);}
- else{localPackages.push({id:Date.now(),name,region,cost,img:finalImg});renderCatalogue(localPackages);renderHomeFeatured();}
- e.target.reset();alert('Added with picture!');
+ let idVal=document.getElementById('editId').value;
+ let name=document.getElementById('admName').value.trim();
+ let region=document.getElementById('admRegion').value.trim();
+ let cost=parseInt(document.getElementById('admCost').value);
+ let img=document.getElementById('admImg').value.trim();
+ let type=document.getElementById('admType').value;
+
+ if(idVal){ // UPDATE
+   let id=parseInt(idVal);
+   let arr = globalPackages.find(p=>p.id===id) ? globalPackages : localPackages;
+   // Remove from both first
+   globalPackages = globalPackages.filter(p=>p.id!==id);
+   localPackages = localPackages.filter(p=>p.id!==id);
+   if(type==="global"){globalPackages.push({id,name,region,costUSD:cost,img});}
+   else{localPackages.push({id,name,region,cost,img});}
+   alert('Package Updated!');
+ } else { // ADD NEW
+   if(type==="global"){globalPackages.push({id:Date.now(),name,region,costUSD:cost,img});}
+   else{localPackages.push({id:Date.now(),name,region,cost,img});}
+   alert('Package Added!');
+ }
+ saveToStorage();
+ renderGlobal(globalPackages);renderCatalogue(localPackages);renderHomeFeatured();renderAdminList();
+ e.target.reset();cancelEdit();
 }
+
+function renderAdminList(){
+ let list=document.getElementById('adminList');let count=document.getElementById('totalPackagesCount');let search=document.getElementById('adminSearch')?.value.toLowerCase() || "";
+ if(!list) return;
+ let all=[...globalPackages.map(p=>({...p,typeLabel:'Global',type:'global'})),...localPackages.map(p=>({...p,typeLabel:'Pakistan',type:'pak'}))];
+ let filtered = all.filter(p=>p.name.toLowerCase().includes(search) || p.region.toLowerCase().includes(search));
+ if(count) count.innerText = `${all.length} Packages (${globalPackages.length} Global, ${localPackages.length} Pakistan)`;
+ list.innerHTML='';
+ filtered.forEach(p=>{
+   list.innerHTML+=`
+   <div class="col-md-6 col-lg-4">
+     <div class="card bg-dark border-secondary p-2 h-100">
+       <div class="d-flex gap-2">
+         <img src="${p.img}" style="width:65px;height:65px;object-fit:cover;border-radius:8px">
+         <div class="flex-grow-1" style="min-width:0">
+           <div class="fw-bold text-white small text-truncate">${p.name}</div>
+           <div class="small text-muted">${p.region} • <span class="badge bg-warning text-dark" style="font-size:10px">${p.typeLabel}</span></div>
+           <div class="small text-warning mt-1">$${p.costUSD || p.cost}</div>
+           <div class="d-flex gap-1 mt-2">
+             <button class="btn btn-warning btn-sm py-0 px-2" style="font-size:11px" onclick="editPackage(${p.id})"><i class="fa-solid fa-pen me-1"></i>Edit</button>
+             <button class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size:11px" onclick="deletePackage(${p.id})"><i class="fa-solid fa-trash me-1"></i>Remove</button>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>`;
+ });
+ if(filtered.length===0){list.innerHTML=`<p class="text-muted text-center w-100 py-3">No packages found. Add new above.</p>`;}
+}
+
+function editPackage(id){
+ let pkg = [...globalPackages,...localPackages].find(p=>p.id===id);
+ if(!pkg) return;
+ document.getElementById('editId').value=pkg.id;
+ document.getElementById('admName').value=pkg.name;
+ document.getElementById('admRegion').value=pkg.region;
+ document.getElementById('admCost').value=pkg.costUSD || pkg.cost;
+ document.getElementById('admImg').value=pkg.img;
+ document.getElementById('admType').value = globalPackages.find(p=>p.id===id) ? 'global' : 'pak';
+ previewImage(pkg.img);
+ document.getElementById('formTitle').innerHTML=`<i class="fa-solid fa-pen-to-square me-2"></i>Editing: ${pkg.name}`;
+ document.getElementById('formSubtitle').innerText=`Update details and click Update Package`;
+ document.getElementById('submitBtn').innerHTML=`<i class="fa-solid fa-floppy-disk me-2"></i>Update Package`;
+ document.getElementById('cancelEditBtn').classList.remove('d-none');
+ window.scrollTo({top:0,behavior:'smooth'});
+ showPage('admin');
+}
+
+function cancelEdit(){
+ document.getElementById('editId').value="";
+ document.getElementById('adminForm').reset();
+ document.getElementById('imgPreview').classList.add('d-none');
+ document.getElementById('formTitle').innerHTML=`<i class="fa-solid fa-plus me-2"></i>Add New Package`;
+ document.getElementById('formSubtitle').innerText=`Add Pakistan or Global tour with custom picture`;
+ document.getElementById('submitBtn').innerHTML=`<i class="fa-solid fa-floppy-disk me-2"></i>Add Package`;
+ document.getElementById('cancelEditBtn').classList.add('d-none');
+}
+
+function deletePackage(id){
+ if(!confirm('Are you sure you want to REMOVE this package permanently?')) return;
+ globalPackages=globalPackages.filter(p=>p.id!==id);
+ localPackages=localPackages.filter(p=>p.id!==id);
+ saveToStorage();
+ renderGlobal(globalPackages);renderCatalogue(localPackages);renderHomeFeatured();renderAdminList();
+}
+
 function convertCurrency(){
- let amt=parseFloat(currAmount.value)||0;let rates={USD:1,PKR:278.5,SAR:3.75,AED:3.67};
- let usd=amt/(rates[currFrom.value]||1);let conv=usd*(rates[currTo.value]||1);
- document.getElementById('currResult').innerText=conv.toLocaleString()+" "+currTo.value;
+ let amt=parseFloat(document.getElementById('currAmount').value)||0;
+ let from=document.getElementById('currFrom').value;let to=document.getElementById('currTo').value;
+ let rates={USD:1,PKR:278.5,SAR:3.75,AED:3.67};let usd=amt/(rates[from]||1);let conv=usd*(rates[to]||1);
+ document.getElementById('currResult').innerText=conv.toLocaleString(undefined,{minimumFractionDigits:2})+" "+to;
 }
 function handleGeneratePlan(e){
  e.preventDefault();let dest=destInput.value,days=parseInt(daysInput.value),trav=parseInt(travelersInput.value);
@@ -153,10 +298,10 @@ function handleGeneratePlan(e){
  bStay.innerText="PKR "+stay.toLocaleString();bFood.innerText="PKR "+food.toLocaleString();bTransport.innerText="PKR "+trans.toLocaleString();bTotal.innerText="PKR "+total.toLocaleString();bPerPerson.innerText="PKR "+Math.round(total/trav).toLocaleString()+" / person";
  outputSection.classList.remove('d-none');
 }
-function saveCurrentTrip(){if(!currentGeneratedPlan)return;savedTrips.push(currentGeneratedPlan);localStorage.setItem('aiTourPlannerTrips',JSON.stringify(savedTrips));savedCount.innerText=savedTrips.length;renderMyTrips();alert('Saved!');}
+function saveCurrentTrip(){if(!currentGeneratedPlan)return;savedTrips.push(currentGeneratedPlan);localStorage.setItem('aiTourPlannerTrips',JSON.stringify(savedTrips));savedCount.innerText=savedTrips.length;renderMyTrips();alert('Trip Saved!');}
 function renderMyTrips(){let con=myTripsContainer;con.innerHTML=savedTrips.length==0?"<p class='text-muted'>No trips</p>":"";savedTrips.forEach((t,i)=>{con.innerHTML+=`<div class="col-md-4"><div class="card card-custom p-3"><h6 class="text-warning">${t.destination}</h6><small>${t.daysCount} Days - PKR ${t.totalEstCost}</small><button class="btn btn-outline-danger btn-sm w-100 mt-2" onclick="savedTrips.splice(${i},1);localStorage.setItem('aiTourPlannerTrips',JSON.stringify(savedTrips));savedCount.innerText=savedTrips.length;renderMyTrips()">Delete</button></div></div>`;});}
 function loginAdmin(){if(adminPwd.value=="admin123"){adminLoginBox.classList.add('d-none');adminContentBox.classList.remove('d-none');}else alert('Wrong password');}
-function logoutAdmin(){adminLoginBox.classList.remove('d-none');adminContentBox.classList.add('d-none');}
+function logoutAdmin(){adminLoginBox.classList.remove('d-none');adminContentBox.classList.add('d-none');cancelEdit();}
 </script>
 </body>
-</html>
+  </html>
