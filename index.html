@@ -7,31 +7,99 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{--pak-green:#00401a;--pak-gold:#ffc107}
-body{background:#0b131e;color:#f1f5f9;min-height:100vh;display:flex;flex-direction:column}
-.hero-banner{background:linear-gradient(135deg,#00220e 0%,#00401a 60%,#0b131e 100%);border-bottom:2px solid var(--pak-gold);padding:60px 0 50px}
-.card-custom{background:rgba(15,23,42,0.95);border:1px solid rgba(255,255,255,0.12);border-radius:14px;transition:.2s}
-.card-custom:hover{border-color:var(--pak-gold);transform:translateY(-2px)}
-.page-section{display:none}.page-section.active-page{display:block}
-.bg-pak-green{background:var(--pak-green)!important}
-.btn-pak-gold{background:var(--pak-gold);color:#000;font-weight:700;border:none}
-.btn-pak-gold:hover{background:#e0a800}
-footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
-.nav-link.active{color:var(--pak-gold)!important;border-bottom:2px solid var(--pak-gold);font-weight:700}
-.admin-card{border-left:4px solid var(--pak-gold)}
+:root {
+  --bking-blue: #003580;
+  --bking-yellow: #febb02;
+  --bking-light-blue: #0071c2;
+  --bking-dark: #0b131e;
+  --pak-green: #00401a;
+}
+body {
+  background: #0b131e;
+  color: #f1f5f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.hero-banner {
+  background: linear-gradient(135deg, #001e48 0%, #003580 60%, #0b131e 100%);
+  border-bottom: 3px solid var(--bking-yellow);
+  padding: 60px 0 50px;
+  position: relative;
+}
+.hero-deal-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(254, 187, 2, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 24px;
+}
+.card-custom {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  transition: all 0.2s ease-in-out;
+}
+.card-custom:hover {
+  border-color: var(--bking-yellow);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+.page-section { display: none; }
+.page-section.active-page { display: block; }
+.bg-bking-blue { background: var(--bking-blue) !important; }
+.btn-bking-gold {
+  background: var(--bking-yellow);
+  color: #000;
+  font-weight: 700;
+  border: none;
+}
+.btn-bking-gold:hover {
+  background: #e0a400;
+  color: #000;
+}
+footer { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1); }
+.nav-link { cursor: pointer; }
+.nav-link.active {
+  color: var(--bking-yellow) !important;
+  border-bottom: 2px solid var(--bking-yellow);
+  font-weight: 700;
+}
+.admin-card { border-left: 4px solid var(--bking-yellow); }
+.faq-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
 </style>
 </head>
 <body>
 
-<div class="bg-pak-green text-white py-2 px-3 d-flex justify-content-between flex-wrap" style="font-size:13px;">
-  <div><span class="me-3"><i class="fa-solid fa-phone text-warning me-1"></i> 03126165602</span><span><i class="fa-solid fa-envelope text-warning me-1"></i> Shahzaibjaat2712@gmail.com</span></div>
-  <span class="badge bg-warning text-dark fw-bold">AI Tour Planner</span>
+<!-- Top Bar -->
+<div class="bg-bking-blue text-white py-2 px-3 d-flex justify-content-between flex-wrap align-items-center" style="font-size:13px;">
+  <div>
+    <span class="me-3"><i class="fa-solid fa-phone text-warning me-1"></i> 03126165602</span>
+    <span><i class="fa-solid fa-envelope text-warning me-1"></i> Shahzaibjaat2712@gmail.com</span>
+  </div>
+  <div>
+    <span class="badge bg-warning text-dark fw-bold me-2">Late Escape Deals - 15% OFF</span>
+    <span class="badge bg-light text-dark fw-bold">PKR (Rs)</span>
+  </div>
 </div>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<!-- Main Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="#" onclick="showPage('home')"><i class="fa-solid fa-wand-magic-sparkles text-warning me-2"></i>AI TOUR <span class="text-warning">PLANNER</span></a>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mainNavbar"><span class="navbar-toggler-icon"></span></button>
+    <a class="navbar-brand fw-bold text-white d-flex align-items-center" href="#" onclick="showPage('home')">
+      <i class="fa-solid fa-hotel text-warning me-2 fs-4"></i>
+      <span>Booking<span class="text-warning">Deals</span></span>
+    </a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav me-auto ms-3">
         <li class="nav-item"><a class="nav-link nav-page active" id="nav-home" onclick="showPage('home')">Home</a></li>
@@ -50,15 +118,58 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 <div id="page-home" class="page-section active-page">
   <section class="hero-banner text-center">
     <div class="container">
-      <h1 class="display-5 fw-bold">AI Tour Planner - Discover Pakistan & World</h1>
-      <p class="text-secondary mt-2">Generate day-wise itineraries & PKR budget instantly</p>
-      <button onclick="showPage('planner')" class="btn btn-pak-gold btn-lg mt-3 me-2"><i class="fa-solid fa-bolt me-1"></i> Generate AI Plan</button>
-      <button onclick="showPage('global')" class="btn btn-outline-light btn-lg mt-3">Global Tours</button>
+      <div class="hero-deal-card max-w-800 mx-auto" style="max-width: 800px;">
+        <span class="badge bg-warning text-dark fw-bold px-3 py-2 mb-2">Late Escape Deals</span>
+        <h1 class="display-5 fw-bold text-white mb-2">15% or more off end-of-year stays</h1>
+        <p class="text-light opacity-75 mb-4">Book stays between Oct 1, 2026 and Jan 7, 2027 worldwide</p>
+        
+        <div class="row g-2 bg-dark p-2 rounded-3 border border-secondary text-start">
+          <div class="col-md-4">
+            <input id="quickDest" class="form-control bg-dark text-white border-0" placeholder="Where are you going?">
+          </div>
+          <div class="col-md-3">
+            <input id="quickDays" type="number" class="form-control bg-dark text-white border-0" value="5" placeholder="Days">
+          </div>
+          <div class="col-md-3">
+            <input id="quickBudget" type="number" class="form-control bg-dark text-white border-0" value="95000" placeholder="PKR Budget">
+          </div>
+          <div class="col-md-2">
+            <button onclick="triggerQuickSearch()" class="btn btn-bking-gold w-100 fw-bold"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
+
   <div class="container my-5">
-    <h4 class="fw-bold mb-4"><i class="fa-solid fa-star text-warning me-2"></i>Popular Packages 2026</h4>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3 class="fw-bold mb-1"><i class="fa-solid fa-fire text-warning me-2"></i>Trending Destinations 2026</h3>
+        <p class="text-secondary small mb-0">Most popular choices for Pakistan & global travelers</p>
+      </div>
+      <button onclick="showPage('catalogue')" class="btn btn-outline-warning btn-sm">View All Packages</button>
+    </div>
+    
     <div class="row g-4" id="homeFeaturedGrid"></div>
+
+    <!-- FAQ Section -->
+    <div class="mt-5 pt-4 border-top border-secondary">
+      <h4 class="fw-bold mb-4"><i class="fa-solid fa-circle-question text-warning me-2"></i>Frequently asked questions</h4>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="faq-box">
+            <h6 class="fw-bold text-warning mb-2">How much can I save with Late Escape Deals?</h6>
+            <p class="small text-secondary mb-0">Late Escape Deals start at 15% off and can go higher. Discounts are applied to the price before taxes and fees are added.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="faq-box">
+            <h6 class="fw-bold text-warning mb-2">When can I travel using Late Escape Deals?</h6>
+            <p class="small text-secondary mb-0">Late Escape Deals are available at participating properties worldwide for stays between October 1, 2026 and January 7, 2027.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -66,12 +177,13 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 <div id="page-planner" class="page-section">
   <div class="container my-5">
     <div class="card card-custom p-4 mb-4">
-      <h4 class="text-warning">AI Trip Preference Collector</h4>
+      <h4 class="text-warning fw-bold"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>AI Trip Preference Collector</h4>
+      <p class="text-secondary small">Enter your travel details to generate a custom day-by-day itinerary with an estimated PKR cost breakdown.</p>
       <form onsubmit="handleGeneratePlan(event)">
         <div class="row g-3 mt-1">
           <div class="col-md-4">
             <label class="form-label small text-white-50">Destination</label>
-            <input id="destInput" class="form-control bg-dark text-white border-secondary" required placeholder="Hunza, Skardu, Dubai">
+            <input id="destInput" class="form-control bg-dark text-white border-secondary" required placeholder="e.g. Hunza, Skardu, Barcelona, Baku">
           </div>
           <div class="col-md-2">
             <label class="form-label small text-white-50">Days</label>
@@ -82,11 +194,11 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
             <input id="travelersInput" type="number" value="2" min="1" max="20" class="form-control bg-dark text-white border-secondary" required>
           </div>
           <div class="col-md-4">
-            <label class="form-label small text-white-50">Budget (PKR)</label>
+            <label class="form-label small text-white-50">Total Budget (PKR)</label>
             <input id="budgetInput" type="number" value="95000" class="form-control bg-dark text-white border-secondary" required>
           </div>
         </div>
-        <button type="submit" class="btn btn-pak-gold w-100 mt-3"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Generate AI Tour Plan</button>
+        <button type="submit" class="btn btn-bking-gold w-100 mt-3"><i class="fa-solid fa-bolt me-2"></i>Generate AI Tour Plan</button>
       </form>
     </div>
 
@@ -116,8 +228,10 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 <!-- PAKISTAN CATALOGUE PAGE -->
 <div id="page-catalogue" class="page-section">
   <div class="container my-5">
-    <h3><i class="fa-solid fa-mountain-sun text-success me-2"></i>Pakistan Tours - AI Tour Planner</h3>
-    <input id="searchCatalogue" class="form-control bg-dark text-white my-3 border-secondary" placeholder="Search tours e.g. Hunza, Skardu..." onkeyup="filterCatalogue()">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+      <h3><i class="fa-solid fa-mountain-sun text-success me-2"></i>Pakistan Tours & Packages</h3>
+      <input id="searchCatalogue" class="form-control bg-dark text-white border-secondary" style="max-width:300px" placeholder="Search e.g. Hunza, Skardu, Lahore..." onkeyup="filterCatalogue()">
+    </div>
     <div class="row g-4" id="catalogueGrid"></div>
   </div>
 </div>
@@ -125,8 +239,8 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 <!-- GLOBAL TOURS PAGE -->
 <div id="page-global" class="page-section">
   <div class="container my-5">
-    <h3><i class="fa-solid fa-plane-departure text-warning me-2"></i>Global Tours - International Packages</h3>
-    <div class="row g-4 mt-3" id="globalGrid"></div>
+    <h3><i class="fa-solid fa-plane-departure text-warning me-2"></i>Global Deals & World Packages</h3>
+    <div class="row g-4 mt-2" id="globalGrid"></div>
   </div>
 </div>
 
@@ -134,7 +248,7 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
 <div id="page-exchange" class="page-section">
   <div class="container my-5">
     <div class="card card-custom p-4 max-w-600 mx-auto" style="max-width:600px">
-      <h4 class="text-warning mb-3"><i class="fa-solid fa-coins me-2"></i>Currency Calculator</h4>
+      <h4 class="text-warning mb-3"><i class="fa-solid fa-coins me-2"></i>Live Currency Calculator</h4>
       <div class="row g-3">
         <div class="col-md-4">
           <label class="form-label small">Amount</label>
@@ -183,7 +297,7 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
       <h5 class="fw-bold"><i class="fa-solid fa-lock text-warning me-2"></i>Admin Login</h5>
       <p class="small text-muted">Password: <code class="text-warning">admin123</code></p>
       <input id="adminPwd" type="password" class="form-control bg-dark text-white border-secondary mb-3" placeholder="Enter password...">
-      <button onclick="loginAdmin()" class="btn btn-pak-gold w-100">Login</button>
+      <button onclick="loginAdmin()" class="btn btn-bking-gold w-100">Login</button>
     </div>
 
     <!-- ADMIN CONTENT BOX -->
@@ -214,7 +328,7 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
               <input id="admRegion" class="form-control bg-dark text-white border-secondary" required placeholder="Gilgit-Baltistan">
             </div>
             <div class="col-md-2">
-              <label class="form-label small">Cost (USD/PKR) *</label>
+              <label class="form-label small">Cost (PKR/USD) *</label>
               <input id="admCost" type="number" class="form-control bg-dark text-white border-secondary" required placeholder="18500">
             </div>
             <div class="col-md-4">
@@ -264,29 +378,53 @@ footer{margin-top:auto;border-top:1px solid rgba(255,255,255,0.1)}
   </div>
 </div>
 
-<footer class="bg-dark text-center py-3"><small class="text-white-50">AI Tour Planner © 2026 | 03126165602 | Shahzaibjaat2712@gmail.com</small></footer>
+<footer class="bg-dark text-center py-4 mt-auto border-top border-secondary">
+  <div class="container">
+    <div class="row text-start text-secondary mb-3" style="font-size: 13px;">
+      <div class="col-md-3 mb-2">
+        <h6 class="text-white fw-bold">Support</h6>
+        <div>Manage your trips</div>
+        <div>Contact Customer Service</div>
+        <div>Safety Resource Center</div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <h6 class="text-white fw-bold">Discover</h6>
+        <div>Genius loyalty program</div>
+        <div>Seasonal and holiday deals</div>
+        <div>Travel articles</div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <h6 class="text-white fw-bold">Terms and settings</h6>
+        <div>Privacy Notice</div>
+        <div>Terms of Service</div>
+        <div>Modern Slavery Statement</div>
+      </div>
+      <div class="col-md-3 mb-2">
+        <h6 class="text-white fw-bold">About</h6>
+        <div>About Booking.com</div>
+        <div>How We Work</div>
+        <div>Sustainability</div>
+      </div>
+    </div>
+    <small class="text-white-50">AI Tour Planner & Booking Deals © 2026 | Phone: 03126165602 | Shahzaibjaat2712@gmail.com</small>
+  </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// DATA STORAGE INITIALIZATION
+// INITIAL DATA
 let localPackages = JSON.parse(localStorage.getItem('aiLocalPackages')) || [
- {id:1,name:"Hunza Valley Cherry Blossom",region:"Gilgit-Baltistan",cost:16000,img:"https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=600&q=80"},
- {id:2,name:"Skardu & Deosai Plains Tour",region:"Gilgit-Baltistan",cost:18500,img:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"},
- {id:3,name:"Fairy Meadows Expedition",region:"Gilgit-Baltistan",cost:14000,img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80"},
- {id:4,name:"Swat & Kalam Valley Tour",region:"KPK",cost:11000,img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"}
+ {id:1, name:"Lahore Historical & Food Tour", region:"Punjab, Pakistan", cost:2610, img:"https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=600&q=80"},
+ {id:2, name:"Hunza Valley Cherry Blossom", region:"Gilgit-Baltistan", cost:16000, img:"https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=600&q=80"},
+ {id:3, name:"Skardu & Deosai Plains Tour", region:"Gilgit-Baltistan", cost:18500, img:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"},
+ {id:4, name:"Swat & Kalam Valley Tour", region:"KPK, Pakistan", cost:11000, img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"}
 ];
 
 let globalPackages = JSON.parse(localStorage.getItem('aiGlobalPackages')) || [
- {id:101,name:"Dubai 5 Days Luxury Shopping Tour",region:"UAE - Dubai",costUSD:850,img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80"},
- {id:102,name:"Istanbul & Cappadocia Heritage Tour",region:"Turkey",costUSD:1100,img:"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=600&q=80"},
- {id:103,name:"Baku Azerbaijan 4 Days Special",region:"Azerbaijan",costUSD:550,img:"https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=600&q=80"},
- {id:104,name:"Kuala Lumpur & Langkawi Tour",region:"Malaysia",costUSD:750,img:"https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=600&q=80"},
- {id:105,name:"Bangkok & Phuket Island Tour",region:"Thailand",costUSD:680,img:"https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=600&q=80"},
- {id:106,name:"Umrah Package - Makkah & Madina",region:"Saudi Arabia",costUSD:1250,img:"https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&w=600&q=80"},
- {id:107,name:"London & Manchester Explorer",region:"United Kingdom",costUSD:1800,img:"https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80"},
- {id:108,name:"New York & Washington DC Tour",region:"USA",costUSD:2200,img:"https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=80"},
- {id:109,name:"Swiss Alps & Zurich Luxury Tour",region:"Switzerland",costUSD:2500,img:"https://images.unsplash.com/photo-1527668752968-14dc70a27cbb?auto=format&fit=crop&w=600&q=80"},
- {id:110,name:"Maldives Honeymoon Private Island",region:"Maldives",costUSD:1400,img:"https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=600&q=80"}
+ {id:101, name:"Barcelona Escape Deal", region:"Spain", costUSD:165, costPKR:45883, img:"https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=600&q=80"},
+ {id:102, name:"Baku Late Escape Package", region:"Azerbaijan", costUSD:10, costPKR:2635, img:"https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=600&q=80"},
+ {id:103, name:"Dubai 5 Days Luxury Tour", region:"UAE - Dubai", costUSD:850, costPKR:236300, img:"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80"},
+ {id:104, name:"Istanbul & Cappadocia Tour", region:"Turkey", costUSD:1100, costPKR:306350, img:"https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=600&q=80"}
 ];
 
 let savedTrips = JSON.parse(localStorage.getItem('aiTourPlannerTrips') || '[]');
@@ -307,7 +445,6 @@ window.addEventListener('DOMContentLoaded', ()=>{
  renderAdminList();
 });
 
-// NAVIGATION LOGIC
 function showPage(id){
  document.querySelectorAll('.page-section').forEach(e => e.classList.remove('active-page'));
  document.querySelectorAll('.nav-page').forEach(e => e.classList.remove('active'));
@@ -316,21 +453,39 @@ function showPage(id){
  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-// HOME FEATURED PACKAGES
+function triggerQuickSearch(){
+ let d = document.getElementById('quickDest').value || 'Hunza';
+ let days = document.getElementById('quickDays').value || 5;
+ let budget = document.getElementById('quickBudget').value || 95000;
+ 
+ document.getElementById('destInput').value = d;
+ document.getElementById('daysInput').value = days;
+ document.getElementById('budgetInput').value = budget;
+ showPage('planner');
+ handleGeneratePlan(new Event('submit'));
+}
+
 function renderHomeFeatured(){
  let grid = document.getElementById('homeFeaturedGrid');
  if(!grid) return;
  grid.innerHTML = '';
- localPackages.slice(0,4).forEach(d => {
+ 
+ let featured = [localPackages[0], globalPackages[0], globalPackages[1], localPackages[1]];
+ featured.forEach(d => {
+  if(!d) return;
+  let costText = d.costPKR ? `From PKR ${d.costPKR.toLocaleString()} per night` : `From PKR ${d.cost.toLocaleString()} per night`;
   grid.innerHTML += `
     <div class="col-md-3">
       <div class="card card-custom overflow-hidden h-100">
-        <img src="${d.img}" style="height:150px;object-fit:cover;width:100%" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+        <div class="position-relative">
+          <img src="${d.img}" style="height:160px;object-fit:cover;width:100%" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+          <span class="position-absolute top-0 start-0 m-2 badge bg-success">15% Late Escape Deal</span>
+        </div>
         <div class="p-3">
-          <span class="badge bg-success mb-1">${d.region}</span>
-          <h6 class="fw-bold">${d.name}</h6>
-          <small class="text-warning">PKR ${d.cost?.toLocaleString() || d.costUSD} / day</small>
-          <button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${d.name}')">Plan Trip</button>
+          <span class="badge bg-secondary mb-1">${d.region}</span>
+          <h6 class="fw-bold mb-1">${d.name}</h6>
+          <small class="text-warning fw-bold d-block mb-2">${costText}</small>
+          <button class="btn btn-bking-gold btn-sm w-100" onclick="quickPlan('${d.name}')">Plan This Trip</button>
         </div>
       </div>
     </div>`;
@@ -342,7 +497,6 @@ function quickPlan(name){
  showPage('planner');
 }
 
-// CATALOGUE & GLOBAL RENDERING
 function renderCatalogue(items){
  let grid = document.getElementById('catalogueGrid');
  if(!grid) return;
@@ -353,9 +507,9 @@ function renderCatalogue(items){
        <div class="card card-custom overflow-hidden h-100">
          <img src="${i.img}" style="height:160px;object-fit:cover;width:100%" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
          <div class="p-3">
-           <h6 class="fw-bold">${i.name}</h6>
-           <small class="text-success fw-bold">PKR ${i.cost?.toLocaleString() || i.costUSD}</small>
-           <button class="btn btn-outline-light btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Generate Plan</button>
+           <h6 class="fw-bold mb-1">${i.name}</h6>
+           <small class="text-success fw-bold d-block mb-2">From PKR ${i.cost?.toLocaleString()}</small>
+           <button class="btn btn-outline-light btn-sm w-100" onclick="quickPlan('${i.name}')">Generate Plan</button>
          </div>
        </div>
      </div>`;
@@ -373,9 +527,9 @@ function renderGlobal(items){
          <img src="${i.img}" style="height:160px;object-fit:cover;width:100%" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
          <div class="p-3">
            <span class="badge bg-warning text-dark mb-1">${i.region}</span>
-           <h6 class="fw-bold">${i.name}</h6>
-           <small class="text-warning fw-bold">$${i.costUSD || i.cost} USD</small>
-           <button class="btn btn-pak-gold btn-sm w-100 mt-2" onclick="quickPlan('${i.name}')">Select Package</button>
+           <h6 class="fw-bold mb-1">${i.name}</h6>
+           <small class="text-warning fw-bold d-block mb-2">$${i.costUSD} USD (${i.costPKR ? 'PKR ' + i.costPKR.toLocaleString() : ''})</small>
+           <button class="btn btn-bking-gold btn-sm w-100" onclick="quickPlan('${i.name}')">Select Package</button>
          </div>
        </div>
      </div>`;
@@ -387,7 +541,6 @@ function filterCatalogue(){
  renderCatalogue(localPackages.filter(p => p.name.toLowerCase().includes(q) || p.region.toLowerCase().includes(q)));
 }
 
-// GALLERY FILE PICKER & URL HANDLERS
 function handleGallerySelect(event){
   let file = event.target.files[0];
   if(file){
@@ -415,7 +568,6 @@ function showPreview(src){
   box.classList.remove('d-none');
 }
 
-// ADMIN FORM ADD & UPDATE
 function handleAdminAdd(e){
  e.preventDefault();
  let idVal = document.getElementById('editId').value;
@@ -435,7 +587,7 @@ function handleAdminAdd(e){
    globalPackages = globalPackages.filter(p => p.id !== id);
    localPackages = localPackages.filter(p => p.id !== id);
    if(type === "global"){
-     globalPackages.push({id, name, region, costUSD: cost, img});
+     globalPackages.push({id, name, region, costUSD: cost, costPKR: cost * 278, img});
    } else {
      localPackages.push({id, name, region, cost, img});
    }
@@ -443,7 +595,7 @@ function handleAdminAdd(e){
  } else {
    let newId = Date.now();
    if(type === "global"){
-     globalPackages.push({id: newId, name, region, costUSD: cost, img});
+     globalPackages.push({id: newId, name, region, costUSD: cost, costPKR: cost * 278, img});
    } else {
      localPackages.push({id: newId, name, region, cost, img});
    }
@@ -528,9 +680,7 @@ function editPackage(id, isGlobal){
  window.scrollTo({top: document.getElementById('adminForm').offsetTop - 80, behavior: 'smooth'});
 }
 
-function cancelEdit(){
- resetAdminForm();
-}
+function cancelEdit(){ resetAdminForm(); }
 
 function resetAdminForm(){
  document.getElementById('adminForm').reset();
@@ -574,7 +724,6 @@ function logoutAdmin(){
  document.getElementById('adminContentBox').classList.add('d-none');
 }
 
-// AI PLANNER LOGIC
 function handleGeneratePlan(e){
  e.preventDefault();
  let dest = document.getElementById('destInput').value.trim();
@@ -598,7 +747,7 @@ function handleGeneratePlan(e){
  container.innerHTML = '';
 
  for(let i = 1; i <= days; i++){
-   let dayTitle = i === 1 ? 'Arrival & Hotel Check-in' : i === days ? 'Local Shopping & Departure' : `Explore Key Attractions Part ${i-1}`;
+   let dayTitle = i === 1 ? 'Arrival & Check-in' : i === days ? 'Shopping & Departure' : `Sightseeing Tour Part ${i-1}`;
    container.innerHTML += `
      <div class="card card-custom p-3 mb-3">
        <div class="d-flex justify-content-between align-items-center">
@@ -606,9 +755,9 @@ function handleGeneratePlan(e){
          <span class="badge bg-secondary">Day ${i} of ${days}</span>
        </div>
        <ul class="mt-2 text-white-50 small mb-0 ps-3">
-         <li>Morning: Breakfast at hotel & visit local sightseeing spots in ${dest}.</li>
-         <li>Afternoon: Traditional lunch & guided cultural tour.</li>
-         <li>Evening: Sunset viewpoint, evening market walk & dinner.</li>
+         <li>Morning: Breakfast at hotel & visit main landmarks in ${dest}.</li>
+         <li>Afternoon: Local traditional lunch & historical tour.</li>
+         <li>Evening: Sunset view, local bazaar walk & dinner.</li>
        </ul>
      </div>`;
  }
@@ -638,7 +787,7 @@ function renderMyTrips(){
  container.innerHTML = '';
 
  if(savedTrips.length === 0){
-   container.innerHTML = '<div class="col-12 text-center text-muted py-5"><i class="fa-solid fa-suitcase-rolling fa-3x mb-3"></i><h5>No Saved Trips Yet</h5><p>Use the AI Planner to create and save your custom itineraries.</p></div>';
+   container.innerHTML = '<div class="col-12 text-center text-muted py-5"><i class="fa-solid fa-suitcase-rolling fa-3x mb-3"></i><h5>No Saved Trips Yet</h5><p>Use the AI Planner to create and save custom itineraries.</p></div>';
    return;
  }
 
@@ -656,7 +805,7 @@ function renderMyTrips(){
            <h6 class="text-white mb-0">Budget: <span class="text-warning">PKR ${t.budget.toLocaleString()}</span></h6>
            <small class="text-secondary">PKR ${t.perPerson.toLocaleString()} per person</small>
          </div>
-         <button class="btn btn-pak-gold btn-sm w-100 mt-3" onclick="loadSavedTrip('${t.dest}', ${t.days}, ${t.travelers}, ${t.budget})"><i class="fa-solid fa-eye me-1"></i>View Itinerary</button>
+         <button class="btn btn-bking-gold btn-sm w-100 mt-3" onclick="loadSavedTrip('${t.dest}', ${t.days}, ${t.travelers}, ${t.budget})"><i class="fa-solid fa-eye me-1"></i>View Itinerary</button>
        </div>
      </div>`;
  });
@@ -678,7 +827,6 @@ function removeTrip(idx){
  renderMyTrips();
 }
 
-// CURRENCY CONVERTER LOGIC
 const exchangeRates = {
  USD: { PKR: 278.5, SAR: 3.75, AED: 3.67, USD: 1 },
  PKR: { USD: 0.0036, SAR: 0.0135, AED: 0.0132, PKR: 1 },
